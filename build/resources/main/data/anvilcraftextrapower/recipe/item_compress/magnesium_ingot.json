@@ -1,0 +1,44 @@
+{
+  "type": "anvilcraft:item_compress",
+  "ingredients": [
+    {
+      "item": "anvilcraftextrapower:magnesium_oxide"
+    },
+    {
+      "item": "anvilcraftextrapower:multiphase_capacitor"
+    },
+    {
+      "item": "anvilcraft:void_matter"
+    }
+  ],
+  "results": [
+    {
+      "id": "anvilcraftextrapower:magnesium_ingot",
+      "count": 1
+    },
+    {
+      "count": {
+        "type": "minecraft:binomial",
+        "n": 1.0,
+        "p": 0.1
+      },
+      "id": "minecraft:sand"
+    },
+    {
+      "count": {
+        "type": "minecraft:binomial",
+        "n": 2.0,
+        "p": 0.25
+      },
+      "id": "anvilcraftextrapower:magnesium_nugget"
+    },
+    {
+      "count": {
+        "type": "minecraft:binomial",
+        "n": 1.0,
+        "p": 0.5
+      },
+      "id": "anvilcraftextrapower:magnesium_nugget"
+    }
+  ]
+}

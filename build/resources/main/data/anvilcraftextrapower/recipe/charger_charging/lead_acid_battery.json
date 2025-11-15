@@ -1,0 +1,12 @@
+{
+  "type": "anvilcraft:charger_charging",
+  "ingredient": {
+    "item": "anvilcraftextrapower:lead_acid_battery_empty"
+  },
+  "power": -200,
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:lead_acid_battery"
+  },
+  "time": 6000
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "anvilcraftextrapower:potato_battery",
+  "ingredients": [
+    {
+      "tag": "c:plates/copper"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "tag": "c:plates/zinc"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:potato_battery"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "anvilcraft:charger_charging",
+  "ingredient": {
+    "item": "anvilcraftextrapower:flashing_potato_battery"
+  },
+  "power": 900,
+  "result": {
+    "count": 1,
+    "id": "minecraft:baked_potato"
+  },
+  "time": 600
+}

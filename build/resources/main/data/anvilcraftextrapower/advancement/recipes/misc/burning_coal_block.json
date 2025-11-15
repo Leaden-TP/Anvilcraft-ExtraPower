@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "anvilcraftextrapower:burning_coal_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "hascoal": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:coal"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hascoalblock": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:coal_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "hascoalblock",
+      "hascoal"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "anvilcraftextrapower:burning_coal_block"
+    ]
+  }
+}

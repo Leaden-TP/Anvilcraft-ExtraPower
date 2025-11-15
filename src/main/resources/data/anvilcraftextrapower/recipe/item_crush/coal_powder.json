@@ -1,0 +1,54 @@
+{
+  "type": "anvilcraft:item_crush",
+  "ingredients": [
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "results": [
+    {
+      "amount": {
+        "type": "minecraft:binomial",
+        "n": 1.0,
+        "p": 1.0
+      },
+      "stack": {
+        "count": 6,
+        "id": "anvilcraftextrapower:coal_dust"
+      }
+    },
+    {
+      "amount": {
+        "type": "minecraft:binomial",
+        "n": 1.0,
+        "p": 1.0
+      },
+      "stack": {
+        "count": 1,
+        "id": "anvilcraftextrapower:sufur"
+      }
+    },
+    {
+      "amount": {
+        "type": "minecraft:binomial",
+        "n": 2.0,
+        "p": 0.75
+      },
+      "stack": {
+        "count": 1,
+        "id": "anvilcraftextrapower:coal_dust"
+      }
+    },
+    {
+      "amount": {
+        "type": "minecraft:binomial",
+        "n": 1.0,
+        "p": 0.75
+      },
+      "stack": {
+        "count": 1,
+        "id": "anvilcraftextrapower:sufur"
+      }
+    }
+  ]
+}

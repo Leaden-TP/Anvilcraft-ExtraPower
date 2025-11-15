@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "anvilcraftextrapower:potato_battery"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "hascopperitem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:plates/copper"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "haspotato": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:potato"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "haszincitem": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:plates/zinc"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "hascopperitem",
+      "haszincitem",
+      "haspotato"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "anvilcraftextrapower:potato_battery"
+    ]
+  }
+}

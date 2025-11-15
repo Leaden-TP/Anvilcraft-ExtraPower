@@ -1,0 +1,23 @@
+{
+  "creativetab.anvilcraftextrapower.main": "铁砧工艺:额外电力",
+  "block.anvilcraftextrapower.solar_panel": "太阳能板",
+  "block.anvilcraftextrapower.burning_coal_block": "燃烧的煤炭块",
+  "item.anvilcraftextrapower.lead_acid_battery_empty": "空铅酸电池",
+  "item.anvilcraftextrapower.lead_acid_battery": "铅酸电池",
+  "block.anvilcraftextrapower.ashes_block": "灰烬",
+  "block.anvilcraftextrapower.burning_magnesium_block": "燃烧的镁块",
+  "block.anvilcraftextrapower.magnesium_block": "镁块",
+  "block.anvilcraftextrapower.sulfur_block": "硫磺块",
+  "block.anvilcraftextrapower.magnesium_oxide_block": "氧化的镁块",
+  "block.anvilcraftextrapower.flashing_potato_battery": "闪电土豆电池",
+  "block.anvilcraftextrapower.potato_battery": "土豆电池",
+  "item.anvilcraftextrapower.ashes": "灰烬",
+  "item.anvilcraftextrapower.coal_powder": "煤粉",
+  "item.anvilcraftextrapower.magnesium_ingot": "镁锭",
+  "item.anvilcraftextrapower.magnesium_nugget": "镁粒",
+  "item.anvilcraftextrapower.magnesium_oxide": "苦土",
+  "item.anvilcraftextrapower.multiphase_capacitor": "多相电池",
+  "item.anvilcraftextrapower.multiphase_capacitor_empty": "空多相电池",
+  "item.anvilcraftextrapower.sulfur": "硫磺",
+  "item.anvilcraftextrapower.lead_acid_electrolyte": "铅酸电解液"
+}

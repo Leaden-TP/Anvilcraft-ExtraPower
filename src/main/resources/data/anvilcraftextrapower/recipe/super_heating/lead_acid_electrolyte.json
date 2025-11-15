@@ -1,0 +1,20 @@
+{
+  "type": "anvilcraft:super_heating",
+  "ingredients": [
+    {
+      "item": "minecraft:water_bottle"
+    },
+    {
+      "tag": "c:sulfur"
+    },
+    {
+      "tag": "c:ingots/lead"
+    }
+  ],
+  "results": [
+    {
+      "id": "anvilcraftextrapower:lead_acid_electrolyte",
+      "count": 1
+    }
+  ]
+}

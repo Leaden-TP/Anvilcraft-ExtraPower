@@ -1,0 +1,122 @@
+---- Minecraft Crash Report ----
+// Don't do that.
+
+Time: 2025-11-14 21:34:00
+Description: Exception in server tick loop
+
+java.lang.IllegalArgumentException: Cannot get property BooleanProperty{name=overheated, clazz=class java.lang.Boolean, values=[true, false]} as it does not exist in Block{anvilcraft:overheated_ember_metal_block}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.block.state.StateHolder.getValue(StateHolder.java:95) ~[neoforge-21.1.172.jar%23190!/:?] {re:classloading,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B}
+	at TRANSFORMER/anvilcraftextrapower@1.2.3/com.extra.power.block.just_block.BurningMagnesiumBlock.updateShape(BurningMagnesiumBlock.java:102) ~[%23193!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.block.state.BlockBehaviour$BlockStateBase.updateShape(BlockBehaviour.java:852) ~[neoforge-21.1.172.jar%23190!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.redstone.NeighborUpdater.executeShapeUpdate(NeighborUpdater.java:37) ~[neoforge-21.1.172.jar%23190!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.redstone.CollectingNeighborUpdater$ShapeUpdate.runNext(CollectingNeighborUpdater.java:141) ~[neoforge-21.1.172.jar%23190!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.redstone.CollectingNeighborUpdater.runUpdates(CollectingNeighborUpdater.java:82) ~[neoforge-21.1.172.jar%23190!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.redstone.CollectingNeighborUpdater.addAndRun(CollectingNeighborUpdater.java:67) ~[neoforge-21.1.172.jar%23190!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.redstone.CollectingNeighborUpdater.shapeUpdate(CollectingNeighborUpdater.java:30) ~[neoforge-21.1.172.jar%23190!/:?] {re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.Level.neighborShapeChanged(Level.java:379) ~[neoforge-21.1.172.jar%23190!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.block.state.BlockBehaviour$BlockStateBase.updateNeighbourShapes(BlockBehaviour.java:784) ~[neoforge-21.1.172.jar%23190!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.Level.markAndNotifyBlock(Level.java:296) ~[neoforge-21.1.172.jar%23190!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.Level.setBlock(Level.java:261) ~[neoforge-21.1.172.jar%23190!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.world.level.Level.setBlock(Level.java:229) ~[neoforge-21.1.172.jar%23190!/:?] {re:computing_frames,pl:accesstransformer:B,re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/anvilcraft@1.5.0+pre-release.18/dev.dubhe.anvilcraft.api.heat.HeaterManager.tickHeatableBlock(HeaterManager.java:141) ~[anvilcraft-neoforge-1.21.1-1.5.0+pre-release.18.jar%23195!/:?] {re:classloading}
+	at TRANSFORMER/anvilcraft@1.5.0+pre-release.18/dev.dubhe.anvilcraft.api.heat.HeaterManager.tick(HeaterManager.java:95) ~[anvilcraft-neoforge-1.21.1-1.5.0+pre-release.18.jar%23195!/:?] {re:classloading}
+	at TRANSFORMER/anvilcraft@1.5.0+pre-release.18/dev.dubhe.anvilcraft.api.heat.HeaterManager.lambda$tickAll$0(HeaterManager.java:73) ~[anvilcraft-neoforge-1.21.1-1.5.0+pre-release.18.jar%23195!/:?] {re:classloading}
+	at java.base/java.util.HashMap.forEach(HashMap.java:1429) ~[?:?] {re:mixin}
+	at TRANSFORMER/anvilcraft@1.5.0+pre-release.18/dev.dubhe.anvilcraft.api.heat.HeaterManager.tickAll(HeaterManager.java:70) ~[anvilcraft-neoforge-1.21.1-1.5.0+pre-release.18.jar%23195!/:?] {re:classloading}
+	at TRANSFORMER/anvilcraft@1.5.0+pre-release.18/dev.dubhe.anvilcraft.event.ServerLifecycleEventListener.onTick(ServerLifecycleEventListener.java:36) ~[anvilcraft-neoforge-1.21.1-1.5.0+pre-release.18.jar%23195!/:?] {re:classloading}
+	at MC-BOOTSTRAP/net.neoforged.bus/net.neoforged.bus.EventBus.post(EventBus.java:350) ~[bus-8.0.2.jar%23150!/:?] {}
+	at MC-BOOTSTRAP/net.neoforged.bus/net.neoforged.bus.EventBus.post(EventBus.java:315) ~[bus-8.0.2.jar%23150!/:?] {}
+	at TRANSFORMER/neoforge@21.1.172/net.neoforged.neoforge.event.EventHooks.fireServerTickPre(EventHooks.java:1000) ~[neoforge-21.1.172.jar%23191!/:?] {re:mixin,re:classloading}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.tickServer(MinecraftServer.java:930) ~[neoforge-21.1.172.jar%23190!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.client.server.IntegratedServer.tickServer(IntegratedServer.java:113) ~[neoforge-21.1.172.jar%23190!/:?] {re:classloading,pl:runtimedistcleaner:A}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.runServer(MinecraftServer.java:713) ~[neoforge-21.1.172.jar%23190!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at TRANSFORMER/minecraft@1.21.1/net.minecraft.server.MinecraftServer.lambda$spin$2(MinecraftServer.java:267) ~[neoforge-21.1.172.jar%23190!/:?] {re:mixin,pl:accesstransformer:B,re:classloading,pl:accesstransformer:B}
+	at java.base/java.lang.Thread.run(Thread.java:1583) [?:?] {}
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.21.1
+	Minecraft Version ID: 1.21.1
+	Operating System: Windows 10 (amd64) version 10.0
+	Java Version: 21.0.4, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) 64-Bit Server VM (mixed mode, sharing), Oracle Corporation
+	Memory: 191725504 bytes (182 MiB) / 905969664 bytes (864 MiB) up to 8552185856 bytes (8156 MiB)
+	CPUs: 28
+	Processor Vendor: GenuineIntel
+	Processor Name: Intel(R) Xeon(R) CPU E5-2680 v4 @ 2.40GHz
+	Identifier: Intel64 Family 6 Model 79 Stepping 1
+	Microarchitecture: Broadwell (Server)
+	Frequency (GHz): 2.39
+	Number of physical packages: 1
+	Number of physical CPUs: 14
+	Number of logical CPUs: 28
+	Graphics card #0 name: Microsoft Basic Display Adapter
+	Graphics card #0 vendor: Microsoft
+	Graphics card #0 VRAM (MiB): 0.00
+	Graphics card #0 deviceId: VideoController1
+	Graphics card #0 versionInfo: 10.0.19041.3636
+	Graphics card #1 name: NVIDIA GeForce GTX 1070
+	Graphics card #1 vendor: NVIDIA
+	Graphics card #1 VRAM (MiB): 8192.00
+	Graphics card #1 deviceId: VideoController2
+	Graphics card #1 versionInfo: 31.0.15.5152
+	Graphics card #2 name: NVIDIA GeForce GT 730
+	Graphics card #2 vendor: NVIDIA
+	Graphics card #2 VRAM (MiB): 2048.00
+	Graphics card #2 deviceId: VideoController3
+	Graphics card #2 versionInfo: 27.21.14.5671
+	Memory slot #0 capacity (MiB): 16384.00
+	Memory slot #0 clockSpeed (GHz): 2.13
+	Memory slot #0 type: DDR4
+	Memory slot #1 capacity (MiB): 16384.00
+	Memory slot #1 clockSpeed (GHz): 2.13
+	Memory slot #1 type: DDR4
+	Virtual memory max (MiB): 34657.02
+	Virtual memory used (MiB): 13436.74
+	Swap memory total (MiB): 2048.00
+	Swap memory used (MiB): 303.14
+	Space in storage for jna.tmpdir (MiB): <path not set>
+	Space in storage for org.lwjgl.system.SharedLibraryExtractPath (MiB): <path not set>
+	Space in storage for io.netty.native.workdir (MiB): <path not set>
+	Space in storage for java.io.tmpdir (MiB): available: 18500.55, total: 122882.00
+	Space in storage for workdir (MiB): available: 18500.55, total: 122882.00
+	JVM Flags: 0 total; 
+	Server Running: true
+	Player Count: 1 / 8; [ServerPlayer['Dev'/13, l='ServerLevel[New World]', x=346.82, y=68.99, z=-289.99]]
+	Active Data Packs: vanilla, mod_data, mod/anvilcraftextrapower, mod/jade (incompatible), mod/anvilcraft (incompatible), mod/anvillib, mod/neoforge, mod/jei (incompatible)
+	Available Data Packs: bundle, trade_rebalance, vanilla, mod/anvilcraft (incompatible), mod/anvilcraftextrapower, mod/anvillib, mod/jade (incompatible), mod/jei (incompatible), mod/neoforge, mod_data, mod/anvilcraft:resourcepacks/first_ancient_debris
+	Enabled Feature Flags: minecraft:vanilla
+	World Generation: Stable
+	World Seed: 8401951726195230432
+	Type: Integrated Server (map_client.txt)
+	Is Modded: Definitely; Client brand changed to 'neoforge'; Server brand changed to 'neoforge'
+	Launched Version: 21.1.172
+	ModLauncher: 11.0.4+main.d2e20e43
+	ModLauncher launch target: forgeclientdev
+	ModLauncher services: 
+		sponge-mixin-0.15.2+mixin.0.8.7.jar mixin PLUGINSERVICE 
+		loader-4.0.39.jar slf4jfixer PLUGINSERVICE 
+		loader-4.0.39.jar runtime_enum_extender PLUGINSERVICE 
+		at-modlauncher-10.0.1.jar accesstransformer PLUGINSERVICE 
+		loader-4.0.39.jar runtimedistcleaner PLUGINSERVICE 
+		modlauncher-11.0.4.jar mixin TRANSFORMATIONSERVICE 
+		modlauncher-11.0.4.jar fml TRANSFORMATIONSERVICE 
+	FML Language Providers: 
+		javafml@4.0
+		lowcodefml@4.0
+		minecraft@4.0
+	Mod List: 
+		anvilcraft-neoforge-1.21.1-1.5.0+pre-release.18.ja|AnvilCraft                    |anvilcraft                    |1.5.0+pre-release.18|Manifest: NOSIGNATURE
+		main                                              |AnvilCraft:Extra Power        |anvilcraftextrapower          |1.2.3               |Manifest: NOSIGNATURE
+		anvillib-neoforge-1.21.1-1.4.0+build.160.jar      |AnvilLib                      |anvillib                      |1.4.0+build.160     |Manifest: NOSIGNATURE
+		[玉 🔍] Jade-1.21.1-NeoForge-15.10.3.jar           |Jade                          |jade                          |15.10.3+neoforge    |Manifest: NOSIGNATURE
+		jei-1.21.1-neoforge-19.21.0.247.jar               |Just Enough Items             |jei                           |19.21.0.247         |Manifest: NOSIGNATURE
+		neoforge-21.1.172.jar                             |Minecraft                     |minecraft                     |1.21.1              |Manifest: NOSIGNATURE
+		neoforge-21.1.172.jar                             |NeoForge                      |neoforge                      |21.1.172            |Manifest: NOSIGNATURE
+	Crash Report UUID: 4062962d-866d-4dbd-b845-48db29ee40ee
+	FML: 4.0.39
+	NeoForge: 21.1.172

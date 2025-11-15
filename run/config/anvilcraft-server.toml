@@ -1,0 +1,80 @@
+#Maximum radius of giant anvil's shock behavior
+# Default: 16
+# Range: 4 ~ 16
+giant_anvil_max_shock_radius = 16
+#Maximum depth a lightning strike can reach
+# Default: 2
+# Range: 1 ~ 16
+lightning_strike_depth = 2
+#Maximum radius a lightning strike can reach
+lightning_strike_radius = 1
+#Maximum length a magnet attracts
+# Default: 5
+# Range: 0 ~ 8
+magnet_attracts_distance = 5
+#Maximum radius a handheld magnet attracts
+# Default: 8.0
+# Range: 1.0 ~ 16.0
+magnet_item_attracts_radius = 8.0
+#Redstone EMP length generated per block dropped by the anvil
+# Default: 6
+# Range: 1 ~ 64
+redstone_emp_radius = 6
+#Maximum length of redstone EMP
+# Default: 24
+# Range: 1 ~ 64
+redstone_emp_max_radius = 24
+#Maximum cooldown time of chute (in ticks)
+# Default: 8
+# Range: 1 ~ 80
+chute_max_cooldown = 8
+#Maximum cooldown time of batch crafter (in ticks)
+# Default: 8
+# Range: 1 ~ 80
+batch_crafter_cooldown = 8
+#The maximum search radius of the geode
+# Default: 64
+# Range: 64 ~ 512
+geode_radius = 64
+#The search interval of the geode
+# Default: 4
+# Range: 1 ~ 8
+geode_interval = 4
+#The search cooldown of the geode (in seconds)
+# Default: 5
+# Range: 5 ~ 30
+geode_cooldown = 5
+#Power grid range of power transmitter
+# Default: 8
+# Range: 1 ~ 64
+power_transmitter_range = 8
+#Power grid range of remote power transmitter
+# Default: 16
+# Range: 1 ~ 64
+remote_power_transmitter_range = 16
+#The maximum number of logs that can be cut per level of Felling enchantment
+# Default: 2
+# Range: 2 ~ 24
+felling_block_per_level = 2
+#Should show anvil levitate animation
+display_anvil_animation = true
+#Maximum cooldown of load monitor
+# Default: 10
+# Range: 1 ~ 60
+load_monitor = 10
+#Maximum size for connecting transparent crafting table to form matrix
+# Default: 15
+# Range: 3 ~ 32
+transparent_crafting_table_max_matrix_size = 15
+
+[power_converter]
+	#The working interval of power converters
+	# Default: 10
+	# Range: 1 ~ 60
+	power_converter_countdown = 10
+	#Energy efficiency of energy converters (1 kW => xx FE/t)
+	# Default: 80
+	# Range: 1 ~ 1000
+	power_converter_efficiency = 80
+	#Power loss of energy converters
+	power_converter_loss = 0.1

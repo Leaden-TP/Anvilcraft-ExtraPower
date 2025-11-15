@@ -1,0 +1,29 @@
+#The mode of the anvil hammer goggle info
+#Allowed Values: ALWAYS_SHOW, WEARING_HAMMER, HOLDING_HAMMER, TOGGLE_WITH_KEY
+goggle_mode = "WEARING_HAMMER"
+#Render distance of heliostats block entity
+# Default: 128
+# Range: 32 ~ 512
+heliostats_render_distance = 128
+#Heliostats render sunflower head model in Sunflower Plains biome
+heliostats_sunflower_model = true
+#Do not render power component tooltip when jade present
+do_not_show_tooltip_when_jade_present = true
+#Render lines between power transmitters
+render_power_transmitter_lines = true
+#Bloom effect on laser and power transmitter lines.
+render_bloom_effect = false
+#A vertical item frame vertically displays items
+vertical_item_frame = false
+
+[iono_craft_backpack_hud]
+	#If true, will show Ionocraft Backpack current power in hud
+	enabled = true
+	#The Gui Hud Scale
+	# Default: 0.75
+	# Range: 0.0 ~ 8.0
+	hud_scale = 0.75
+	#The gui hud x position
+	hud_x = 8
+	#The gui hud y position
+	hud_y = 8

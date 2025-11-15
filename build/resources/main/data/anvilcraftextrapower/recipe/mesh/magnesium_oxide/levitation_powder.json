@@ -1,0 +1,16 @@
+{
+  "type": "anvilcraft:mesh",
+  "input": {
+    "item": "anvilcraft:levitation_powder"
+  },
+    "result": {
+      "count": 1,
+      "id": "anvilcraft:levitation_powder"
+    },
+    "result_amount": {
+      "type": "minecraft:binomial",
+      "n": 1,
+      "p": 0.85
+    }
+  ]
+}

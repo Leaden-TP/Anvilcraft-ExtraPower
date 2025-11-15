@@ -1,0 +1,14 @@
+[
+  {"version":2},
+  {"ingredient":{"id":"anvilcraftextrapower:magnesium_nugget"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:magnesium_block"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:burning_magnesium_block"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:burning_coal_block"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraft:tungsten_block"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:lead_acid_electrolyte"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:coal_powder"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:sulfur"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:magnesium_oxide"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:multiphase_capacitor_empty"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:multiphase_capacitor"},"type":"item_stack","bookmarkType":"INGREDIENT"}
+]

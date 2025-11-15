@@ -1,0 +1,9 @@
+[
+  {"version":2},
+  {"ingredient":{"id":"anvilcraftextrapower:solar_panel"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraft:multiphase_transcendium"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraft:heavy_halberd_core"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:burning_coal_block"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:lead_acid_battery_empty"},"type":"item_stack","bookmarkType":"INGREDIENT"},
+  {"ingredient":{"id":"anvilcraftextrapower:lead_acid_battery"},"type":"item_stack","bookmarkType":"INGREDIENT"}
+]

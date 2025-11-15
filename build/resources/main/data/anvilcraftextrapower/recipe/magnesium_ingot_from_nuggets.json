@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "anvilcraftextrapower:magnesium_ingot",
+  "key": {
+    "A": {
+      "tag": "c:nuggets/magnesium"
+    }
+  },
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:magnesium_ingot"
+  }
+}

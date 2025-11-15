@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "anvilcraftextrapower:sulfur",
+  "ingredients": [
+    {
+      "item": "anvilcraftextrapower:sulfur_block"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "anvilcraftextrapower:sulfur"
+  }
+}

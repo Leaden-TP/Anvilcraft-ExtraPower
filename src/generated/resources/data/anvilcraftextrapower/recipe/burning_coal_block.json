@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smelting",
+  "category": "blocks",
+  "cookingtime": 200,
+  "experience": 1.0,
+  "ingredient": {
+    "item": "anvilcraft:neutronium_ingot"
+  },
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:burning_coal_block"
+  }
+}

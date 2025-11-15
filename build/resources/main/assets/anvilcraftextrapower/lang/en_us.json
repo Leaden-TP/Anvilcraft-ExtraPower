@@ -1,0 +1,23 @@
+{
+  "creativetab.anvilcraftextrapower.main": "Anvilcraft: Extra Power",
+  "block.anvilcraftextrapower.ashes_block": "Ashes",
+  "block.anvilcraftextrapower.burning_coal_block": "Burning Block of Coal",
+  "block.anvilcraftextrapower.burning_magnesium_block": "Burning Block of Magnesium",
+  "block.anvilcraftextrapower.magnesium_block": "Block of Magnesium",
+  "block.anvilcraftextrapower.solar_panel": "Solar Panel",
+  "block.anvilcraftextrapower.sulfur_block": "Block of Sulfur",
+  "block.anvilcraftextrapower.flashing_potato_battery": "Flashing Potato Battery",
+  "block.anvilcraftextrapower.potato_battery": "Potato Battery",
+  "block.anvilcraftextrapower.magnesium_oxide_block": "Block of Magnesium Oxide ",
+  "item.anvilcraftextrapower.ashes": "Ashes",
+  "item.anvilcraftextrapower.coal_powder": "Coal Powder",
+  "item.anvilcraftextrapower.lead_acid_battery": "Lead Acid Battery",
+  "item.anvilcraftextrapower.lead_acid_battery_empty": "Empty Lead Acid Battery",
+  "item.anvilcraftextrapower.magnesium_ingot": "Magnesium Ingot",
+  "item.anvilcraftextrapower.magnesium_nugget": "Magnesium Nugget",
+  "item.anvilcraftextrapower.magnesium_oxide": "Magnesium Oxide",
+  "item.anvilcraftextrapower.multiphase_capacitor": "Multiphase Capacitor",
+  "item.anvilcraftextrapower.multiphase_capacitor_empty": "Empty Multiphase Capacitor",
+  "item.anvilcraftextrapower.sulfur": "Sulfur",
+  "item.anvilcraftextrapower.lead_acid_electrolyte": "Lead-acid Electrolyte"
+}

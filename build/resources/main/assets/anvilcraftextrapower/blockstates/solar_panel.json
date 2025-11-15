@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "active=true,overload=false": {"model": "anvilcraftextrapower:block/solar_panel"},
+    "active=false,overload=false": {"model": "anvilcraftextrapower:block/solar_panel_off"}
+  }
+}

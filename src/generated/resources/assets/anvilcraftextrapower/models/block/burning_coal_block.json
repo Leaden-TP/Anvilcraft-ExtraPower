@@ -1,0 +1,6 @@
+{
+	"parent": "block/cube_all",
+	"textures": {
+		"all": "anvilcraftextrapower:block/burning_coal_block"
+	}
+}
