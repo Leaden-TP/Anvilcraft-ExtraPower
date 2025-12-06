@@ -10,6 +10,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -26,15 +27,17 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
 import java.util.Optional;
+
+import static com.extra.power.block.just_block.Light.BRIGHTNESS;
 
 public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
     public static final BooleanProperty OVERHEATED = BooleanProperty.create("overheated");
+    public static final BooleanProperty ToBoom = BooleanProperty.create("toboom");
     public BurningMagnesiumBlock (BlockBehaviour.Properties Properties) {
         super(Properties);
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(OVERHEATED, false));
+                .setValue(OVERHEATED, false).setValue(ToBoom,false));
     }
     @Override
     public @Nullable BlockEntity newBlockEntity(BlockPos pos, @NotNull BlockState state) {
@@ -50,7 +53,7 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
     protected MapCodec<BurningMagnesiumBlock> codec() {
         return simpleCodec(BurningMagnesiumBlock::new);
     }
-    public void explosion(Level level, BlockPos pos) {
+    public static void explosion(Level level, BlockPos pos, float r) {
     if (level.isClientSide) {
         return;
     }
@@ -59,10 +62,6 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
             null,
             new ExplosionDamageCalculator() {
                 @Override
-                public Optional<Float> getBlockExplosionResistance(Explosion explosion, BlockGetter reader, BlockPos pos, BlockState state, FluidState fluid) {
-                    return Optional.empty();
-                }
-                @Override
                 public boolean shouldDamageEntity(Explosion explosion, Entity entity) {
                     return true;
                 }
@@ -70,13 +69,11 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
             pos.getX(),
             pos.getY(),
             pos.getZ(),
-            6.0f,
+            r,
             true,
             Level.ExplosionInteraction.BLOCK);
 
 }
-
-
 
     @Override
     public void stepOn(Level level, BlockPos pos, BlockState state, Entity entity) {
@@ -94,7 +91,7 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
             BlockState block_over = level.getBlockState(pos.above());
             if (block.is(Blocks.WATER)) {
                 this.removeWaterBreadthFirstSearch((Level) level, pos);
-                    explosion((Level) level,pos);
+                    explosion((Level) level,pos,3);
             }
             if (block_over.is(ModBlockTags.OVERHEATED_BLOCKS)) {
                 level.setBlock(pos, state.setValue(OVERHEATED,true),1);
@@ -103,6 +100,15 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
                 level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
                 level.playSound(null,pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS,
                         0.7F, 1.0F);
+            }
+            if (block.is(Blocks.AIR)) {
+                level.setBlock(pos.relative(direction),
+                        ModBlock.LIGHT.get().defaultBlockState().setValue(BRIGHTNESS, 0), 11);
+            }
+            if (block.is(ModBlock.LIGHT.get())) {
+                if (block.getValue(BRIGHTNESS) >0)
+                    level.setBlock(pos.relative(direction),
+                            ModBlock.LIGHT.get().defaultBlockState().setValue(BRIGHTNESS, 0), 11);
             }
         }
         return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
@@ -116,7 +122,16 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
                 BlockState block = level.getBlockState(pos.relative(direction));
                 if (block.is(Blocks.WATER)) {
                     this.removeWaterBreadthFirstSearch(level, pos);
-                    explosion(level,pos);
+                    explosion(level,pos,3);
+                }
+                if (block.is(Blocks.AIR)) {
+                    level.setBlock(pos.relative(direction),
+                            ModBlock.LIGHT.get().defaultBlockState().setValue(BRIGHTNESS, 0), 11);
+                }
+                if (block.is(ModBlock.LIGHT.get())) {
+                    if (block.getValue(BRIGHTNESS) >0)
+                    level.setBlock(pos.relative(direction),
+                            ModBlock.LIGHT.get().defaultBlockState().setValue(BRIGHTNESS, 0), 11);
                 }
             }
             if (block_over.is(ModBlockTags.OVERHEATED_BLOCKS)) {
@@ -127,12 +142,12 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
     @Override
     public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
         if (level.isClientSide) {
-            return;
+           return;
         }
-        explosion(level, pos);
+        level.setBlock(pos, ModBlock.BURNING_MAGNESIUM_BLOCK.get().defaultBlockState().setValue(ToBoom,true),1);
     }
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(OVERHEATED);
+        builder.add(OVERHEATED,ToBoom);
     }
     private boolean removeWaterBreadthFirstSearch(Level level, BlockPos pos) {
         BlockState spongeState = level.getBlockState(pos);

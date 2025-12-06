@@ -1,0 +1,16 @@
+{
+  "type": "anvilcraft:super_heating",
+  "ingredients": [
+    {
+      "items": "minecraft:potion"
+    },
+    {
+      "items": "anvilcraftextrapower:sulfur"
+    }
+  ],
+  "results": [
+    {
+      "id": "anvilcraftextrapower:sulfuric_acid"
+    }
+  ]
+}

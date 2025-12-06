@@ -1,0 +1,37 @@
+{
+  "type": "anvilcraft:super_heating",
+  "ingredients": [
+    {
+      "items": "anvilcraftextrapower:magnesium_oxide"
+    },
+    {
+      "items": "anvilcraftextrapower:multiphase_capacitor"
+    }
+  ],
+  "results": [
+    {
+      "id": "anvilcraftextrapower:magnesium_ingot",
+      "count": 1
+    },
+    {
+      "count": {
+        "type": "minecraft:binomial",
+        "n": 1.0,
+        "p": 0.1
+      },
+      "id": "minecraft:sand"
+    },
+    {
+      "count": {
+        "type": "minecraft:binomial",
+        "n": 2.0,
+        "p": 0.25
+      },
+      "id": "anvilcraftextrapower:magnesium_nugget"
+    },
+    {
+      "id": "anvilcraftextrapower:multiphase_capacitor",
+      "count":1
+    }
+    ]
+}

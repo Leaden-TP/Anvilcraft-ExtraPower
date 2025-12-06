@@ -2,6 +2,7 @@ package com.extra.power.block.blockentity;
 
 import com.extra.power.block.ModBlock;
 import com.extra.power.block.ModBlockEntity;
+import com.extra.power.block.just_block.BurningCoalBlock;
 import com.extra.power.init.ModHeaterInfos;
 import dev.dubhe.anvilcraft.api.heat.HeaterManager;
 import net.minecraft.core.BlockPos;
@@ -10,12 +11,11 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 
-
+import static com.extra.power.block.just_block.BurningMagnesiumBlock.ToBoom;
 
 
 public class BurningCoalBlockEntity extends BlockEntity {
@@ -33,6 +33,9 @@ public class BurningCoalBlockEntity extends BlockEntity {
         entity.tickCounter+=1;
         HeaterManager.addProducer(pos, level, ModHeaterInfos.COAL_BURNING);
         if (entity.tickCounter>=10){
+            if (state.getValue(BurningCoalBlock.ToBoom)){
+                BurningCoalBlock.explosion(level,pos,3.5f);
+            }
             entity.Counter+=1;
             entity.tickCounter=0;
         }

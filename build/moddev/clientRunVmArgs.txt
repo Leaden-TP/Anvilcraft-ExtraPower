@@ -10,10 +10,10 @@ java.base/java.lang.invoke=cpw.mods.securejarhandler
 java.base/sun.security.util=cpw.mods.securejarhandler
 --add-exports
 jdk.naming.dns/com.sun.jndi.dns=java.naming
--Dlog4j2.configurationFile=C:\\Users\\Administrator\\Desktop\\Mine\\AnvilcraftExtraPower\\Anvilcraft-ExtraPower\\build\\moddev\\clientLog4j2.xml
+-Dlog4j2.configurationFile=C:\\Users\\Administrator\\Desktop\\Mine\\AnvilcraftExtraPower\\build\\moddev\\clientLog4j2.xml
 -Djava.net.preferIPv6Addresses=system
 -DignoreList=mixinextras-neoforge-0.4.1.jar,client-extra,neoforge-
--DlegacyClassPath.file=C:\\Users\\Administrator\\Desktop\\Mine\\AnvilcraftExtraPower\\Anvilcraft-ExtraPower\\build\\moddev\\clientLegacyClasspath.txt
+-DlegacyClassPath.file=C:\\Users\\Administrator\\Desktop\\Mine\\AnvilcraftExtraPower\\build\\moddev\\clientLegacyClasspath.txt
 -Dneoforge.enableGameTest=true
 -Dneoforge.enabledGameTestNamespaces=anvilcraftextrapower
 -Dforge.logging.markers=REGISTRIES

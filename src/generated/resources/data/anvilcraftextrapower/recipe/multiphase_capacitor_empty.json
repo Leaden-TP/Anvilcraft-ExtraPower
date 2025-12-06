@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "anvilcraftextrapower:multiphase_capacitor_empty",
+  "key": {
+    "M": {
+      "item": "anvilcraft:multiphase_matter"
+    },
+    "P": {
+      "tag": "c:plates/lead"
+    }
+  },
+  "pattern": [
+    "P",
+    "M",
+    "P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:multiphase_capacitor_empty"
+  }
+}

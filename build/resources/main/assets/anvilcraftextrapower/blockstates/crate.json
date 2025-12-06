@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "open=false": {"model": "anvilcraftextrapower:block/crate"},
+    "open=true": {"model": "anvilcraftextrapower:block/crate_opened"}
+  }
+}

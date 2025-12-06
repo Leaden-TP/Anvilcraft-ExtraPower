@@ -2,6 +2,8 @@ package com.extra.power.block.blockentity;
 
 import com.extra.power.block.ModBlock;
 import com.extra.power.block.ModBlockEntity;
+import com.extra.power.block.just_block.BurningMagnesiumBlock;
+import com.extra.power.block.just_block.MagnesiumBlock;
 import com.extra.power.init.ModHeaterInfos;
 import dev.dubhe.anvilcraft.api.heat.HeaterManager;
 import net.minecraft.core.BlockPos;
@@ -13,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-
 import static com.extra.power.block.just_block.BurningMagnesiumBlock.OVERHEATED;
 
 public class BurningMagnesiumBlockEntity extends BlockEntity {
@@ -36,6 +37,9 @@ public class BurningMagnesiumBlockEntity extends BlockEntity {
             HeaterManager.addProducer(pos, level, ModHeaterInfos.MAGNESIUM_BURNING);
         }
         if (entity.tickCounter>=10){
+            if (state.getValue(BurningMagnesiumBlock.ToBoom)){
+                BurningMagnesiumBlock.explosion(level,pos,4.5f);
+            }
             entity.Counter+=1;
             entity.tickCounter=0;
         }

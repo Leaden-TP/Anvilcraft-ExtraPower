@@ -1,0 +1,14 @@
+{
+  "type": "anvilcraft:block_compress",
+  "inputs": [
+    {
+    "blocks": "#minecraft:logs"
+  },
+    {
+      "blocks": "minecraft:chest"
+    }
+  ],
+  "result": {
+    "block": "anvilcraftextrapower:semi_finished_crate"
+  }
+}

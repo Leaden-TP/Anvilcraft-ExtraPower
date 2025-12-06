@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "anvilcraftextrapower:lead_acid_battery_empty",
+  "key": {
+    "A": {
+      "tag": "c:ingots/lead"
+    },
+    "B": {
+      "item": "anvilcraftextrapower:sulfuric_acid"
+    },
+    "R": {
+      "item": "anvilcraft:royal_steel_ingot"
+    }
+  },
+  "pattern": [
+    "   ",
+    "A A",
+    "RBR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:lead_acid_battery_empty"
+  }
+}

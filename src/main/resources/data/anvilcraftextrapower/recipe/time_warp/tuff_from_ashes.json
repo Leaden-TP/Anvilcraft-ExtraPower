@@ -2,18 +2,13 @@
   "type": "anvilcraft:time_warp",
   "ingredients": [
     {
-      "items": "anvilcraftextrapower:ashes"
-    },
-    {
-      "items": "anvilcraftextrapower:ashes"
-    },
-    {
+      "count": 3,
       "items": "anvilcraftextrapower:ashes"
     }
   ],
   "results": [
     {
-      "count": 1,
+      "count": 4,
       "id": "minecraft:tuff"
     }
   ]

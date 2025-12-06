@@ -6,7 +6,7 @@ license="LGPL-3.0"
 [[mods]] #mandatory
 modId="anvilcraftextrapower" #mandatory
 logoFile="assets/anvilcraftextrapower/textures/logo.png"
-version="1.2.3" #mandatory
+version="1.4.7" #mandatory
 displayName="AnvilCraft:Extra Power" #mandatory
 authors="Leaden_TP" #optional
 description='''One about AnvilCraft'mods.

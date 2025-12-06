@@ -2,7 +2,6 @@ package com.extra.power.block;
 
 import com.extra.power.block.just_block.*;
 import com.extra.power.init.ModCreativeModeTab;
-import com.extra.power.init.ModItems;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import dev.dubhe.anvilcraft.init.block.ModBlockTags;
@@ -17,7 +16,10 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.neoforged.neoforge.common.Tags;
+import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import static com.extra.power.init.AnvilCraftExtrapower.MODID;
 import static com.extra.power.init.AnvilCraftExtrapower.REGISTRATE;
@@ -30,8 +32,18 @@ public class ModBlock {
     public static final String MAGNESIUM_BLOCK_ID = "magnesium_block";
     public static final String BURNING_MAGNESIUM_BLOCK_ID = "burning_magnesium_block";
     public static final String ASHES_BLOCK_ID = "ashes_block";
+    //技术性方块
+    public static final DeferredBlock<Light>LIGHT;
     static {
         REGISTRATE.defaultCreativeTab(ModCreativeModeTab.MOD_TAB.getKey());
+        //技术性方块
+        LIGHT= BLOCKS.register("light",
+                ()->new Light(BlockBehaviour.Properties.of()
+                        .strength(-1f, -1f)
+                        .sound(SoundType.GLASS)
+                        .air()
+                        .lightLevel(state -> 15)
+                        .noOcclusion()));
     }
     public static final BlockEntry<? extends Block>SOLAR_PANEL= REGISTRATE.block(SOLAR_PANEL_BLOCK_ID, SolarPanelBlock::new)
             .lang("Solar Panel")
@@ -71,7 +83,7 @@ public class ModBlock {
                     ModBlockTags.REDHOT_BLOCKS
             )
             .recipe((ctx, provider) -> {
-                SimpleCookingRecipeBuilder.smelting(Ingredient.of(dev.dubhe.anvilcraft.init.item.ModItems.NEUTRONIUM_INGOT.get()), RecipeCategory.MISC, ctx.get(), 1.0f, 200) // 输入物品，输出物品，经验值，熔炼时间（ tick，200 tick = 10秒）
+                SimpleCookingRecipeBuilder.smelting(Ingredient.of(Items.COAL_BLOCK), RecipeCategory.MISC, ctx.get(), 1.0f, 200) // 输入物品，输出物品，经验值，熔炼时间（ tick，200 tick = 10秒）
                         .unlockedBy("hascoalblock", RegistrateRecipeProvider.has(Items.COAL_BLOCK))
                         .unlockedBy("hascoal", RegistrateRecipeProvider.has(Items.COAL))
                         .save(provider);
@@ -113,7 +125,7 @@ public class ModBlock {
     public static final BlockEntry<? extends Block>MAGNESIUM_OXIDE_BLOCK= REGISTRATE.block("magnesium_oxide_block", Block::new)
             .lang("Block of Magnesium Oxide")
             .initialProperties(() -> Blocks.STONE)
-            .properties(p -> p.strength(10.0f, 150f))
+            .properties(p -> p.strength(10.0f, 1f))
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .build()
@@ -146,7 +158,7 @@ public class ModBlock {
     public static final BlockEntry<? extends Block>BURNING_MAGNESIUM_BLOCK= REGISTRATE.block(BURNING_MAGNESIUM_BLOCK_ID, BurningMagnesiumBlock::new)
             .lang("Burning Block of Magnesium")
             .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(p -> p.strength(2.0f, 2f).lightLevel(state -> 15))
+            .properties(p -> p.strength(2.0f, 5f).lightLevel(state -> 15))
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .build()
@@ -180,6 +192,28 @@ public class ModBlock {
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .tag(com.extra.power.init.ModItemTags.CAPACITOR)
+            .build()
+            .register();
+    public static final BlockEntry<? extends Block>CRATE_BLOCK= REGISTRATE.block("crate", CrateBlock::new)
+            .lang("Crate")
+            .initialProperties(() -> Blocks.OAK_WOOD)
+            .properties(p -> p.strength(2f, 5f))
+            .tag(
+                    BlockTags.MINEABLE_WITH_AXE
+            )
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .build()
+            .register();
+    public static final BlockEntry<? extends Block>SEMI_FINISHED_CRATE= REGISTRATE.block("semi_finished_crate", Block::new)
+            .lang("Semi-Finished Crate")
+            .initialProperties(() -> Blocks.OAK_WOOD)
+            .properties(p -> p.strength(2f, 5f))
+            .tag(
+                    BlockTags.MINEABLE_WITH_AXE
+            )
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
             .build()
             .register();
 }

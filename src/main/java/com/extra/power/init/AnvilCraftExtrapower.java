@@ -5,6 +5,7 @@ import com.tterrag.registrate.Registrate;
 import dev.dubhe.anvilcraft.api.heat.collector.HeatSourceEntry;
 import dev.dubhe.anvilcraft.util.ModInteractionMap;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Blocks;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +23,7 @@ import static com.extra.power.block.ModBlockEntity.BLOCK_ENTITYS;
 import static com.extra.power.init.ModCreativeModeTab.CREATIVE_MODE_TABS;
 import static com.extra.power.init.ModItems.*;
 import static dev.dubhe.anvilcraft.api.heat.collector.HeatCollectorManager.registerEntry;
+import static net.minecraft.world.level.block.AbstractFurnaceBlock.LIT;
 
 
 @Mod(AnvilCraftExtrapower.MODID)
@@ -59,7 +61,9 @@ public class AnvilCraftExtrapower {
         event.enqueueWork(this::registerHeatSources);
     }
     private void registerHeatSources() {
-        registerEntry(HeatSourceEntry.forever(24, ModBlock.BURNING_COAL_BLOCK.get()));
-        registerEntry(HeatSourceEntry.forever(300, ModBlock.BURNING_MAGNESIUM_BLOCK.get()));
+        registerEntry(HeatSourceEntry.predicateAlways(4, state -> state.is(Blocks.FURNACE)&&state.getValue(LIT)));
+        registerEntry(HeatSourceEntry.predicateAlways(8, state -> state.is(Blocks.SMOKER)&&state.getValue(LIT)));
+        registerEntry(HeatSourceEntry.predicateAlways(16, state -> state.is(Blocks.BLAST_FURNACE)&&state.getValue(LIT)));
+        registerEntry(HeatSourceEntry.simple(1, Blocks.FIRE, Blocks.AIR));
     }
 }

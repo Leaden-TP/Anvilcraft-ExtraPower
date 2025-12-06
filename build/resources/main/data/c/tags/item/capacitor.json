@@ -1,6 +1,10 @@
 {
   "values": [
+    "anvilcraftextrapower:potato_battery",
+    "anvilcraftextrapower:flashing_potato_battery",
     "anvilcraftextrapower:lead_acid_battery",
+    "anvilcraftextrapower:lead_acid_battery_empty",
+    "anvilcraftextrapower:multiphase_capacitor_empty",
     "anvilcraftextrapower:multiphase_capacitor"
   ]
 }

@@ -1,6 +1,7 @@
 package com.extra.power.block;
 
 import com.extra.power.block.blockentity.BurningMagnesiumBlockEntity;
+import com.extra.power.block.blockentity.CrateBlockEntity;
 import com.extra.power.init.AnvilCraftExtrapower;
 
 import com.extra.power.block.blockentity.BurningCoalBlockEntity;
@@ -17,6 +18,8 @@ public class ModBlockEntity {
 
     public static final Supplier<BlockEntityType<SolarPanelBlockEntity>> SOLAR_PANEL= BLOCK_ENTITYS.register(SOLAR_PANEL_BLOCK_ID,
             () -> BlockEntityType.Builder.of(SolarPanelBlockEntity::new, ModBlock.SOLAR_PANEL.get()).build(null));
+    public static final Supplier<BlockEntityType<CrateBlockEntity>> CRATE= BLOCK_ENTITYS.register("crate",
+            () -> BlockEntityType.Builder.of(CrateBlockEntity::new, CRATE_BLOCK.get()).build(null));
     public static final Supplier<BlockEntityType<BurningCoalBlockEntity>> BURNING_COAL= BLOCK_ENTITYS.register(BURNING_COAL_BLOCK_ID,
             () -> BlockEntityType.Builder.of(BurningCoalBlockEntity::new, ModBlock.BURNING_COAL_BLOCK.get()).build(null));
     public static final Supplier<BlockEntityType<BurningMagnesiumBlockEntity>> BURNING_MAGNESIUM= BLOCK_ENTITYS.register(BURNING_MAGNESIUM_BLOCK_ID,

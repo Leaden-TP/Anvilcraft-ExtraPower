@@ -24,6 +24,6 @@ C:\\Users\\Administrator\\.gradle\\caches\\neoformruntime\\assets
 anvilcraftextrapower
 --all
 --output
-C:\\Users\\Administrator\\Desktop\\Mine\\AnvilcraftExtraPower\\Anvilcraft-ExtraPower\\src\\generated\\resources
+C:\\Users\\Administrator\\Desktop\\Mine\\AnvilcraftExtraPower\\src\\generated\\resources
 --existing
-C:\\Users\\Administrator\\Desktop\\Mine\\AnvilcraftExtraPower\\Anvilcraft-ExtraPower\\src\\main\\resources
+C:\\Users\\Administrator\\Desktop\\Mine\\AnvilcraftExtraPower\\src\\main\\resources

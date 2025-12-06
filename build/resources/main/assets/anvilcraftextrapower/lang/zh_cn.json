@@ -19,5 +19,8 @@
   "item.anvilcraftextrapower.multiphase_capacitor": "多相电池",
   "item.anvilcraftextrapower.multiphase_capacitor_empty": "空多相电池",
   "item.anvilcraftextrapower.sulfur": "硫磺",
-  "item.anvilcraftextrapower.lead_acid_electrolyte": "铅酸电解液"
+  "block.anvilcraftextrapower.crate": "板条箱",
+  "item.anvilcraftextrapower.sulfuric_acid": "硫酸",
+  "block.anvilcraftextrapower.crate_ui": "板条箱",
+  "block.anvilcraftextrapower.semi_finished_crate": "半成品板条箱"
 }

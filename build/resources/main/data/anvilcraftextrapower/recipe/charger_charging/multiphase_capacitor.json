@@ -3,10 +3,10 @@
   "ingredient": {
     "item": "anvilcraftextrapower:multiphase_capacitor"
   },
-  "power": 300,
+  "power": 900,
   "result": {
     "count": 1,
     "id": "anvilcraftextrapower:multiphase_capacitor_empty"
   },
-  "time": 14400
+  "time": 10000
 }

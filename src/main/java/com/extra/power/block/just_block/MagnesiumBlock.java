@@ -1,7 +1,6 @@
 package com.extra.power.block.just_block;
 
 import com.extra.power.block.ModBlock;
-import dev.dubhe.anvilcraft.block.heatable.HeatableBlock;
 import dev.dubhe.anvilcraft.block.heatable.NormalBlock;
 import dev.dubhe.anvilcraft.init.block.ModBlockTags;
 import dev.dubhe.anvilcraft.init.item.ModItems;
@@ -26,10 +25,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.phys.BlockHitResult;
 
-import java.util.Optional;
+import static com.extra.power.block.just_block.BurningMagnesiumBlock.ToBoom;
 
 public class MagnesiumBlock extends Block {
     public MagnesiumBlock(BlockBehaviour.Properties Properties) {
@@ -37,33 +35,10 @@ public class MagnesiumBlock extends Block {
     }
     public static void burn_it(Level level, BlockPos pos) {
         level.setBlockAndUpdate(pos, ModBlock.BURNING_MAGNESIUM_BLOCK.get().defaultBlockState());
-        level.playSound(null,pos, SoundEvents.FIRECHARGE_USE, SoundSource.PLAYERS,
+        level.playSound(null,pos, SoundEvents.FIRE_AMBIENT, SoundSource.PLAYERS,
                 0.7F, 1.0F);
     }
-    public void explosion(Level level, BlockPos pos) {
-        if (level.isClientSide) {
-            return;
-        }
-        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
-        level.explode(null,
-                null,
-                new ExplosionDamageCalculator() {
-                    @Override
-                    public Optional<Float> getBlockExplosionResistance(Explosion explosion, BlockGetter reader, BlockPos pos, BlockState state, FluidState fluid) {
-                        return Optional.of(Float.MAX_VALUE);
-                    }
-                    @Override
-                    public boolean shouldDamageEntity(Explosion explosion, Entity entity) {
-                        return true;
-                    }
-                },
-                pos.getX(),
-                pos.getY(),
-                pos.getZ(),
-                8.0f,
-                true,
-                Level.ExplosionInteraction.BLOCK);
-    }
+
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos
             , Player player, InteractionHand hand, BlockHitResult hitResult) {
@@ -77,6 +52,8 @@ public class MagnesiumBlock extends Block {
                     || (stack.is(ModItems.MULTITOOL_ITEM)
                     && MultitoolItem.getMode(stack) == MultitoolItem.FLINT_AND_STEEL_MODE)) {
                 stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+                level.playSound(null,pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.PLAYERS,
+                        0.7F, 1.0F);
             } else {
                 stack.consume(1, player);
             }
@@ -128,7 +105,7 @@ public class MagnesiumBlock extends Block {
         if (level.isClientSide) {
             return;
         }
-        explosion(level, pos);
+        level.setBlock(pos, ModBlock.BURNING_MAGNESIUM_BLOCK.get().defaultBlockState().setValue(ToBoom,true),1);
     }
 
     @Override
