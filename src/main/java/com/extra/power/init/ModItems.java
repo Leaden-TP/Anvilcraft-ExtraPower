@@ -71,6 +71,7 @@ public class ModItems {
             .register();
     public static final ItemEntry<Item>COAL_POWDER= REGISTRATE.item("coal_powder", Item::new)
             .lang("Coal Powder")
+            .tag(ModItemTags.COAL_POWDER)
             .register();
     public static final ItemEntry<Item>MAGNESIUM_OXIDE = REGISTRATE.item("magnesium_oxide", Item::new)
             .lang("Magnesium Oxide")

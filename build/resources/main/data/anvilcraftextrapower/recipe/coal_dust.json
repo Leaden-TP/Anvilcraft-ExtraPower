@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "anvilcraftextrapower:coal_powder"
+    },
+    {
+      "item": "anvilcraftextrapower:coal_powder"
+    },
+    {
+      "item": "anvilcraftextrapower:coal_powder"
+    },
+    {
+      "item": "anvilcraftextrapower:coal_powder"
+    },
+    {
+      "item": "anvilcraftextrapower:coal_powder"
+    },
+    {
+      "item": "anvilcraftextrapower:coal_powder"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "anvilcraft_alloyextension:coal_dust"
+  }
+}

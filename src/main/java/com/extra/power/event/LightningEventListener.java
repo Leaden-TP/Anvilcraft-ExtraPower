@@ -20,9 +20,9 @@ public class LightningEventListener {
         Level level = event.getLevel();
         BlockPos pos = event.getPos();
         BlockState state = level.getBlockState(pos);
-        if (state.is(Blocks.LIGHTNING_ROD)) pos = pos.below();
-        int depth = AnvilCraft.CONFIG.lightningStrikeDepth;
-        int radius = AnvilCraft.CONFIG.lightningStrikeRadius;
+        if (state.is(Blocks.LIGHTNING_ROD)) pos = pos.above();
+        int depth = AnvilCraft.CONFIG.lightningStrikeDepth+1;
+        int radius = AnvilCraft.CONFIG.lightningStrikeRadius+1;
         for (BlockPos blockPos : BlockPos.betweenClosed(pos.offset(radius, 0, radius), pos.offset(-radius, -depth, -radius))) {
             BlockState blockState = level.getBlockState(blockPos);
             if (blockState.is(ModBlock.POTATO_BATTERY)) {

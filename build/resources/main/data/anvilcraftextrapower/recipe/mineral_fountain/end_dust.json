@@ -1,0 +1,10 @@
+{
+  "type": "anvilcraft:mineral_fountain",
+  "from_block": {
+    "blocks": "minecraft:sand"
+  },
+  "need_block": {
+    "blocks": "minecraft:end_stone"
+  },
+  "to_block": "anvilcraft:end_dust"
+}
