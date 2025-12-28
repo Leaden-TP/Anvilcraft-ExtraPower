@@ -1,5 +1,6 @@
 {
   "creativetab.anvilcraftextrapower.main": "铁砧工艺:额外电力",
+  "pack.anvilcraftextrapower.builtin_pack":  "铁砧工艺:额外电力内置资源包",
   "block.anvilcraftextrapower.solar_panel": "太阳能板",
   "block.anvilcraftextrapower.burning_coal_block": "燃烧的煤炭块",
   "item.anvilcraftextrapower.lead_acid_battery_empty": "空铅酸电池",

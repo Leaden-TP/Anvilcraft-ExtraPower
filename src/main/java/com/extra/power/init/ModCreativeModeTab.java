@@ -11,6 +11,7 @@ import net.neoforged.neoforge.registries.DeferredRegister;
 
 import static com.extra.power.init.AnvilCraftExtrapower.MODID;
 import static com.extra.power.init.ModItems.MULTIPHASE_CAPACITOR;
+import static dev.dubhe.anvilcraft.init.item.ModItems.CAPACITOR;
 
 
 public class ModCreativeModeTab {
@@ -19,7 +20,7 @@ public class ModCreativeModeTab {
             () -> CreativeModeTab.builder()
             .title(Component.translatable("creativetab.anvilcraftextrapower.main"))
             .withTabsBefore(CreativeModeTabs.COMBAT)
-            .icon(() -> MULTIPHASE_CAPACITOR.get().getDefaultInstance())
+            .icon(() -> CAPACITOR.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
             }).build());
 }

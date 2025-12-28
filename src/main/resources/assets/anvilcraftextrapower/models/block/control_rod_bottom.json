@@ -1,0 +1,65 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"1": "anvilcraftextrapower:block/stilled_magnetic_cude",
+		"2": "anvilcraftextrapower:block/uranium_rod_botton",
+		"3": "anvilcraftextrapower:block/uranium_rod_top_up",
+		"4": "D::block/ember_metal_block_outline",
+		"particle": "anvilcraftextrapower:block/control_core"
+	},
+	"elements": [
+		{
+			"from": [4, 4, 4],
+			"to": [12, 12, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 4, 4]},
+			"faces": {
+				"north": {"uv": [12, 4, 4, 12], "texture": "#1"},
+				"east": {"uv": [12, 4, 4, 12], "texture": "#1"},
+				"south": {"uv": [12, 4, 4, 12], "texture": "#1"},
+				"west": {"uv": [12, 4, 4, 12], "texture": "#1"},
+				"up": {"uv": [12, 4, 4, 12], "texture": "#1"},
+				"down": {"uv": [12, 4, 4, 12], "texture": "#1"}
+			}
+		},
+		{
+			"from": [3, 3.5, 3],
+			"to": [13, 4, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 3.5, 4]},
+			"faces": {
+				"north": {"uv": [12, 4, 4, 12], "texture": "#4"},
+				"east": {"uv": [12, 4, 4, 12], "texture": "#4"},
+				"south": {"uv": [12, 4, 4, 12], "texture": "#4"},
+				"west": {"uv": [12, 4, 4, 12], "texture": "#4"},
+				"up": {"uv": [12, 4, 4, 12], "texture": "#4"},
+				"down": {"uv": [12, 4, 4, 12], "texture": "#4"}
+			}
+		},
+		{
+			"from": [1, 0.5, 1],
+			"to": [15, 3.5, 15],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0.5, 1]},
+			"faces": {
+				"north": {"uv": [1, 13, 15, 16], "texture": "#2"},
+				"east": {"uv": [1, 13, 15, 16], "texture": "#2"},
+				"south": {"uv": [1, 13, 15, 16], "texture": "#2"},
+				"west": {"uv": [1, 13, 15, 16], "texture": "#2"},
+				"up": {"uv": [1, 1, 15, 15], "texture": "#3"},
+				"down": {"uv": [1, 1, 15, 15], "texture": "#3"}
+			}
+		},
+		{
+			"name": "cube_outline",
+			"from": [15.5, 4, 15.5],
+			"to": [0.5, 0, 0.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0.5, 1]},
+			"faces": {
+				"north": {"uv": [0, 0, 14, 3], "rotation": 180, "texture": "#4"},
+				"east": {"uv": [0, 0, 14, 3], "rotation": 180, "texture": "#4"},
+				"south": {"uv": [0, 0, 14, 3], "rotation": 180, "texture": "#4"},
+				"west": {"uv": [0, 0, 14, 3], "rotation": 180, "texture": "#4"},
+				"up": {"uv": [0, 0, 14, 14], "rotation": 180, "texture": "#4"},
+				"down": {"uv": [0, 0, 14, 14], "rotation": 180, "texture": "#4"}
+			}
+		}
+	]
+}

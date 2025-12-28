@@ -8,6 +8,8 @@ import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LightLayer;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -64,6 +66,8 @@ public class SolarPanelBlockEntity extends BlockEntity implements IPowerProducer
             if (entity.lastPowerOutput != entity.power) {
                 entity.lastPowerOutput = entity.power;
                 entity.powerOutput = entity.power;
+                level.playSound(null,pos, SoundEvents.ANVIL_LAND, SoundSource.PLAYERS,
+                        0.7F, 1.0F);
                 if (entity.grid != null) {
                     entity.grid.update(true);
                 }
@@ -83,13 +87,11 @@ public class SolarPanelBlockEntity extends BlockEntity implements IPowerProducer
 
     public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.powerOutput = tag.getInt("PowerOutput");
         this.lastPowerOutput = tag.getInt("LastPowerOutput");
     }
 
     public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.putInt("PowerOutput", this.powerOutput);
         tag.putInt("LastPowerOutput", this.lastPowerOutput);
     }
 
