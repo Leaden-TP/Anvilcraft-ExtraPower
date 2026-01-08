@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "half=top,active=0": {"model": "anvilcraftextrapower:block/uranium_rod_top"},
+    "half=mid,active=0": {"model": "anvilcraftextrapower:block/uranium_rod_middle"},
+    "half=bottom,active=0": {"model": "anvilcraftextrapower:block/uranium_rod_bottom"},
+    "half=top,active=5": {"model": "anvilcraftextrapower:block/uranium_rod_top_flashing"},
+    "half=mid,active=5": {"model": "anvilcraftextrapower:block/uranium_rod_middle_flashing"},
+    "half=bottom,active=5": {"model": "anvilcraftextrapower:block/uranium_rod_bottom_flashing"}
+  }
+}

@@ -33,8 +33,8 @@ import javax.annotation.ParametersAreNonnullByDefault;
 @MethodsReturnNonnullByDefault
 public class SolarPanelBlock extends BetterBaseEntityBlock implements IHammerRemovable {
     private static final VoxelShape BASE = Block.box(0.0, 0.0, 0.0, 16.0, 2.0, 16.0);
-    public static final BooleanProperty OVERLOAD = IPowerComponent.OVERLOAD;
-    public static final BooleanProperty ACTIVE = BooleanProperty.create("active");
+    public static BooleanProperty OVERLOAD = IPowerComponent.OVERLOAD;
+    public static BooleanProperty ACTIVE = BooleanProperty.create("active");
 
     public SolarPanelBlock(Properties pProperties) {
         super(pProperties);

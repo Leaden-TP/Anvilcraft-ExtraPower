@@ -6,6 +6,7 @@
 		"2": "anvilcraftextrapower:block/uranium_rod_top_up",
 		"3": "anvilcraftextrapower:block/uranium_rod_top",
 		"4": "anvilcraft:block/ember_metal_block_outline",
+		"5": "anvilcraftextrapower:block/nuclear_sign",
 		"particle": "anvilcraftextrapower:block/nuclear_collector_bottom"
 	},
 	"elements": [
@@ -19,7 +20,7 @@
 				"south": {"uv": [1, 0, 15, 2], "texture": "#0"},
 				"west": {"uv": [1, 0, 15, 2], "texture": "#0"},
 				"up": {"uv": [1, 1, 15, 15], "texture": "#0"},
-				"down": {"uv": [4, 0, 16, 12], "texture": "#0"}
+				"down": {"uv": [2, 2, 14, 14], "texture": "#5"}
 			}
 		},
 		{
@@ -88,20 +89,6 @@
 			}
 		},
 		{
-			"name": "cube_outline",
-			"from": [15.3, 3.7, 15.3],
-			"to": [0.7, 0.1, 0.7],
-			"rotation": {"angle": 0, "axis": "y", "origin": [1, 8.4, 1]},
-			"faces": {
-				"north": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4"},
-				"east": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4"},
-				"south": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4"},
-				"west": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4"},
-				"up": {"uv": [1, 1, 15, 15], "rotation": 180, "texture": "#4"},
-				"down": {"uv": [1, 1, 15, 15], "rotation": 180, "texture": "#4"}
-			}
-		},
-		{
 			"from": [4, 3.25, 4],
 			"to": [12, 16, 12],
 			"rotation": {"angle": 0, "axis": "y", "origin": [4, 10.5, 4]},
@@ -113,6 +100,36 @@
 				"up": {"uv": [4, 0, 12, 13], "texture": "#1"},
 				"down": {"uv": [4, 0, 12, 13], "texture": "#1", "cullface": "down"}
 			}
+		},
+		{
+			"from": [3, 3.25, 3],
+			"to": [13, 4.05, 13],
+			"rotation": {"angle": 0, "axis": "y", "origin": [12, 3.75, 4]},
+			"faces": {
+				"north": {"uv": [12, 12, 4, 4], "texture": "#4"},
+				"east": {"uv": [12, 12, 4, 4], "texture": "#4"},
+				"south": {"uv": [12, 12, 4, 4], "texture": "#4"},
+				"west": {"uv": [12, 12, 4, 4], "texture": "#4"},
+				"up": {"uv": [12, 12, 4, 4], "texture": "#4"},
+				"down": {"uv": [12, 12, 4, 4], "texture": "#4"}
+			}
+		},
+		{
+			"name": "cube_outline",
+			"shade": false,
+			"light_emission": 15,
+			"from": [15.55, 4.15, 15.55],
+			"to": [0.45, -0.3, 0.45],
+			"light_emission": 15,
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 8.4, 1]},
+			"faces": {
+				"north": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4", "cullface": "south"},
+				"east": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4", "cullface": "west"},
+				"south": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4", "cullface": "north"},
+				"west": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4", "cullface": "east"},
+				"up": {"uv": [1, 1, 15, 15], "rotation": 180, "texture": "#4", "cullface": "up"},
+				"down": {"uv": [1, 1, 15, 15], "rotation": 180, "texture": "#4"}
+			}
 		}
 	],
 	"groups": [
@@ -123,6 +140,7 @@
 			"children": [0, 1, 2, 3, 4, 5]
 		},
 		6,
-		7
+		7,
+		8
 	]
 }

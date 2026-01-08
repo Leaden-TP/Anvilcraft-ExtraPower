@@ -2,9 +2,13 @@ package com.extra.power.block;
 
 import com.extra.power.block.just_block.*;
 import com.extra.power.init.ModCreativeModeTab;
+import com.extra.power.item.capacitor.FlashingPotatoBatteryItem;
+import com.extra.power.item.capacitor.PotatoBatteryItem;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import dev.dubhe.anvilcraft.block.EmberMetalBlock;
 import dev.dubhe.anvilcraft.init.block.ModBlockTags;
+import dev.dubhe.anvilcraft.init.block.ModBlocks;
 import dev.dubhe.anvilcraft.init.item.ModItemTags;
 import dev.dubhe.anvilcraft.util.DataGenUtil;
 import net.minecraft.data.recipes.RecipeCategory;
@@ -12,6 +16,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
@@ -158,7 +163,8 @@ public class ModBlock {
     public static final BlockEntry<? extends Block>BURNING_MAGNESIUM_BLOCK= REGISTRATE.block(BURNING_MAGNESIUM_BLOCK_ID, BurningMagnesiumBlock::new)
             .lang("Burning Block of Magnesium")
             .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(p -> p.strength(2.0f, 5f).lightLevel(state -> 15))
+            .properties(p -> p.strength(2.0f, 5f)
+            .lightLevel(state -> 15))
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .build()
@@ -190,7 +196,7 @@ public class ModBlock {
             .initialProperties(() -> Blocks.SLIME_BLOCK)
             .properties(p -> p.strength(0.5f, 2f))
             .blockstate(DataGenUtil::noExtraModelOrState)
-            .item()
+            .item() 
             .tag(com.extra.power.init.ModItemTags.CAPACITOR)
             .build()
             .register();
@@ -211,6 +217,32 @@ public class ModBlock {
             .properties(p -> p.strength(2f, 5f))
             .tag(
                     BlockTags.MINEABLE_WITH_AXE
+            )
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .build()
+            .register();
+    public static final BlockEntry<? extends Block>URANIUM_ROD= REGISTRATE.block("uranium_rod",
+                    properties -> new UraniumRodBlock(properties, 0.5d))
+            .lang("Uranium Rod")
+            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
+            .properties(p -> p.lightLevel(state -> 10).noOcclusion().emissiveRendering(ModBlocks::always))
+            .tag(
+                    BlockTags.MINEABLE_WITH_PICKAXE,
+                    ModBlockTags.MEKANISM_CARDBOARD_BOX_BLACKLIST
+            )
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .build()
+            .register();
+    public static final BlockEntry<? extends Block>NUCLEAR_COLLECTOR= REGISTRATE.block("nuclear_collector",
+                      NuclearCollectorBlock::new)
+            .lang("Nuclear Collector")
+            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
+            .properties(p ->
+                    p.strength(5f, 1200f).lightLevel(state -> 10).noOcclusion().emissiveRendering(ModBlocks::always))
+            .tag(
+                    BlockTags.MINEABLE_WITH_PICKAXE
             )
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()

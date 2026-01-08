@@ -1,5 +1,8 @@
 package com.extra.power.init;
 
+import com.extra.power.item.capacitor.EmptyLeadacidBatteryItem;
+import com.extra.power.item.capacitor.LeadacidBatteryItem;
+import com.extra.power.item.capacitor.MultiphaseCapacitorItem;
 import com.tterrag.registrate.providers.RegistrateRecipeProvider;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import dev.dubhe.anvilcraft.init.block.ModBlocks;
@@ -81,11 +84,11 @@ public class ModItems {
             .register();
 
     //电池
-    public static final ItemEntry<Item> LEAD_ACID_BATTERY = REGISTRATE.item("lead_acid_battery", Item::new)
+    public static final ItemEntry<LeadacidBatteryItem> LEAD_ACID_BATTERY = REGISTRATE.item("lead_acid_battery", LeadacidBatteryItem::new)
             .lang("Lead-acid Battery")
             .tag(ModItemTags.CAPACITOR)
             .register();
-    public static final ItemEntry<Item>LEAD_ACID_BATTERY_EMPTY = REGISTRATE.item("lead_acid_battery_empty", Item::new)
+    public static final ItemEntry<EmptyLeadacidBatteryItem>LEAD_ACID_BATTERY_EMPTY = REGISTRATE.item("lead_acid_battery_empty", EmptyLeadacidBatteryItem::new)
             .lang("Lead-acid Battery Empty")
             .tag(ModItemTags.CAPACITOR)
             .recipe((ctx, provider) -> {
@@ -102,7 +105,7 @@ public class ModItems {
                         .save(provider);
             })
             .register();
-    public static final ItemEntry<Item>MULTIPHASE_CAPACITOR_EMPTY = REGISTRATE.item("multiphase_capacitor_empty", Item::new)
+    public static final ItemEntry<MultiphaseCapacitorItem>MULTIPHASE_CAPACITOR_EMPTY = REGISTRATE.item("multiphase_capacitor_empty", MultiphaseCapacitorItem::new)
             .lang("Multiphase Capacitor Empty")
             .tag(ModItemTags.CAPACITOR)
             .recipe((ctx, provider) -> {
@@ -117,7 +120,7 @@ public class ModItems {
                         .save(provider);
             })
             .register();
-    public static final ItemEntry<Item>MULTIPHASE_CAPACITOR = REGISTRATE.item("multiphase_capacitor", Item::new)
+    public static final ItemEntry<MultiphaseCapacitorItem>MULTIPHASE_CAPACITOR = REGISTRATE.item("multiphase_capacitor", MultiphaseCapacitorItem::new)
             .lang("Multiphase Capacitor")
             .tag(ModItemTags.CAPACITOR)
             .recipe((ctx, provider) -> {

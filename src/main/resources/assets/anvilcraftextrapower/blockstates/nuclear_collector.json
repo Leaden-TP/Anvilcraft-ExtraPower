@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "overheated=false": {"model": "anvilcraftextrapower:block/nuclear_collector_base"},
+    "overheated=true": {"model": "anvilcraftextrapower:block/nuclear_collector_base_overheated"}
+  }
+}

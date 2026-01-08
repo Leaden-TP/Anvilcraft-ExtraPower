@@ -66,8 +66,6 @@ public class SolarPanelBlockEntity extends BlockEntity implements IPowerProducer
             if (entity.lastPowerOutput != entity.power) {
                 entity.lastPowerOutput = entity.power;
                 entity.powerOutput = entity.power;
-                level.playSound(null,pos, SoundEvents.ANVIL_LAND, SoundSource.PLAYERS,
-                        0.7F, 1.0F);
                 if (entity.grid != null) {
                     entity.grid.update(true);
                 }

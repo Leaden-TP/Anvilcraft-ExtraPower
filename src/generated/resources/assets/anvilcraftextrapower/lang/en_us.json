@@ -23,5 +23,8 @@
   "item.anvilcraftextrapower.sulfur": "Sulfur",
   "item.anvilcraftextrapower.sulfuric_acid": "Sulfuric Acid",
   "block.anvilcraftextrapower.crate_ui": "Crate",
-  "block.anvilcraftextrapower.semi_finished_crate": "Semi-Finished Crate"
+  "block.anvilcraftextrapower.semi_finished_crate": "Semi-Finished Crate",
+  "block.anvilcraftextrapower.uranium_rod": "Uranium Rod",
+  "block.anvilcraftextrapower.nuclear_collector": "Nuclear Collector",
+  "block.anvilcraftextrapower.nuclear_collector.placement_too_close_to_another":  "Too close to another Nuclear Collector"
 }

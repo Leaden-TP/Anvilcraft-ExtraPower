@@ -7,6 +7,7 @@
 		"3": "anvilcraftextrapower:block/uranium_rod_top_up",
 		"4": "anvilcraft:block/ember_metal_block_outline",
 		"5": "anvilcraftextrapower:block/nuclear_collector_bottom",
+		"6": "anvilcraftextrapower:block/nuclear_sign",
 		"particle": "anvilcraftextrapower:block/uranium_rod_botton"
 	},
 	"elements": [
@@ -51,6 +52,8 @@
 		},
 		{
 			"name": "cube_outline",
+			"shade": false,
+			"light_emission": 15,
 			"from": [15.3, 31.3, 15.3],
 			"to": [0.7, 27.7, 0.7],
 			"rotation": {"angle": 0, "axis": "y", "origin": [1, 23, 1]},
@@ -65,6 +68,8 @@
 		},
 		{
 			"name": "cube_outline",
+			"shade": false,
+			"light_emission": 15,
 			"from": [15.3, -11.7, 15.3],
 			"to": [0.7, -15.3, 0.7],
 			"rotation": {"angle": 0, "axis": "y", "origin": [1, -7, 1]},
@@ -86,7 +91,7 @@
 				"east": {"uv": [1, 2, 15, 0], "texture": "#5"},
 				"south": {"uv": [1, 2, 15, 0], "texture": "#5"},
 				"west": {"uv": [1, 2, 15, 0], "texture": "#5"},
-				"up": {"uv": [4, 12, 16, 0], "texture": "#5"},
+				"up": {"uv": [2, 14, 14, 2], "texture": "#6"},
 				"down": {"uv": [1, 15, 15, 1], "texture": "#5"}
 			}
 		},
@@ -165,7 +170,7 @@
 				"south": {"uv": [1, 0, 15, 2], "texture": "#5"},
 				"west": {"uv": [1, 0, 15, 2], "texture": "#5"},
 				"up": {"uv": [1, 1, 15, 15], "texture": "#5"},
-				"down": {"uv": [4, 0, 16, 12], "texture": "#5"}
+				"down": {"uv": [2, 2, 14, 14], "texture": "#6"}
 			}
 		},
 		{

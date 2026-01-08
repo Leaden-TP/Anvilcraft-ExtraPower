@@ -23,5 +23,6 @@
   "block.anvilcraftextrapower.crate": "板条箱",
   "item.anvilcraftextrapower.sulfuric_acid": "硫酸",
   "block.anvilcraftextrapower.crate_ui": "板条箱",
-  "block.anvilcraftextrapower.semi_finished_crate": "板条箱(半成品)"
+  "block.anvilcraftextrapower.semi_finished_crate": "板条箱(半成品)",
+  "block.anvilcraftextrapower.nuclear_collector.placement_too_close_to_another" : "这个位置离另一个核收集器太近了"
 }
