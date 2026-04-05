@@ -1,0 +1,65 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "anvilcraftextrapower:nuclear_collector"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "hasbar": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraft:ember_metal_nugget"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hasb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraft:uranium_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hasday": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraft:heat_collector"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hasplate": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraft:ember_metal_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "hasbar",
+      "hasday",
+      "hasplate",
+      "hasb"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "anvilcraftextrapower:nuclear_collector"
+    ]
+  }
+}

@@ -1,6 +1,8 @@
 package com.extra.power.block.just_block;
 
 import com.extra.power.block.blockentity.CrateBlockEntity;
+import dev.anvilcraft.lib.block.IMoveableEntityBlock;
+import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -24,7 +26,7 @@ import net.minecraft.world.phys.BlockHitResult;
 
 import javax.annotation.Nullable;
 
-public class CrateBlock extends BarrelBlock {
+public class CrateBlock extends BarrelBlock implements  IHammerRemovable {
 
     public CrateBlock(BlockBehaviour.Properties properties) {
         super(properties);

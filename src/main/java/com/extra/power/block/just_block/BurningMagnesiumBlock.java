@@ -10,7 +10,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -27,9 +26,8 @@ import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.pathfinder.PathComputationType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import java.util.Optional;
 
-import static com.extra.power.block.just_block.Light.BRIGHTNESS;
+import static com.extra.power.block.just_block.LightBlock.BRIGHTNESS;
 
 public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
     public static final BooleanProperty OVERHEATED = BooleanProperty.create("overheated");

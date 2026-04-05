@@ -66,5 +66,50 @@
       <option name="name" value="Create Maven" />
       <option name="url" value="https://maven.createmod.net" />
     </remote-repository>
+    <remote-repository>
+      <option name="id" value="TerraformersMC Maven" />
+      <option name="name" value="TerraformersMC Maven" />
+      <option name="url" value="https://maven.terraformersmc.com/releases/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Shedaniel Maven" />
+      <option name="name" value="Shedaniel Maven" />
+      <option name="url" value="https://maven.shedaniel.me/" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="CurseForge Maven" />
+      <option name="name" value="CurseForge Maven" />
+      <option name="url" value="https://cursemaven.com" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Ithundxr Maven" />
+      <option name="name" value="Ithundxr Maven" />
+      <option name="url" value="https://maven.ithundxr.dev/snapshots" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="Saps Maven" />
+      <option name="name" value="Saps Maven" />
+      <option name="url" value="https://maven.latvian.dev/releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven" />
+      <option name="name" value="maven" />
+      <option name="url" value="https://jitpack.io" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="k-4u Maven" />
+      <option name="name" value="k-4u Maven" />
+      <option name="url" value="https://maven.k-4u.nl" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="maven2" />
+      <option name="name" value="maven2" />
+      <option name="url" value="https://maven.su5ed.dev/releases" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="ForgeConfigAPIPort Maven" />
+      <option name="name" value="ForgeConfigAPIPort Maven" />
+      <option name="url" value="https://raw.githubusercontent.com/Fuzss/modresources/main/maven/" />
+    </remote-repository>
   </component>
 </project>

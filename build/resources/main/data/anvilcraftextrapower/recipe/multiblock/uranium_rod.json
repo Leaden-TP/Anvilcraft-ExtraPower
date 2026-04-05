@@ -1,0 +1,45 @@
+{
+  "type": "anvilcraft:multiblock",
+  "pattern": {
+    "layers": [
+      [
+        " C ",
+        "CUC",
+        " C "
+      ],
+      [
+        "   ",
+        " U ",
+        "   "
+      ],
+      [
+        " T ",
+        "TUT",
+        " T "
+      ]
+    ],
+    "symbols": {
+      "U": {
+        "block": "anvilcraft:uranium_block"
+      },
+      "C": {
+        "block": "anvilcraft:cut_ember_metal_slab",
+        "properties": {
+          "type": "bottom",
+          "waterlogged": "false"
+        }
+      },
+      "T": {
+        "block": "anvilcraft:cut_ember_metal_slab",
+        "properties": {
+          "type": "top",
+          "waterlogged": "false"
+        }
+      }
+    }
+  },
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:uranium_rod"
+  }
+}

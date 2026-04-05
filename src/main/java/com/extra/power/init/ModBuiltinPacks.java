@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.function.UnaryOperator;
 
-@EventBusSubscriber(modid = AnvilCraftExtrapower.MODID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = AnvilCraftExtrapower.MODID)
 public class ModBuiltinPacks {
     public static final PackSource BUILT_IN = PackSource.create(decorateWithSource("pack.source.builtin"), false);
 

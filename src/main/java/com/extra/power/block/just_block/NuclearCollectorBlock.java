@@ -1,5 +1,6 @@
 package com.extra.power.block.just_block;
 
+import com.extra.power.block.ModBlock;
 import com.extra.power.block.ModBlockEntity;
 import com.extra.power.block.blockentity.NuclearCollectorBlockEntity;
 import com.extra.power.block.blockentity.SolarPanelBlockEntity;
@@ -8,6 +9,7 @@ import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import dev.dubhe.anvilcraft.block.better.BetterBaseEntityBlock;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -26,9 +28,13 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
+
+import static com.extra.power.block.blockentity.NuclearCollectorBlockEntity.isAnotherCollectorNearby;
+import static com.extra.power.function.NuclearCollectorFunction.checkRod;
 
 
 public class NuclearCollectorBlock extends BetterBaseEntityBlock implements IHammerRemovable {
@@ -89,17 +95,21 @@ public class NuclearCollectorBlock extends BetterBaseEntityBlock implements IHam
         if (!state.is(newState.getBlock()) && state.getValue(POWERED)) {
             this.updateNeighbours(level, pos);
         }
+        if(!isAnotherCollectorNearby(level, pos))checkRod(level, pos, new NuclearCollectorBlockEntity(pos, state),false);
+        if (state.getValue(OVERHEATED))
+            level.setBlockAndUpdate(pos, ModBlock.MUSHROOM_CLOUD.get().defaultBlockState());
     }
 
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
-        if (NuclearCollectorBlockEntity.isAnotherCollectorNearby(context.getLevel(), context.getClickedPos())) {
+        if (isAnotherCollectorNearby(context.getLevel(), context.getClickedPos())) {
             Optional.ofNullable(context.getPlayer()).ifPresent(player -> player.displayClientMessage(
                     Component.translatable("block.anvilcraftextrapower.nuclear_collector.placement_too_close_to_another")
                             .withStyle(ChatFormatting.RED), true));
         }
         return super.getStateForPlacement(context);
     }
+
 
     @Nullable
     @Override
@@ -114,5 +124,9 @@ public class NuclearCollectorBlock extends BetterBaseEntityBlock implements IHam
 
     public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return SHAPE;
+    }
+    @Override
+    public int getSignal (BlockState state, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull Direction direction){
+        return state.getValue(POWERED) ? 15 : 0;
     }
 }

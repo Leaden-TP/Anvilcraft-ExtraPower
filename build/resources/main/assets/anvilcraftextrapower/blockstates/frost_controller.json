@@ -1,0 +1,11 @@
+{
+  "variants": {
+    "half=top,rp=false": {"model": "anvilcraftextrapower:block/frost_controller_bottom",
+      "x": 180},
+    "half=mid": {"model": "anvilcraftextrapower:block/light"},
+    "half=bottom,rp=false": {"model": "anvilcraftextrapower:block/frost_controller_bottom"},
+    "half=bottom,rp=true": {"model": "anvilcraftextrapower:block/frost_controller_bottom_powered"},
+    "half=top,rp=true": {"model": "anvilcraftextrapower:block/frost_controller_bottom_powered",
+      "x": 180}
+  }
+}

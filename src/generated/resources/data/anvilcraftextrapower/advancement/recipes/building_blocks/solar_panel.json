@@ -11,7 +11,17 @@
       "conditions": {
         "items": [
           {
-            "items": "minecraft:iron_bars"
+            "items": "anvilcraft:circuit_board"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hasb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:sunflower"
           }
         ]
       },
@@ -43,7 +53,8 @@
       "has_the_recipe",
       "hasbar",
       "hasday",
-      "hasplate"
+      "hasplate",
+      "hasb"
     ]
   ],
   "rewards": {

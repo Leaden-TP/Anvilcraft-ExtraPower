@@ -63,7 +63,7 @@ public class NuclearCollectorRenderer implements BlockEntityRenderer<NuclearColl
     }
 
     protected float rotation(NuclearCollectorBlockEntity blockEntity, float partialTick) {
-        return  blockEntity.getRotation() + blockEntity.getServerPower() * NuclearCollectorBlockEntity.ROTATION_PRE_POWER * partialTick/1000;
+        return  blockEntity.getRotation() + blockEntity.getServerPower() * NuclearCollectorBlockEntity.ROTATION_PRE_POWER * partialTick/100;
     }
 
     protected float elevation() {

@@ -6,9 +6,11 @@ import com.mojang.serialization.MapCodec;
 import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import dev.dubhe.anvilcraft.api.power.IPowerComponent;
 import dev.dubhe.anvilcraft.block.better.BetterBaseEntityBlock;
+import net.minecraft.ChatFormatting;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -22,17 +24,31 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import javax.annotation.ParametersAreNonnullByDefault;
+import java.util.stream.Stream;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
 public class SolarPanelBlock extends BetterBaseEntityBlock implements IHammerRemovable {
-    private static final VoxelShape BASE = Block.box(0.0, 0.0, 0.0, 16.0, 2.0, 16.0);
+    public static final VoxelShape SHAPE =
+            Stream.of(
+                    Block.box(0, 0, 0, 16, 4, 16),
+                    Block.box(4, 4, 4, 12, 6, 12),
+                    Block.box(6, 6, 6, 10, 22, 10)
+            ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
+
+    public static final VoxelShape COLLISION_SHAPE =
+            Stream.of(
+                    Block.box(0, 0, 0, 16, 4, 16),
+                    Block.box(4, 4, 4, 12, 6, 12)
+            ).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
     public static BooleanProperty OVERLOAD = IPowerComponent.OVERLOAD;
     public static BooleanProperty ACTIVE = BooleanProperty.create("active");
 
@@ -48,6 +64,31 @@ public class SolarPanelBlock extends BetterBaseEntityBlock implements IHammerRem
     }
 
     public BlockState getStateForPlacement(BlockPlaceContext context) {
+        Level level = context.getLevel();
+        BlockPos pos = context.getClickedPos();
+
+        // 检查3x3x3范围内是否有其他太阳能板
+        for (int x = -1; x <= 1; x++) {
+            for (int y = -1; y <= 1; y++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (x == 0 && y == 0 && z == 0) continue;
+
+                    BlockPos checkPos = pos.offset(x, y, z);
+                    BlockState checkState = level.getBlockState(checkPos);
+                    if (checkState.getBlock() instanceof SolarPanelBlock) {
+                        if (!level.isClientSide) {
+                            context.getPlayer().displayClientMessage(
+                                    Component.translatable("message.anvilcraftextrapower.solar_panel_too_close")
+                                            .withStyle(ChatFormatting.RED),
+                                    true
+                            );
+                        }
+                        return null; // 阻止放置
+                    }
+                }
+            }
+        }
+
         return this.defaultBlockState()
                 .setValue(OVERLOAD, false)
                 .setValue(ACTIVE, false);
@@ -61,9 +102,9 @@ public class SolarPanelBlock extends BetterBaseEntityBlock implements IHammerRem
     public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
         BlockPos belowPos = pos.below();
         BlockState belowState = world.getBlockState(belowPos);
-        // 检查下方方块是否在Y轴正方向上面是坚固的（完整的）
         return belowState.isFaceSturdy(world, belowPos, Direction.UP);
     }
+
     @Override
     public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block sourceBlock,
                                 @NotNull BlockPos sourcePos, boolean isMoving) {
@@ -89,8 +130,16 @@ public class SolarPanelBlock extends BetterBaseEntityBlock implements IHammerRem
     public RenderShape getRenderShape(BlockState state) {
         return RenderShape.MODEL;
     }
-    public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return BASE;
+    @Override
+    public VoxelShape getShape(
+            BlockState state,
+            BlockGetter level,
+            BlockPos pos,
+            CollisionContext context) {
+        return SHAPE;
+    }
+    protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
+        return COLLISION_SHAPE;
     }
 }
 

@@ -1,0 +1,83 @@
+{
+  "type": "anvilcraft:multiblock_conversion",
+  "inputPattern": {
+    "layers": [
+      [
+        " C ",
+        "CMC",
+        " C "
+      ],
+      [
+        "   ",
+        " U ",
+        "   "
+      ],
+      [
+        " T ",
+        "TMT",
+        " T "
+      ]
+    ],
+    "symbols": {
+      "U": {
+        "block": "anvilcraft:frost_metal_block"
+      },
+      "C": {
+        "block": "anvilcraft:cut_ember_metal_slab",
+        "properties": {
+          "type": "bottom",
+          "waterlogged": "false"
+        }
+      },
+      "T": {
+        "block": "anvilcraft:cut_ember_metal_slab",
+        "properties": {
+          "type": "top",
+          "waterlogged": "false"
+        }
+      },
+      "M": {
+        "block": "anvilcraft:magnet_block"
+      }
+    }
+  },
+  "outputPattern": {
+    "layers": [
+      [
+        "   ",
+        " A ",
+        "   "
+      ],
+      [
+        "   ",
+        " B ",
+        "   "
+      ],
+      [
+        "   ",
+        " C ",
+        "   "
+      ]
+    ],
+    "symbols": {
+      "A": {
+        "block": "anvilcraftextrapower:frost_controller",
+        "properties": {
+          "half": "bottom"
+        }
+      },
+      "B": {
+        "block": "anvilcraftextrapower:frost_controller",
+        "properties": {
+          "half": "mid"
+        }
+      },
+      "C": {
+        "block": "anvilcraftextrapower:frost_controller",
+        "properties": {
+          "half": "top"
+        }
+      }
+    }
+  }
+}

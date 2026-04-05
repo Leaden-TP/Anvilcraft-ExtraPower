@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "anvilcraftextrapower:solar_panel_from_sunflower",
+  "key": {
+    "A": {
+      "item": "minecraft:daylight_detector"
+    },
+    "S": {
+      "item": "minecraft:sunflower"
+    },
+    "C": {
+      "tag": "c:plates/iron"
+    }
+  },
+  "pattern": [
+    "ACA",
+    " S ",
+    " C "
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:solar_panel"
+  }
+}

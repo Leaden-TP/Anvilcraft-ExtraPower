@@ -11,7 +11,8 @@ import dev.anvilcraft.lib.config.Config;
 public class ModServerConfig {
     @CollapsibleObject
     public static NuclearCollector  nuclearCollector  = new  NuclearCollector();
-
+    @CollapsibleObject
+    public static NuclearExplosion  nuclearExplosion  = new  NuclearExplosion();
     public static class NuclearCollector {
         @Comment("Maximum heat that the Nuclear Collector can withstand")
         @BoundedDiscrete(min = 100, max = 32768)
@@ -19,7 +20,7 @@ public class ModServerConfig {
 
         @Comment("The power output of a uranium rod(this*5)")
         @BoundedDiscrete(min = 1, max = 32768)
-        public int powerOutput_of_a_uraniumRod = 1000;
+        public int powerOutput_of_a_uraniumRod = 150;
 
         @Comment("The time interval between water searches")
         @BoundedDiscrete(min = 20, max = 1024)
@@ -28,5 +29,14 @@ public class ModServerConfig {
         @Comment("Minimum time interval between water searches")
         @BoundedDiscrete(min = 20, max = 1024)
         public int theMinimumTimeOfCheckingWater = 40;
+
+        @Comment("Maximum water surface area")
+        @BoundedDiscrete(min = 20, max = 64)
+        public int theMaximumWaterSurfaceArea = 20;
+    }
+    public static class NuclearExplosion {
+        @Comment("Explosion level")
+        @BoundedDiscrete(min = 3, max = 15)
+        public int Explosionlevel = 9;
     }
 }

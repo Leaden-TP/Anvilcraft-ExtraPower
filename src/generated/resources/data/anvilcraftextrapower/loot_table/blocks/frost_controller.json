@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "anvilcraftextrapower:frost_controller",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "bottom"
+              }
+            }
+          ],
+          "name": "anvilcraftextrapower:frost_controller"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ],
+  "random_sequence": "anvilcraftextrapower:blocks/frost_controller"
+}

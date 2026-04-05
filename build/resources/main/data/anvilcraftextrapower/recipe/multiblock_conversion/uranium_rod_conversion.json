@@ -1,0 +1,80 @@
+{
+  "type": "anvilcraft:multiblock_conversion",
+  "inputPattern": {
+    "layers": [
+      [
+        " C ",
+        "CUC",
+        " C "
+      ],
+      [
+        "   ",
+        " U ",
+        "   "
+      ],
+      [
+        " T ",
+        "TUT",
+        " T "
+      ]
+    ],
+    "symbols": {
+      "U": {
+        "block": "anvilcraft:uranium_block"
+      },
+      "C": {
+        "block": "anvilcraft:cut_ember_metal_slab",
+        "properties": {
+          "type": "bottom",
+          "waterlogged": "false"
+        }
+      },
+      "T": {
+        "block": "anvilcraft:cut_ember_metal_slab",
+        "properties": {
+          "type": "top",
+          "waterlogged": "false"
+        }
+      }
+    }
+  },
+  "outputPattern": {
+    "layers": [
+      [
+        "   ",
+        " A ",
+        "   "
+      ],
+      [
+        "   ",
+        " B ",
+        "   "
+      ],
+      [
+        "   ",
+        " C ",
+        "   "
+      ]
+    ],
+    "symbols": {
+      "A": {
+        "block": "anvilcraftextrapower:uranium_rod",
+        "properties": {
+          "half": "bottom"
+        }
+      },
+      "B": {
+        "block": "anvilcraftextrapower:uranium_rod",
+        "properties": {
+          "half": "mid"
+        }
+      },
+      "C": {
+        "block": "anvilcraftextrapower:uranium_rod",
+        "properties": {
+          "half": "top"
+        }
+      }
+    }
+  }
+}

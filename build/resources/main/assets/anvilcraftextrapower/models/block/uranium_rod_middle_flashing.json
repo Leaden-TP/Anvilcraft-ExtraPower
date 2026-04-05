@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+  "render_type": "translucent",
 	"textures": {
 		"0": "anvilcraftextrapower:block/uranium_rod_flash",
 		"1": "anvilcraftextrapower:block/uranium_rod_mid",
@@ -21,11 +22,11 @@
 		},
 		{
 			"name": "cube_outline",
-			"from": [12.65, 16.05, 12.65],
-			"to": [3.35, -0.05, 3.35],
+			"from": [12.65, 30.525, 12.65],
+			"to": [3.35, -14.525, 3.35],
 			"shade": false,
 			"light_emission": 15,
-			"rotation": {"angle": 0, "axis": "y", "origin": [3.75, 8, 3.75]},
+			"rotation": {"angle": 0, "axis": "y", "origin": [3.75, -6.475, 3.75]},
 			"faces": {
 				"north": {"uv": [4, 0, 12, 16], "rotation": 180, "texture": "#0"},
 				"east": {"uv": [4, 0, 12, 16], "rotation": 180, "texture": "#0"},

@@ -11,6 +11,15 @@
       "entries": [
         {
           "type": "minecraft:item",
+          "conditions": [
+            {
+              "block": "anvilcraftextrapower:uranium_rod",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "half": "bottom"
+              }
+            }
+          ],
           "name": "anvilcraftextrapower:uranium_rod"
         }
       ],

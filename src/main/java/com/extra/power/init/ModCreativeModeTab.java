@@ -1,6 +1,8 @@
 package com.extra.power.init;
 
 import com.extra.power.block.ModBlock;
+import dev.dubhe.anvilcraft.init.ModCriterionTriggers;
+import dev.dubhe.anvilcraft.init.item.ModItemGroups;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
@@ -19,7 +21,7 @@ public class ModCreativeModeTab {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MOD_TAB = CREATIVE_MODE_TABS.register("anvilcraftextrapower_tab",
             () -> CreativeModeTab.builder()
             .title(Component.translatable("creativetab.anvilcraftextrapower.main"))
-            .withTabsBefore(CreativeModeTabs.COMBAT)
+            .withTabsBefore(ModItemGroups.ANVILCRAFT_BUILD_BLOCK.getKey())
             .icon(() -> CAPACITOR.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
             }).build());

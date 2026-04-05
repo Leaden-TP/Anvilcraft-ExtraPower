@@ -1,13 +1,16 @@
 package com.extra.power.init;
 
-import com.extra.power.block.ModBlock;
+
 import com.tterrag.registrate.Registrate;
 import dev.dubhe.anvilcraft.api.heat.collector.HeatSourceEntry;
 import dev.dubhe.anvilcraft.util.ModInteractionMap;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
+import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import com.mojang.logging.LogUtils;
@@ -39,6 +42,10 @@ public class AnvilCraftExtrapower {
         ITEMS.register(modEventBus);
         NeoForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::registerPayload);
+        ModSounds.SOUNDS.register(modEventBus);
+        ModCriterionTriggers.TRIGGER_TYPES.register(modEventBus);
+        ModDamageTypes.DAMAGE_TYPES.register(modEventBus);
     }
 
     private static void registerEvents(@NotNull IEventBus eventBus) {
@@ -56,6 +63,10 @@ public class AnvilCraftExtrapower {
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("AnvilCraftExtraPower initialized!");
         LOGGER.info("(*^▽^*)");
+    }
+    public void registerPayload(@NotNull RegisterPayloadHandlersEvent event) {
+        PayloadRegistrar registrar = event.registrar("1");
+        ModNetworks.init(registrar);
     }
     private void commonSetup(final FMLCommonSetupEvent event) {
         event.enqueueWork(this::registerHeatSources);

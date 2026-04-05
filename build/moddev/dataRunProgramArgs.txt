@@ -11,11 +11,11 @@ C:\\Users\\Administrator\\.gradle\\caches\\neoformruntime\\assets
 --gameDir
 .
 --fml.fmlVersion
-4.0.39
+4.0.42
 --fml.mcVersion
 1.21.1
 --fml.neoForgeVersion
-21.1.172
+21.1.217
 --fml.neoFormVersion
 20240808.144430
 

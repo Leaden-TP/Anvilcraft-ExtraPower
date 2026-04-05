@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "building",
+  "group": "anvilcraftextrapower:nuclear_collector",
+  "key": {
+    "E": {
+      "item": "anvilcraft:ember_metal_nugget"
+    },
+    "U": {
+      "item": "anvilcraft:uranium_block"
+    },
+    "C": {
+      "item": "anvilcraft:heat_collector"
+    },
+    "B": {
+      "item": "anvilcraft:ember_metal_block"
+    }
+  },
+  "pattern": [
+    "E E",
+    " U ",
+    "BCB"
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:nuclear_collector"
+  }
+}
