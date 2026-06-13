@@ -1,25 +1,34 @@
+# 铁砧工艺：额外电力 | [AnvilCraft:Extra Power](./README_en.md)
+## Minecraft模组 by [铅制三角锥@bilibili](https://space.bilibili.com/87423598)
+> 欢迎来到模组《铁砧工艺：额外电力》的页面！模组是铁砧工艺的附属。
 
-Installation information
-=======
+## 使用许可
 
-This template repository can be directly cloned to get you started with a new
-mod. Simply create a new repository cloned from this one, by following the
-instructions provided by [GitHub](https://docs.github.com/en/repositories/creating-and-managing-repositories/creating-a-repository-from-a-template).
+* 除非另有说明，否则代码默认许可为 [LICENSE 文件(LGPL-3.0)](./LICENSE)
+* 除非另有说明，否则非代码资产默认许可为 [ASSET_LICENSE 文件(ARR)](./ASSETS_LICENSE)
 
-Once you have your clone, simply open the repository in the IDE of your choice. The usual recommendation for an IDE is either IntelliJ IDEA or Eclipse.
+## 主要维护者
 
-If at any point you are missing libraries in your IDE, or you've run into problems you can
-run `gradlew --refresh-dependencies` to refresh the local cache. `gradlew clean` to reset everything 
-{this does not affect your code} and then start the process again.
+[@Leaden-TP](https://github.com/TBPig)
 
-Mapping Names:
-============
-By default, the MDK is configured to use the official mapping names from Mojang for methods and fields 
-in the Minecraft codebase. These names are covered by a specific license. All modders should be aware of this
-license. For the latest license text, refer to the mapping file itself, or the reference copy here:
-https://github.com/NeoForged/NeoForm/blob/main/Mojang.md
+## 贡献者名单:
 
-Additional Resources: 
-==========
-Community Documentation: https://docs.neoforged.net/  
-NeoForged Discord: https://discord.neoforged.net/
+<!--suppress ALL -->
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Leaden-TP">
+        <img src="https://avatars.githubusercontent.com/u/147127248?s=96&v=4" width="100px;" height="100px" alt=""/><br />
+        <sub><b>铅制三角锥</b></sub>
+      </a><br />
+      <a title="Code">💻</a> 
+      <a title="Ideas, Planning, & Feedback">🤔</a><br />
+    </td>
+  </tr>
+</table>
+
+
+## 特别鸣谢：
+
+<table>
+</table>

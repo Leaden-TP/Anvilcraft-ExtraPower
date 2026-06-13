@@ -19,7 +19,7 @@ if (envVersion != null && envVersion.startsWith("refs/tags/")) {
 } else {
     version = "${mod_version}" + (buildNumber != null ? "+${buildType}.${buildNumber}" : "")
 }
-//group = maven_group
+group = maven_group
 
 apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
 apply from: "$rootDir/gradle/scripts/repositories.gradle"

@@ -29,6 +29,8 @@
   "block.anvilcraftextrapower.nuclear_bomb": "Nuclear Bomb",
   "block.anvilcraftextrapower.mushroom_cloud": "Mushroom Cloud",
   "block.anvilcraftextrapower.nuclear_collector": "Nuclear Collector",
+  "block.anvilcraftextrapower.anvil_projector": "Anvil Projector",
+  "block.anvilcraftextrapower.magnetic_display_stand": "Magnetic Display Stand",
   "block.anvilcraftextrapower.nuclear_collector.placement_too_close_to_another":  "Too close to another Nuclear Collector",
   "tooltip.anvilcraftextrapower.nuclear_collector.title": "Nuclear Collector",
   "tooltip.anvilcraftextrapower.nuclear_collector.status.working": "Working normally",

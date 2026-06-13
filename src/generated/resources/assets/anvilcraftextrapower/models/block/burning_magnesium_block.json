@@ -2,5 +2,7 @@
   "parent": "block/cube_all",
   "textures": {
     "all": "anvilcraftextrapower:block/burning_magnesium_block"
-  }
+  },
+  "shade": false,
+  "light_emission": 15
 }

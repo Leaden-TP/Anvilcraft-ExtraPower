@@ -1,0 +1,36 @@
+{
+  "variants": {
+  "facing=north,cold_down=false": {
+    "model": "anvilcraftextrapower:block/anvil_projector",
+    "y": 0
+  },
+  "facing=east,cold_down=false": {
+    "model": "anvilcraftextrapower:block/anvil_projector",
+    "y": 90
+  },
+  "facing=south,cold_down=false": {
+    "model": "anvilcraftextrapower:block/anvil_projector",
+    "y": 180
+  },
+  "facing=west,cold_down=false": {
+    "model": "anvilcraftextrapower:block/anvil_projector",
+    "y": 270
+  },
+    "facing=north,cold_down=true": {
+      "model": "anvilcraftextrapower:block/anvil_projector_cold_down",
+      "y": 0
+    },
+    "facing=east,cold_down=true": {
+      "model": "anvilcraftextrapower:block/anvil_projector_cold_down",
+      "y": 90
+    },
+    "facing=south,cold_down=true": {
+      "model": "anvilcraftextrapower:block/anvil_projector_cold_down",
+      "y": 180
+    },
+    "facing=west,cold_down=true": {
+      "model": "anvilcraftextrapower:block/anvil_projector_cold_down",
+      "y": 270
+    }
+  }
+}

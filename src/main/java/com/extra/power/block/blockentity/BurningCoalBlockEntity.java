@@ -57,4 +57,11 @@ public class BurningCoalBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries);
        tag.putInt("counter", this.Counter);
     }
+    public static BurningCoalBlockEntity createBlockEntity(
+            BlockEntityType<?> type,
+            BlockPos pos,
+            BlockState blockState
+    ) {
+        return new BurningCoalBlockEntity(type, pos, blockState);
+    }
 }

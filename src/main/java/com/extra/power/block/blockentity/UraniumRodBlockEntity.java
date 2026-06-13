@@ -34,8 +34,7 @@ public class UraniumRodBlockEntity extends BlockEntity {
         if (level.isClientSide()) return;
         if (state.getValue(UraniumRodBlock.HALF)!=(Vertical3PartHalf.MID)||
                 state.getValue(UraniumRodBlock.ACTIVE)==0)return;
-        tickCounter++;
-        // 检查是否激活(ACTIVE > 0)
+        entity.tickCounter++;
         if (tickCounter>=20 ){
             if(!state.getValue(UraniumRodBlock.UNDER_CONTROL) && !(state.getValue(UraniumRodBlock.ACTIVE)<5)
             && state.getValue(UraniumRodBlock.ACTIVE)>0){
@@ -58,7 +57,7 @@ public class UraniumRodBlockEntity extends BlockEntity {
             }else {
                     level.setBlock(pos, state.setValue(UraniumRodBlock.ACTIVE, 1), 11);
             }
-            tickCounter=0;
+            entity.tickCounter=0;
         }
     }
     public static int checkController(Level level, BlockPos pos) {
@@ -78,5 +77,12 @@ public class UraniumRodBlockEntity extends BlockEntity {
             }
         }
         return controller;
+    }
+    public static UraniumRodBlockEntity createBlockEntity(
+            BlockEntityType<?> type,
+            BlockPos pos,
+            BlockState blockState
+    ) {
+        return new UraniumRodBlockEntity(type, pos, blockState);
     }
 }

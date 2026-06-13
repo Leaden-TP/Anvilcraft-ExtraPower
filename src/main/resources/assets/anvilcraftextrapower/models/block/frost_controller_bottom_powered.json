@@ -3,7 +3,7 @@
 	"textures": {
 		"2": "anvilcraftextrapower:block/uranium_rod_botton",
 		"3": "anvilcraftextrapower:block/uranium_rod_top_up",
-		"5": "anvilcraftextrapower:block/stilled_magnetic_cude_demagnetized",
+		"5": "anvilcraftextrapower:block/magnetic_cude_demagnetized_stilled",
 		"6": "anvilcraft:block/ember_metal_block_outline",
 		"particle": "anvilcraftextrapower:block/control_core"
 	},

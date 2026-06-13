@@ -1,7 +1,6 @@
 package com.extra.power.block.just_block;
 
 import com.extra.power.block.blockentity.CrateBlockEntity;
-import dev.anvilcraft.lib.block.IMoveableEntityBlock;
 import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;

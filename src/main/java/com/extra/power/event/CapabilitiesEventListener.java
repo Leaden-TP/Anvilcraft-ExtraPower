@@ -13,14 +13,20 @@ import java.util.List;
 public class CapabilitiesEventListener {
     @SubscribeEvent
     public static void registerCapabilities(final RegisterCapabilitiesEvent event) {
-        List.of(
-                ModBlockEntity. CRATE.get()
-        ).forEach(type -> event.registerBlockEntity(
+        List.of(ModBlockEntity. CRATE.get())
+                .forEach(type -> event.registerBlockEntity(
                         Capabilities.ItemHandler.BLOCK,
                         type,
                         (be, side) -> be.getItemHandler()
                 )
         );
+        List.of(ModBlockEntity. MAGNETIC_DISPLAY_STAND.get())
+                .forEach(type -> event.registerBlockEntity(
+                                Capabilities.ItemHandler.BLOCK,
+                                type,
+                                (be, side) -> be.getItemHandler()
+                        )
+                );
 
     }
 }

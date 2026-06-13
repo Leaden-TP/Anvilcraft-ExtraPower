@@ -62,5 +62,12 @@ public class BurningMagnesiumBlockEntity extends BlockEntity {
         super.saveAdditional(tag, registries);
         tag.putInt("counter", this.Counter);
     }
+    public static BurningMagnesiumBlockEntity createBlockEntity(
+            BlockEntityType<?> type,
+            BlockPos pos,
+            BlockState blockState
+    ) {
+        return new BurningMagnesiumBlockEntity(type, pos, blockState);
+    }
 }
 

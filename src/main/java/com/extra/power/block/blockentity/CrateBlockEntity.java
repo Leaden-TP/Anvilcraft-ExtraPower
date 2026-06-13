@@ -1,7 +1,6 @@
 package com.extra.power.block.blockentity;
 
 import com.extra.power.block.ModBlockEntity;
-import dev.anvilcraft.lib.block.IMoveableEntityBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -22,6 +21,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BarrelBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
@@ -218,6 +218,13 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity implement
     @Override
     public boolean canPlaceItem(int slot, ItemStack stack) {
         return stack.getItem() instanceof BlockItem || super.canPlaceItem(slot, stack);
+    }
+    public static CrateBlockEntity createBlockEntity(
+            BlockEntityType<?> type,
+            BlockPos pos,
+            BlockState blockState
+    ) {
+        return new CrateBlockEntity(pos, blockState);
     }
 
 }

@@ -22,7 +22,6 @@ public class ClientShakeHandler {
     private static final Random RANDOM = new Random();
 
     // 1. 注册网络包接收器
-    @SubscribeEvent
     public static void register(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
         registrar.playToClient(

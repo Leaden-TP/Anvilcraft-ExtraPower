@@ -2,9 +2,7 @@ package com.extra.power.init;
 
 import com.extra.power.client.screen.ClientFlashHandler;
 import com.extra.power.client.screen.ClientShakeHandler;
-import com.extra.power.network.FlashPayload;
-import com.extra.power.network.NuclearCollectorPacket;
-import com.extra.power.network.ShakePayload;
+import com.extra.power.network.*;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 
 public class ModNetworks {
@@ -23,5 +21,24 @@ public class ModNetworks {
                     });
                 }
         );
+        registrar.playToClient(
+                ShakePayload.TYPE,
+                ShakePayload.STREAM_CODEC,
+                (payload, context) -> {
+                    context.enqueueWork(() -> {
+                        ClientShakeHandler.receiveShake(payload.strength(), payload.duration());
+                    });
+                }
+        );
+            registrar.playToClient(
+                    UpdateAnimationStatePacket.TYPE,
+                    UpdateAnimationStatePacket.STREAM_CODEC,
+                    UpdateAnimationStatePacket::handle
+            );
+        registrar.playToServer(
+                MouseScrollPacket.TYPE,
+                MouseScrollPacket.STREAM_CODEC,
+                MouseScrollPacket::handle
+        );
+        }
     }
-}

@@ -1,9 +1,22 @@
 repositories {
     mavenLocal()
-    mavenCentral()
-    maven { // Anvil Lib
-        name = "Cjsah Maven"
-        url = "https://server.cjsah.net:1002/maven/"
+    exclusiveContent {
+        forRepositories(
+                mavenCentral(),
+                maven { // Anvil Lib
+                    name = "Cjsah Maven"
+                    url = "https://server.cjsah.net:1002/maven/"
+                    content {
+                        includeGroup "dev.anvilcraft.lib"
+                        includeGroup "dev.anvilcraft.resource"
+                    }
+                }
+        )
+        filter {
+            includeGroup "dev.anvilcraft.lib"
+            includeGroup "dev.anvilcraft.resource"
+            includeGroup "dev.dubhe"
+        }
     }
     maven { // Modrinth File, LazyDFU, Jade
         name = "Modrinth Maven"
@@ -59,10 +72,6 @@ repositories {
     }
     maven {
         url "https://maven.su5ed.dev/releases"
-    }
-    maven { // Create Mod
-        name = "Create Mod Maven"
-        url = "https://maven.createmod.net"
     }
     maven {  // ForgeConfigAPIPort
         name = "ForgeConfigAPIPort Maven"
