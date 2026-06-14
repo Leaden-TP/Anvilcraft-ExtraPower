@@ -1,0 +1,23 @@
+{
+  "variants": {
+    "facing=north,progress=0": {"model": "anvilcraftextrapower:block/pedometer", "y": 0},
+    "facing=north,progress=1": {"model": "anvilcraftextrapower:block/pedometer_lit_1", "y": 0},
+    "facing=north,progress=2": {"model": "anvilcraftextrapower:block/pedometer_lit_2", "y": 0},
+    "facing=north,progress=3": {"model": "anvilcraftextrapower:block/pedometer_lit_3", "y": 0},
+
+    "facing=east,progress=0": {"model": "anvilcraftextrapower:block/pedometer", "y": 90},
+    "facing=east,progress=1": {"model": "anvilcraftextrapower:block/pedometer_lit_1", "y": 90},
+    "facing=east,progress=2": {"model": "anvilcraftextrapower:block/pedometer_lit_2", "y": 90},
+    "facing=east,progress=3": {"model": "anvilcraftextrapower:block/pedometer_lit_3", "y": 90},
+
+    "facing=south,progress=0": {"model": "anvilcraftextrapower:block/pedometer", "y": 180},
+    "facing=south,progress=1": {"model": "anvilcraftextrapower:block/pedometer_lit_1", "y": 180},
+    "facing=south,progress=2": {"model": "anvilcraftextrapower:block/pedometer_lit_2", "y": 180},
+    "facing=south,progress=3": {"model": "anvilcraftextrapower:block/pedometer_lit_3", "y": 180},
+
+    "facing=west,progress=0": {"model": "anvilcraftextrapower:block/pedometer", "y": 270},
+    "facing=west,progress=1": {"model": "anvilcraftextrapower:block/pedometer_lit_1", "y": 270},
+    "facing=west,progress=2": {"model": "anvilcraftextrapower:block/pedometer_lit_2", "y": 270},
+    "facing=west,progress=3": {"model": "anvilcraftextrapower:block/pedometer_lit_3", "y": 270}
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "parent": "anvilcraftextrapower:block/anvil_projector",
+  "textures": {
+    "0": "anvilcraftextrapower:block/anvil_projector_cold_down",
+    "particle": "anvilcraftextrapower:block/anvil_projector_cold_down"
+  }
+}

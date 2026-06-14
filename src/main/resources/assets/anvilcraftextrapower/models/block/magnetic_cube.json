@@ -1,0 +1,21 @@
+{
+	"credit": "Made with Blockbench",
+	"textures": {
+		"0": "anvilcraftextrapower:block/magnetic_cude_stilled_",
+		"particle": "anvilcraftextrapower:block/magnetic_cude_stilled_"
+	},
+	"elements": [
+		{
+			"from": [-2.5, -2.5, -2.5],
+			"to": [2.5, 2.5, 2.5],
+			"faces": {
+				"north": {"uv": [4, 4, 12, 12], "texture": "#0"},
+				"east": {"uv": [4, 4, 12, 12], "texture": "#0"},
+				"south": {"uv": [4, 4, 12, 12], "texture": "#0"},
+				"west": {"uv": [4, 4, 12, 12], "texture": "#0"},
+				"up": {"uv": [4, 4, 12, 12], "texture": "#0"},
+				"down": {"uv": [4, 4, 12, 12], "texture": "#0"}
+			}
+		}
+	]
+}
