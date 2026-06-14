@@ -7,7 +7,6 @@ import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import dev.dubhe.anvilcraft.api.power.IPowerComponent;
 import dev.dubhe.anvilcraft.block.better.BetterBaseEntityBlock;
 import net.minecraft.ChatFormatting;
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
@@ -24,6 +23,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -35,7 +35,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import java.util.stream.Stream;
 
 @ParametersAreNonnullByDefault
-@MethodsReturnNonnullByDefault
 public class SolarPanelBlock extends BetterBaseEntityBlock implements IHammerRemovable {
     public static final VoxelShape SHAPE =
             Stream.of(
@@ -76,11 +75,10 @@ public class SolarPanelBlock extends BetterBaseEntityBlock implements IHammerRem
                     BlockPos checkPos = pos.offset(x, y, z);
                     BlockState checkState = level.getBlockState(checkPos);
                     if (checkState.getBlock() instanceof SolarPanelBlock) {
-                        if (!level.isClientSide) {
-                            context.getPlayer().displayClientMessage(
+                        if (!level.isClientSide()) {
+                            context.getPlayer().sendOverlayMessage(
                                     Component.translatable("message.anvilcraftextrapower.solar_panel_too_close")
-                                            .withStyle(ChatFormatting.RED),
-                                    true
+                                            .withStyle(ChatFormatting.RED)
                             );
                         }
                         return null; // 阻止放置
@@ -106,9 +104,14 @@ public class SolarPanelBlock extends BetterBaseEntityBlock implements IHammerRem
     }
 
     @Override
-    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block sourceBlock,
-                                @NotNull BlockPos sourcePos, boolean isMoving) {
-        if (!level.isClientSide) {
+    public void neighborChanged(        BlockState state,
+                                        Level level,
+                                        BlockPos pos,
+                                        Block block,
+                                        @org.jspecify.annotations.Nullable Orientation orientation,
+                                        boolean movedByPiston
+    ) {
+        if (!level.isClientSide()) {
             BlockPos belowPos = pos.below();
             BlockState belowState = level.getBlockState(belowPos);
             if (!belowState.isFaceSturdy(level, belowPos, Direction.UP)) {

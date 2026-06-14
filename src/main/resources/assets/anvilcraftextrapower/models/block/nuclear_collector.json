@@ -77,8 +77,8 @@
 		},
 		{
 			"name": "cube_outline",
-			"from": [6.19, 16.19, 6.19],
-			"to": [2.81, 12.81, 2.81],
+			"from": [6.29, 16.29, 6.29],
+			"to": [2.71, 12.71, 2.71],
 			"shade": false,
 			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [3, 14, 6]},
@@ -93,8 +93,8 @@
 		},
 		{
 			"name": "cube_outline",
-			"from": [13.19, 9.19, 6.19],
-			"to": [9.81, 5.81, 2.81],
+			"from": [13.29, 9.29, 6.29],
+			"to": [9.71, 5.71, 2.71],
 			"shade": false,
 			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [13, 7, 6]},
@@ -109,8 +109,8 @@
 		},
 		{
 			"name": "cube_outline",
-			"from": [13.19, 16.19, 13.19],
-			"to": [9.81, 12.81, 9.81],
+			"from": [13.29, 16.29, 13.29],
+			"to": [9.71, 12.71, 9.71],
 			"shade": false,
 			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [13, 14, 10]},
@@ -125,8 +125,8 @@
 		},
 		{
 			"name": "cube_outline",
-			"from": [6.19, 9.19, 13.19],
-			"to": [2.81, 5.81, 9.81],
+			"from": [6.29, 9.29, 13.29],
+			"to": [2.71, 5.71, 9.71],
 			"shade": false,
 			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [3, 7, 10]},

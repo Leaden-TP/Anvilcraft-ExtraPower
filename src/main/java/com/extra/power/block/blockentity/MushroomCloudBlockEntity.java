@@ -9,6 +9,7 @@ import com.extra.power.init.ModSounds;
 import com.extra.power.network.FlashPayload;
 import com.extra.power.network.ShakePayload;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Holder;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.nbt.CompoundTag;
@@ -19,6 +20,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.damagesource.DamageType;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -29,8 +31,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.List;
@@ -60,19 +63,19 @@ public class MushroomCloudBlockEntity extends BlockEntity {
     ) {
         return new MushroomCloudBlockEntity(type, pos, blockState);
     }
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.last_y = tag.getInt("y");
-        this.D_tick = tag.getInt("D_tick");
-        this.level_2 = tag.getBoolean("level_2");
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        input.getIntOr("y" , 0);
+        input.getIntOr("D_tick" , 0);
+        input.getBooleanOr("level_2" , false);
 
     }
 
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt("y", this.last_y);
-        tag.putInt("D_tick", this.D_tick);
-        tag.putBoolean("level_2", this.level_2);
+    public void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("y", this.last_y);
+        output.putInt("D_tick", this.D_tick);
+        output.putBoolean("level_2", this.level_2);
 
     }
     public float getEpicenterScale() {
@@ -136,7 +139,8 @@ public class MushroomCloudBlockEntity extends BlockEntity {
                 AABB area_0 = new AABB(pos).inflate(damageRadius);
                 List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, area_0);
                 // 获取自定义伤害源
-                DamageSource damageSource = getMushroomCloudDamageSource(level);
+                Holder<DamageType> damageTypeHolder = level.registryAccess().holderOrThrow(ModDamageTypes.NUCLEAR_EXPLOSION);
+                DamageSource damageSource =new DamageSource(damageTypeHolder);
                 for (LivingEntity living : entities) {
                     // 计算距离，距离越近伤害越高
                     double distance = living.distanceToSqr(pos.getX(), pos.getY(), pos.getZ());
@@ -159,7 +163,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
                     if (entity.D_tick == 1){
                         entity.clearDroppedItems(level,pos) ;
                         level.playSound(null, pos, ModSounds.NUCLEAR_EXPLOSION.get(),
-                            SoundSource.BLOCKS, 4.0f, 0.8f + level.random.nextFloat() * 0.4f);}
+                            SoundSource.BLOCKS, 4.0f, 0.8f + level.getRandom().nextFloat() * 0.4f);}
                     if (entity.D_tick == entity.S_r/2){
                         int flashRadius = ModServerConfig.nuclearExplosion.Explosionlevel*ModServerConfig.nuclearExplosion.Explosionlevel;
                         AABB area_1 = new AABB(pos).inflate(flashRadius);
@@ -256,12 +260,8 @@ private int removeSomething_circle(Level level, BlockPos center, int r, int y , 
                     !state.isAir() &&
                     !state.is(ModBlock.MUSHROOM_CLOUD) &&
                     !state.is(Blocks.WATER)) {
-                    if (state instanceof IItemHandler) {
-                        level.destroyBlock(target, false);
-                    } else {
-                        level.setBlock(target, Blocks.AIR.defaultBlockState(), 11);
-                    }
-                    if (level.random.nextFloat() < 0.3f && fire) {
+                    level.setBlock(target, Blocks.AIR.defaultBlockState(), 11);
+                    if (level.getRandom().nextFloat() < 0.3f && fire) {
                         level.setBlock(target, Blocks.FIRE.defaultBlockState(), 11 | 2);
                     }
                 }
@@ -273,12 +273,6 @@ private int removeSomething_circle(Level level, BlockPos center, int r, int y , 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {
         return ClientboundBlockEntityDataPacket.create(this);
-    }
-    private static DamageSource getMushroomCloudDamageSource(Level level) {
-        var holder = level.registryAccess()
-                .registryOrThrow(Registries.DAMAGE_TYPE)
-                .getHolderOrThrow(ModDamageTypes.NUCLEAR_EXPLOSION);
-        return new DamageSource(holder);
     }
     private void clearDroppedItems(Level level, BlockPos center) {
         AABB area = new AABB(center).inflate(3); // 3x3x3范围

@@ -22,7 +22,7 @@ public class ModBuiltinPacks {
                 AnvilCraftExtrapower.of("resourcepacks/x_squareful"),
                 PackType.CLIENT_RESOURCES,
                 Component.translatable("pack.anvilcraftextrapower.builtin_pack"),
-                com.extra.power.init.ModBuiltinPacks.BUILT_IN,
+                ModBuiltinPacks.BUILT_IN,
                 false,
                 Pack.Position.TOP
         );

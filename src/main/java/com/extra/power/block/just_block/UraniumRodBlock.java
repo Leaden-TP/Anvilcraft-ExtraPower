@@ -96,7 +96,7 @@ public class UraniumRodBlock extends SimpleMultiPartBlock<Vertical3PartHalf>
     @Override
     public BlockState playerWillDestroy(
             Level level, BlockPos pos, BlockState state, Player player) {
-        if (level.isClientSide) return state;
+        if (level.isClientSide()) return state;
         onRemove(level, pos, state);
         super.playerWillDestroy(level, pos, state, player);
         return state;
@@ -108,7 +108,7 @@ public class UraniumRodBlock extends SimpleMultiPartBlock<Vertical3PartHalf>
     }
     @Override
     public void onPlace(@NotNull Level level, BlockPos pos, BlockState state) {
-        if (level.isClientSide) return;
+        if (level.isClientSide()) return;
         if (state.getValue(HALF) == Vertical3PartHalf.MID && state.getValue(ACTIVE)!=0) {
             level.setBlock(pos.above(), state.setValue(ACTIVE, state.getValue(ACTIVE)), 11);
             level.setBlock(pos.below(), state.setValue(ACTIVE, state.getValue(ACTIVE)), 11);
@@ -118,16 +118,6 @@ public class UraniumRodBlock extends SimpleMultiPartBlock<Vertical3PartHalf>
     public void onRemove(@NotNull Level level, BlockPos pos, BlockState state) {
     }
 
-    @Override
-    public void neighborChanged(
-            BlockState state,
-            Level level,
-            BlockPos pos,
-            Block neighborBlock,
-            BlockPos neighborPos,
-            boolean movedByPiston) {
-        if (level.isClientSide) return;
-    }
     @Override
     public boolean isRandomlyTicking(BlockState state) {
         return true;
@@ -156,7 +146,7 @@ public class UraniumRodBlock extends SimpleMultiPartBlock<Vertical3PartHalf>
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
             Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide) return null;
+        if (level.isClientSide()) return null;
         return (level1, pos, state1, entity) -> {
             if (entity instanceof UraniumRodBlockEntity entity1) entity1.tick(level, pos, state, entity1);
         };

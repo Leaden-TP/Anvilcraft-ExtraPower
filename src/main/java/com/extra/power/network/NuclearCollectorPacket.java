@@ -2,85 +2,56 @@ package com.extra.power.network;
 
 import com.extra.power.block.blockentity.NuclearCollectorBlockEntity;
 import com.extra.power.init.AnvilCraftExtrapower;
+import dev.anvilcraft.lib.v2.network.packet.IPacket;
+import dev.anvilcraft.lib.v2.network.packet.ISensitiveBiPacket;
+import dev.anvilcraft.lib.v2.util.Util;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.player.Player;
 import net.neoforged.neoforge.network.PacketDistributor;
-import net.neoforged.neoforge.network.handling.DirectionalPayloadHandler;
-import net.neoforged.neoforge.network.handling.IPayloadContext;
-import net.neoforged.neoforge.network.handling.IPayloadHandler;
-import org.jetbrains.annotations.NotNull;
 
-public class NuclearCollectorPacket implements CustomPacketPayload {
-    public static final Type<NuclearCollectorPacket> TYPE =
-            new Type<>(AnvilCraftExtrapower.of("nuclear_collector_irradiation_packet"));
+public record NuclearCollectorPacket(BlockPos pos, int result, int heat, int power) implements ISensitiveBiPacket {
+    public static final Type<NuclearCollectorPacket> TYPE = IPacket.type(AnvilCraftExtrapower.of("nuclear_collector_packet"));
     public static final StreamCodec<RegistryFriendlyByteBuf, NuclearCollectorPacket> STREAM_CODEC =
             StreamCodec.ofMember(NuclearCollectorPacket::encode, NuclearCollectorPacket::new);
-    public static final IPayloadHandler<NuclearCollectorPacket> HANDLER = new DirectionalPayloadHandler<>(
-            NuclearCollectorPacket::clientHandler, NuclearCollectorPacket::serverHandler);
 
-    private final int result;
-    private final BlockPos blockPos;
-    private final int heat;
-    private final int power;
-
-    public NuclearCollectorPacket(int result, BlockPos blockPos, int heat, int power) {
-        this.result = result;
-        this.blockPos = blockPos;
-        this.heat = heat;
-        this.power = power;
+    private NuclearCollectorPacket(RegistryFriendlyByteBuf buf) {
+        this(buf.readBlockPos(), buf.readInt(), buf.readInt(), buf.readInt());
     }
 
-    public NuclearCollectorPacket(RegistryFriendlyByteBuf buf) {
-        this.result = buf.readInt();
-        this.blockPos = buf.readBlockPos();
-        this.heat = buf.readInt();
-        this.power = buf.readInt();
-    }
-
-    public void encode(@NotNull RegistryFriendlyByteBuf buf) {
+    private void encode(RegistryFriendlyByteBuf buf) {
+        buf.writeBlockPos(pos);
         buf.writeInt(result);
-        buf.writeBlockPos(blockPos);
         buf.writeInt(heat);
         buf.writeInt(power);
     }
 
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public Type<NuclearCollectorPacket> type() {
         return TYPE;
     }
 
-    public static void clientHandler(NuclearCollectorPacket data, IPayloadContext context) {
-        context.enqueueWork(() -> {
-            if (Minecraft.getInstance().level != null && Minecraft.getInstance().level.getBlockEntity(data.blockPos)
-                    instanceof NuclearCollectorBlockEntity  nuclearCollector) {
-                // 更新客户端数据
-                nuclearCollector.setResult(data.result);
-                nuclearCollector.setClientHeat(data.heat);
-                nuclearCollector.setPower(data.power);
-            }
-        });
-    }
-    public static NuclearCollectorPacket fromCollector(NuclearCollectorBlockEntity collector) {
-        return new NuclearCollectorPacket(
-                collector.getWorkResult(),
-                collector.getBlockPos(),
-                collector.getHeat(),
-                collector.getOutputPower()
-        );
+    @Override
+    public void handleOnClient(Player player) {
+        if (Minecraft.getInstance().level != null &&
+                Minecraft.getInstance().level.getBlockEntity(pos) instanceof NuclearCollectorBlockEntity be) {
+            be.setResult(result);
+            be.setClientHeat(heat);
+            be.setPower(power);
+        }
     }
 
-    public static void serverHandler(NuclearCollectorPacket data, IPayloadContext context) {
-        ServerPlayer player = (ServerPlayer) context.player();
-        context.enqueueWork(() -> {
-            if (player.level().getBlockEntity(data.blockPos) instanceof NuclearCollectorBlockEntity nuclearCollectorBlockEntity) {
-                var pack = new NuclearCollectorPacket(nuclearCollectorBlockEntity.getWorkResult(),data.blockPos,
-                        nuclearCollectorBlockEntity.getHeat(), nuclearCollectorBlockEntity.getOutputPower());
-                PacketDistributor.sendToPlayer(player, pack);
-            }
-        });
+    @Override
+    public void handleOnServer(Player player) {
+        if (player.level().getBlockEntity(pos) instanceof NuclearCollectorBlockEntity be) {
+            // 将最新的状态同步回发起者
+            PacketDistributor.sendToPlayer(Util.cast(player), fromCollector(be));
+        }
+    }
+
+    public static NuclearCollectorPacket fromCollector(NuclearCollectorBlockEntity be) {
+        return new NuclearCollectorPacket(be.getBlockPos(), be.getWorkResult(), be.getHeat(), be.getOutputPower());
     }
 }

@@ -1,27 +1,31 @@
-
 package com.extra.power.network;
 
-import net.minecraft.network.FriendlyByteBuf;
+import com.extra.power.client.screen.ClientFlashHandler;
+import com.extra.power.init.AnvilCraftExtrapower;
+import dev.anvilcraft.lib.v2.network.packet.IClientboundPacket;
+import dev.anvilcraft.lib.v2.network.packet.IPacket;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.entity.player.Player;
 
-public record FlashPayload(float intensity, int duration) implements CustomPacketPayload {
-    public static final CustomPacketPayload.Type<FlashPayload> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("extra_power", "flash"));
-    public static final StreamCodec<FriendlyByteBuf, FlashPayload> STREAM_CODEC =
-            StreamCodec.composite(
-                    StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat),
-                    FlashPayload::intensity,
-                    StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt),
-                    FlashPayload::duration,
-                    FlashPayload::new
-            );
+public record FlashPayload(float intensity, int duration) implements IClientboundPacket {
+    public static final Type<FlashPayload> TYPE = IPacket.type(AnvilCraftExtrapower.of("flash"));
+    public static final StreamCodec<ByteBuf, FlashPayload> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.FLOAT,
+            FlashPayload::intensity,
+            ByteBufCodecs.INT,
+            FlashPayload::duration,
+            FlashPayload::new
+    );
 
     @Override
-    @NotNull
-    public Type<? extends CustomPacketPayload> type() {
+    public Type<FlashPayload> type() {
         return TYPE;
+    }
+
+    @Override
+    public void handleOnClient(Player player) {
+        ClientFlashHandler.receiveFlash(intensity, duration);
     }
 }

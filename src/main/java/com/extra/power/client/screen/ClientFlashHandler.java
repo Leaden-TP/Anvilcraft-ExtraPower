@@ -1,22 +1,21 @@
 package com.extra.power.client.screen;
 
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
-import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.client.event.RenderGuiLayerEvent;
 
 @EventBusSubscriber(value = Dist.CLIENT)
 public class ClientFlashHandler {
     private static float flashIntensity = 0.0f;
     private static int flashDuration = 0;
-    private static int totalFlashDuration = 0; // 用于计算alpha比例
+    private static int totalFlashDuration = 0;
 
     public static void receiveFlash(float intensity, int duration) {
-        // 如果已有更强或更长的闪光，取最大值
         if (intensity > flashIntensity) flashIntensity = intensity;
         if (duration > flashDuration) {
             flashDuration = duration;
@@ -30,17 +29,15 @@ public class ClientFlashHandler {
             flashDuration--;
             if (flashDuration <= 0) {
                 flashIntensity = 0.0f;
+                totalFlashDuration = 0;
             }
         }
     }
 
     @SubscribeEvent
     public static void onRenderGuiLayer(RenderGuiLayerEvent.Pre event) {
-        if (flashDuration <= 0 || flashIntensity <= 0) {
-            return;
-        }
+        if (flashDuration <= 0 || flashIntensity <= 0) return;
 
-        // 计算当前alpha：强度 * 剩余时间比例（线性衰减）
         float alpha = flashIntensity * (flashDuration / (float) totalFlashDuration);
         if (alpha <= 0) return;
 
@@ -48,18 +45,8 @@ public class ClientFlashHandler {
         int screenWidth = mc.getWindow().getGuiScaledWidth();
         int screenHeight = mc.getWindow().getGuiScaledHeight();
 
-        // 启用混合，绘制白色全屏矩形
-        com.mojang.blaze3d.systems.RenderSystem.enableBlend();
-        com.mojang.blaze3d.systems.RenderSystem.defaultBlendFunc();
-        com.mojang.blaze3d.systems.RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, alpha);
-
-        // 使用GuiGraphics绘制矩形（ARGB格式）
-        event.getGuiGraphics().fill(0, 0, screenWidth, screenHeight,
-                (int) (alpha * 255) << 24 | 0x00FFFFFF); // 白色，alpha从高字节
-
-        // 重置颜色
-        com.mojang.blaze3d.systems.RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
-        com.mojang.blaze3d.systems.RenderSystem.disableBlend();
+        event.getGuiGraphics().fill(RenderPipelines.GUI, 0, 0, screenWidth, screenHeight,
+                ((int)(alpha * 255) << 24) | 0x00FFFFFF);
     }
 
     @SubscribeEvent

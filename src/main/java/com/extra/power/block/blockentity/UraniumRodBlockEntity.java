@@ -23,9 +23,6 @@ public class UraniumRodBlockEntity extends BlockEntity {
     private static final int DURATION = 200; // 效果持续时间(刻)
     private static final int AMPLIFIER = 1; // 效果等级
     private static int tickCounter = 0;
-    public UraniumRodBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
-        super(type, pos, state);
-    }
     public UraniumRodBlockEntity(BlockPos pos, BlockState state) {
         super(URANIUM_ROD.get(), pos, state);
     }
@@ -34,8 +31,7 @@ public class UraniumRodBlockEntity extends BlockEntity {
         if (level.isClientSide()) return;
         if (state.getValue(UraniumRodBlock.HALF)!=(Vertical3PartHalf.MID)||
                 state.getValue(UraniumRodBlock.ACTIVE)==0)return;
-        tickCounter++;
-        // 检查是否激活(ACTIVE > 0)
+        entity.tickCounter++;
         if (tickCounter>=20 ){
             if(!state.getValue(UraniumRodBlock.UNDER_CONTROL) && !(state.getValue(UraniumRodBlock.ACTIVE)<5)
             && state.getValue(UraniumRodBlock.ACTIVE)>0){
@@ -58,7 +54,7 @@ public class UraniumRodBlockEntity extends BlockEntity {
             }else {
                     level.setBlock(pos, state.setValue(UraniumRodBlock.ACTIVE, 1), 11);
             }
-            tickCounter=0;
+            entity.tickCounter=0;
         }
     }
     public static int checkController(Level level, BlockPos pos) {
@@ -78,5 +74,12 @@ public class UraniumRodBlockEntity extends BlockEntity {
             }
         }
         return controller;
+    }
+    public static UraniumRodBlockEntity createBlockEntity(
+            BlockEntityType<?> type,
+            BlockPos pos,
+            BlockState blockState
+    ) {
+        return new UraniumRodBlockEntity(pos, blockState);
     }
 }

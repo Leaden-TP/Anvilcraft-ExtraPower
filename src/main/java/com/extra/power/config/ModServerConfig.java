@@ -1,11 +1,12 @@
 package com.extra.power.config;
 
 import com.extra.power.init.AnvilCraftExtrapower;
-import dev.anvilcraft.lib.config.BoundedDiscrete;
-import dev.anvilcraft.lib.config.CollapsibleObject;
-import dev.anvilcraft.lib.config.Comment;
+
+import dev.anvilcraft.lib.v2.config.BoundedDiscrete;
+import dev.anvilcraft.lib.v2.config.CollapsibleObject;
+import dev.anvilcraft.lib.v2.config.Comment;
+import dev.anvilcraft.lib.v2.config.Config;
 import net.neoforged.fml.config.ModConfig;
-import dev.anvilcraft.lib.config.Config;
 
 @Config(name = AnvilCraftExtrapower.MODID, type = ModConfig.Type.SERVER)
 public class ModServerConfig {

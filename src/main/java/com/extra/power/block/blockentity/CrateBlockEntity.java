@@ -1,164 +1,96 @@
 package com.extra.power.block.blockentity;
 
 import com.extra.power.block.ModBlockEntity;
-import dev.anvilcraft.lib.block.IMoveableEntityBlock;
+import dev.dubhe.anvilcraft.api.itemhandler.FilteredItemStackHandler;
+import dev.dubhe.anvilcraft.api.itemhandler.IItemResourceHandlerHolder;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
+import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Vec3i;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.entity.ContainerUser;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BarrelBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.level.block.entity.*;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.entity.ContainerOpenersCounter;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemStackHandler;
-import net.neoforged.neoforge.items.wrapper.InvWrapper;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 
-public class CrateBlockEntity extends RandomizableContainerBlockEntity implements IItemHandler {
-    private NonNullList<ItemStack> items = NonNullList.withSize(54, ItemStack.EMPTY);
-    private final InvWrapper itemHandler = new InvWrapper(this);
-    private final ContainerOpenersCounter openersCounter = new ContainerOpenersCounter() {
-        protected void onOpen(Level level, BlockPos pos, BlockState state) {
-            CrateBlockEntity.this.playSound(state, SoundEvents.BARREL_OPEN);
-            CrateBlockEntity.this.updateBlockState(state, true);
-        }
+import java.util.List;
 
-        protected void onClose(Level level, BlockPos pos, BlockState state) {
-            CrateBlockEntity.this.playSound(state, SoundEvents.BARREL_CLOSE);
-            CrateBlockEntity.this.updateBlockState(state, false);
-        }
+public class CrateBlockEntity extends RandomizableContainerBlockEntity implements IItemResourceHandlerHolder {
+    private static final Component DEFAULT_NAME = Component.translatable("block.anvilcraftextrapower.crate_ui");
+    private NonNullList<ItemStack> items;
+    private final ContainerOpenersCounter openersCounter;
+    private final FilteredItemStackHandler itemHandler = new FilteredItemStackHandler(54);
 
-        protected void openerCountChanged(Level level, BlockPos pos, BlockState state, int oldCount, int newCount) {
-        }
+    public CrateBlockEntity(BlockPos worldPosition, BlockState blockState) {
+        super(ModBlockEntity.CRATE.get(), worldPosition, blockState);
+        this.items = NonNullList.withSize(54, ItemStack.EMPTY);
+        this.openersCounter = new ContainerOpenersCounter() {
 
-        protected boolean isOwnContainer(Player player) {
-            if (player.containerMenu instanceof ChestMenu) {
-                Container container = ((ChestMenu)player.containerMenu).getContainer();
-                return container == CrateBlockEntity.this;
-            } else {
-                return false;
+            protected void onOpen(Level level, BlockPos pos, BlockState state) {
+                CrateBlockEntity.this.playSound(state, SoundEvents.BARREL_OPEN);
+                CrateBlockEntity.this.updateBlockState(state, true);
             }
-        }
-    };
 
-    public CrateBlockEntity(BlockPos pos, BlockState blockState) {
-        super(ModBlockEntity.CRATE.get(), pos, blockState);
-    }
+            protected void onClose(Level level, BlockPos pos, BlockState state) {
+                CrateBlockEntity.this.playSound(state, SoundEvents.BARREL_CLOSE);
+                CrateBlockEntity.this.updateBlockState(state, false);
+            }
 
-    // IItemHandler implementation
-    @Override
-    public int getSlots() {
-        return this.getContainerSize();
-    }
+            protected void openerCountChanged(Level level, BlockPos pos, BlockState blockState, int previous, int current) {
+            }
 
-    @Override
-    public @NotNull ItemStack getStackInSlot(int slot) {
-        return this.getItem(slot);
-    }
-
-    @Override
-    public @NotNull ItemStack insertItem(int slot, @NotNull ItemStack stack, boolean simulate) {
-        if (!canPlaceItem(slot, stack)) {
-            return stack;
-        }
-
-        if (!simulate) {
-            ItemStack existing = this.getItem(slot);
-            if (existing.isEmpty()) {
-                this.setItem(slot, stack.copy());
-                return ItemStack.EMPTY;
-            } else if (ItemStack.isSameItemSameComponents(existing, stack)) {
-                int maxStackSize = Math.min(this.getMaxStackSize(), existing.getMaxStackSize());
-                int space = maxStackSize - existing.getCount();
-                if (space > 0) {
-                    int toAdd = Math.min(space, stack.getCount());
-                    existing.grow(toAdd);
-                    return stack.copyWithCount(stack.getCount() - toAdd);
+            public boolean isOwnContainer(Player player) {
+                if (player.containerMenu instanceof ChestMenu) {
+                    Container container = ((ChestMenu)player.containerMenu).getContainer();
+                    return container == CrateBlockEntity.this;
+                } else {
+                    return false;
                 }
             }
-            return stack;
-        } else {
-            ItemStack existing = this.getItem(slot);
-            if (existing.isEmpty()) {
-                return ItemStack.EMPTY;
-            } else if (ItemStack.isSameItemSameComponents(existing, stack)) {
-                int maxStackSize = Math.min(this.getMaxStackSize(), existing.getMaxStackSize());
-                int space = maxStackSize - existing.getCount();
-                if (space > 0) {
-                    int toAdd = Math.min(space, stack.getCount());
-                    return stack.copyWithCount(stack.getCount() - toAdd);
-                }
-            }
-            return stack;
-        }
+        };
     }
 
-    @Override
-    public @NotNull ItemStack extractItem(int slot, int amount, boolean simulate) {
-        if (amount == 0) {
-            return ItemStack.EMPTY;
-        }
 
-        ItemStack existing = this.getItem(slot);
-        if (existing.isEmpty()) {
-            return ItemStack.EMPTY;
-        }
 
-        int toExtract = Math.min(amount, existing.getMaxStackSize());
-        if (existing.getCount() <= toExtract) {
-            if (!simulate) {
-                this.setItem(slot, ItemStack.EMPTY);
-            }
-            return existing.copy();
-        } else {
-            if (!simulate) {
-                this.setItem(slot, existing.copyWithCount(existing.getCount() - toExtract));
-            }
-            return existing.copyWithCount(toExtract);
-        }
+    public static CrateBlockEntity createBlockEntity(
+            BlockEntityType<?> type,
+            BlockPos pos,
+            BlockState blockState
+    ) {
+        return new CrateBlockEntity( pos, blockState);
     }
 
-    @Override
-    public int getSlotLimit(int slot) {
-        return this.getMaxStackSize();
-    }
-
-    @Override
-    public boolean isItemValid(int slot, @NotNull ItemStack stack) {
-        return canPlaceItem(slot, stack);
-    }
-
-    // Rest of the original methods remain the same
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        if (!this.trySaveLootTable(tag)) {
-            ContainerHelper.saveAllItems(tag, this.items, registries);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        if (!this.trySaveLootTable(output)) {
+            ContainerHelper.saveAllItems(output, this.items);
         }
+
     }
 
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
         this.items = NonNullList.withSize(this.getContainerSize(), ItemStack.EMPTY);
-        if (!this.tryLoadLootTable(tag)) {
-            ContainerHelper.loadAllItems(tag, this.items, registries);
+        if (!this.tryLoadLootTable(input)) {
+            ContainerHelper.loadAllItems(input, this.items);
         }
+
     }
 
     public int getContainerSize() {
@@ -169,56 +101,57 @@ public class CrateBlockEntity extends RandomizableContainerBlockEntity implement
         return this.items;
     }
 
-    public IItemHandler getItemHandler() {
-        return itemHandler;
-    }
-
     protected void setItems(NonNullList<ItemStack> items) {
         this.items = items;
     }
 
     protected Component getDefaultName() {
-        return Component.translatable("block.anvilcraftextrapower.crate_ui");
+        return DEFAULT_NAME;
     }
 
-    protected AbstractContainerMenu createMenu(int id, Inventory player) {
-        return ChestMenu.sixRows(id, player, this);
+    protected AbstractContainerMenu createMenu(int containerId, Inventory inventory) {
+        return ChestMenu.sixRows(containerId, inventory, this);
     }
 
-    public void startOpen(Player player) {
-        if (!this.remove && !player.isSpectator()) {
-            this.openersCounter.incrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+    public void startOpen(ContainerUser containerUser) {
+        if (!this.remove && !containerUser.getLivingEntity().isSpectator()) {
+            this.openersCounter.incrementOpeners(containerUser.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState(), containerUser.getContainerInteractionRange());
         }
+
     }
 
-    public void stopOpen(Player player) {
-        if (!this.remove && !player.isSpectator()) {
-            this.openersCounter.decrementOpeners(player, this.getLevel(), this.getBlockPos(), this.getBlockState());
+    public void stopOpen(ContainerUser containerUser) {
+        if (!this.remove && !containerUser.getLivingEntity().isSpectator()) {
+            this.openersCounter.decrementOpeners(containerUser.getLivingEntity(), this.getLevel(), this.getBlockPos(), this.getBlockState());
         }
+
+    }
+
+    public List<ContainerUser> getEntitiesWithContainerOpen() {
+        return this.openersCounter.getEntitiesWithContainerOpen(this.getLevel(), this.getBlockPos());
     }
 
     public void recheckOpen() {
         if (!this.remove) {
             this.openersCounter.recheckOpeners(this.getLevel(), this.getBlockPos(), this.getBlockState());
         }
+
     }
 
-    void updateBlockState(BlockState state, boolean open) {
-        this.level.setBlock(this.getBlockPos(), state.setValue(BarrelBlock.OPEN, open), 3);
+    private void updateBlockState(BlockState state, boolean isOpen) {
+        this.level.setBlock(this.getBlockPos(), (BlockState)state.setValue(BarrelBlock.OPEN, isOpen), 3);
     }
 
-    void playSound(BlockState state, SoundEvent sound) {
-        Vec3i vec3i = state.getValue(BarrelBlock.FACING).getNormal();
-        double d0 = (double)this.worldPosition.getX() + 0.5 + (double)vec3i.getX() / 2.0;
-        double d1 = (double)this.worldPosition.getY() + 0.5 + (double)vec3i.getY() / 2.0;
-        double d2 = (double)this.worldPosition.getZ() + 0.5 + (double)vec3i.getZ() / 2.0;
-        this.level.playSound(null, d0, d1, d2, sound, SoundSource.BLOCKS, 0.5F, this.level.random.nextFloat() * 0.1F + 0.9F);
+    private void playSound(BlockState state, SoundEvent event) {
+        Vec3i direction = ((Direction)state.getValue(BarrelBlock.FACING)).getUnitVec3i();
+        double x = (double)this.worldPosition.getX() + (double)0.5F + (double)direction.getX() / (double)2.0F;
+        double y = (double)this.worldPosition.getY() + (double)0.5F + (double)direction.getY() / (double)2.0F;
+        double z = (double)this.worldPosition.getZ() + (double)0.5F + (double)direction.getZ() / (double)2.0F;
+        this.level.playSound((Entity)null, x, y, z, event, SoundSource.BLOCKS, 0.5F, this.level.getRandom().nextFloat() * 0.1F + 0.9F);
     }
 
     @Override
-    public boolean canPlaceItem(int slot, ItemStack stack) {
-        return stack.getItem() instanceof BlockItem || super.canPlaceItem(slot, stack);
+    public ResourceHandler<ItemResource> getItemHandler() {
+        return itemHandler;
     }
-
 }
-

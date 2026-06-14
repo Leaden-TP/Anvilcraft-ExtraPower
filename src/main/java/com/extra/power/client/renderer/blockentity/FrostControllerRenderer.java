@@ -2,61 +2,72 @@ package com.extra.power.client.renderer.blockentity;
 
 import com.extra.power.block.blockentity.FrostControllerBlockEntity;
 import com.extra.power.block.just_block.FrostControllerBlock;
-import com.extra.power.init.AnvilCraftExtrapower;
+import com.extra.power.client.renderer.blockentity.state.FrostControllerRenderState;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LightTexture;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import dev.dubhe.anvilcraft.client.support.FeatureRendererSupport;
+import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.dispatch.BlockStateModel;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.phys.Vec3;
+import net.neoforged.neoforge.client.model.standalone.StandaloneModelKey;
+import org.jspecify.annotations.Nullable;
 
-import java.util.Optional;
-
-
-public class FrostControllerRenderer implements BlockEntityRenderer<FrostControllerBlockEntity> {
+public class FrostControllerRenderer implements BlockEntityRenderer<FrostControllerBlockEntity, FrostControllerRenderState> {
     private static final float ROTATION_SPEED = 0.5f;
-    public static final ModelResourceLocation MODEL = ModelResourceLocation.standalone(
-            AnvilCraftExtrapower.of("block/frost_controller_core"));
-    public FrostControllerRenderer(BlockEntityRendererProvider.Context context){
+    public static final StandaloneModelKey<BlockStateModel> CUBE = new StandaloneModelKey<>(
+        () -> "AnvilCraftExtrapower: Frost Controller Core Model"
+    );
+
+    public FrostControllerRenderer(BlockEntityRendererProvider.Context context) {
     }
-    public void render(
-            @NotNull FrostControllerBlockEntity blockEntity,
-            float partialTick,
-            @NotNull PoseStack poseStack,
-            @NotNull MultiBufferSource buffer,
-            int packedLight,
-            int packedOverlay
+
+    @Override
+    public FrostControllerRenderState createRenderState() {
+        return new FrostControllerRenderState();
+    }
+
+    @Override
+    public void extractRenderState(
+        FrostControllerBlockEntity be,
+        FrostControllerRenderState state,
+        float partialTicks,
+        Vec3 cameraPosition,
+        ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress
     ) {
-        float rotation = rotation(blockEntity, partialTick);
-        final VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.translucent());
-        poseStack.translate(0.5F, elevation(), 0.5F);
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
-        poseStack.mulPose(Axis.ZP.rotationDegrees(rotation));
-        Minecraft.getInstance()
-                .getBlockRenderer()
-                .getModelRenderer()
-                .renderModel(
-                        poseStack.last(),
-                        vertexConsumer,
-                        null,
-                        Minecraft.getInstance().getModelManager().getModel(getModel(blockEntity)),
-                        0,
-                        0,
-                        0,
-                        LightTexture.FULL_BLOCK,
-                        packedOverlay
-                );
-        poseStack.pushPose();
-        poseStack.popPose();
+        BlockEntityRenderer.super.extractRenderState(be, state, partialTicks, cameraPosition, breakProgress);
+        state.setCube(FeatureRendererSupport.initialize(this.getModel(), be));
+        state.setRotation(this.rotation(be, partialTicks));
+        state.setElevation(this.elevation());
     }
-    protected float rotation(FrostControllerBlockEntity entity, float partialTick) {
+
+    @Override
+    public void submit(
+        FrostControllerRenderState state,
+        PoseStack pose,
+        SubmitNodeCollector submit,
+        CameraRenderState camera
+    ) {
+
+        pose.pushPose();
+        pose.translate(0.5F, 0.5f, 0.5F);
+        pose.mulPose(Axis.YP.rotationDegrees(state.getRotation()));
+        pose.mulPose(Axis.ZP.rotationDegrees(state.getRotation()));
+
+        state.getCube().submit(pose, submit, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+        pose.popPose();
+    }
+
+    protected StandaloneModelKey<BlockStateModel> getModel() {
+        return CUBE;
+    }
+    private float rotation(FrostControllerBlockEntity entity, float partialTick) {
         BlockState state = entity.getBlockState();
         if (state.getValue(FrostControllerBlock.ACTIVE)) {
             Level level = entity.getLevel();
@@ -68,13 +79,8 @@ public class FrostControllerRenderer implements BlockEntityRenderer<FrostControl
         }
         return 0;
     }
-
     protected float elevation() {
-        return 0.5f;
-    }
-
-    private ModelResourceLocation getModel(FrostControllerBlockEntity blockEntity) {
-        return MODEL;
+        return 0f;
     }
 }
 

@@ -15,6 +15,9 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+
 import static com.extra.power.block.just_block.BurningMagnesiumBlock.OVERHEATED;
 
 public class BurningMagnesiumBlockEntity extends BlockEntity {
@@ -54,13 +57,20 @@ public class BurningMagnesiumBlockEntity extends BlockEntity {
         level.playSound(null,pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS,
                 0.7F, 1.0F);
     }
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        this.Counter = tag.getInt("counter");
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        this.Counter = input.getIntOr("counter",0);
     }
-    public void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt("counter", this.Counter);
+    public void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("counter", this.Counter);
+    }
+    public static BurningMagnesiumBlockEntity createBlockEntity(
+            BlockEntityType<?> type,
+            BlockPos pos,
+            BlockState blockState
+    ) {
+        return new BurningMagnesiumBlockEntity(type, pos, blockState);
     }
 }
 

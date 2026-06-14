@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class BurningCoalBlock extends BetterBaseEntityBlock {
     public static final BooleanProperty ToBoom = BooleanProperty.create("toboom");
-    public BurningCoalBlock(BlockBehaviour.Properties Properties) {
+    public BurningCoalBlock(Properties Properties) {
         super(Properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(ToBoom, false));
@@ -76,7 +76,7 @@ public class BurningCoalBlock extends BetterBaseEntityBlock {
     }
 
     public static void explosion(Level level, BlockPos pos, float r) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return;
         }
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
@@ -98,7 +98,7 @@ public class BurningCoalBlock extends BetterBaseEntityBlock {
     }
 
     public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return;
         }
         level.setBlock(pos, ModBlock.BURNING_COAL_BLOCK.get().defaultBlockState().setValue(ToBoom,true),1);

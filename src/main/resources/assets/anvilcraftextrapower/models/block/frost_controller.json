@@ -1,13 +1,13 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "anvilcraftextrapower:block/stilled_magnetic_cude",
+		"0": "anvilcraftextrapower:block/magnetic_cude_stilled_",
 		"1": "anvilcraftextrapower:block/control_core",
 		"2": "anvilcraftextrapower:block/uranium_rod_botton",
 		"3": "anvilcraftextrapower:block/uranium_rod_top_up",
 		"4": "anvilcraft:block/ember_metal_block_outline",
 		"5": "anvilcraft:block/frost_metal_block_outline",
-		"particle": "anvilcraftextrapower:block/stilled_magnetic_cude"
+		"particle": "anvilcraftextrapower:block/magnetic_cude_stilled_"
 	},
 	"elements": [
 		{

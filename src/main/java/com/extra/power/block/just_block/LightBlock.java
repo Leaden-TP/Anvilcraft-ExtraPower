@@ -13,6 +13,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -20,7 +21,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 public class LightBlock extends Block {
     public static final IntegerProperty BRIGHTNESS = IntegerProperty.create("brightness", 0, 5);
 
-    public LightBlock(BlockBehaviour.Properties properties) {
+    public LightBlock(Properties properties) {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(BRIGHTNESS, 0));
@@ -35,7 +36,7 @@ public class LightBlock extends Block {
         return Shapes.empty();
     }
     @Override
-    public boolean propagatesSkylightDown(BlockState state, BlockGetter world, BlockPos pos) {
+    protected boolean propagatesSkylightDown(BlockState state) {
         return true;
     }
     @Override
@@ -53,8 +54,14 @@ public class LightBlock extends Block {
             this.lightBlock(state, level, pos);
         }
     }
-
-    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean movedByPiston) {
+    @Override
+    public void neighborChanged(        BlockState state,
+                                        Level level,
+                                        BlockPos pos,
+                                        Block block1,
+                                        @org.jspecify.annotations.Nullable Orientation orientation,
+                                        boolean movedByPiston
+    ) {
         boolean flag = false;
         if (!level.isClientSide()) {
             for (Direction direction : Direction.values()) {

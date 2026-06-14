@@ -19,7 +19,7 @@ if (envVersion != null && envVersion.startsWith("refs/tags/")) {
 } else {
     version = "${mod_version}" + (buildNumber != null ? "+${buildType}.${buildNumber}" : "")
 }
-//group = maven_group
+group = maven_group
 
 apply from: "$rootDir/gradle/scripts/moddevgradle.gradle"
 apply from: "$rootDir/gradle/scripts/repositories.gradle"
@@ -27,7 +27,7 @@ apply from: "$rootDir/gradle/scripts/resources.gradle"
 apply from: "$rootDir/gradle/scripts/publishing.gradle"
 apply from: "$rootDir/gradle/scripts/dependencies.gradle"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+java.toolchain.languageVersion = JavaLanguageVersion.of(25)
 
 // 添加UTF-8编码支持
 tasks.withType(JavaCompile) {
@@ -48,6 +48,4 @@ idea {
     }
 }
 
-lombok {
-    version = "1.18.34"
-}
+lombok.version = "1.18.44"

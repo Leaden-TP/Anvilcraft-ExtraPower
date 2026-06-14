@@ -1,15 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "anvilcraftextrapower:coal_powder",
   "key": {
     "A": {
       "item": "anvilcraftextrapower:coal_powder"
     }
   },
   "pattern": [
-    "AAA",
-    "AAA",
-    "AAA"
+    "AA",
+    "AA"
   ],
   "result": {
     "count": 1,

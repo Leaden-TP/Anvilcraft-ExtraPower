@@ -4,16 +4,16 @@ import com.extra.power.block.ModBlock;
 import dev.dubhe.anvilcraft.block.heatable.NormalBlock;
 import dev.dubhe.anvilcraft.init.block.ModBlockTags;
 import dev.dubhe.anvilcraft.init.item.ModItems;
-import dev.dubhe.anvilcraft.item.MultitoolItem;
+import dev.dubhe.anvilcraft.item.tool.MultitoolMode;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.Projectile;
 import net.minecraft.world.item.Item;
@@ -23,14 +23,13 @@ import net.minecraft.world.level.*;
 import net.minecraft.world.level.block.BaseFireBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 
 import static com.extra.power.block.just_block.BurningMagnesiumBlock.ToBoom;
 
 public class MagnesiumBlock extends Block {
-    public MagnesiumBlock(BlockBehaviour.Properties Properties) {
+    public MagnesiumBlock(Properties Properties) {
         super(Properties);
     }
     public static void burn_it(Level level, BlockPos pos) {
@@ -40,30 +39,40 @@ public class MagnesiumBlock extends Block {
     }
 
     @Override
-    protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos
-            , Player player, InteractionHand hand, BlockHitResult hitResult) {
+    protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level,
+                                          BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
         if (stack.is(Items.FLINT_AND_STEEL)
                 || stack.is(Items.FIRE_CHARGE)
                 || (stack.is(ModItems.MULTITOOL_ITEM)
-                && MultitoolItem.getMode(stack) == MultitoolItem.FLINT_AND_STEEL_MODE)) {
+                && dev.dubhe.anvilcraft.item.tool.MultitoolItem.isActingAs(stack, MultitoolMode.FLINT_AND_STEEL))) {
             burn_it(level,pos);
             Item item = stack.getItem();
             if (stack.is(Items.FLINT_AND_STEEL)
                     || (stack.is(ModItems.MULTITOOL_ITEM)
-                    && MultitoolItem.getMode(stack) == MultitoolItem.FLINT_AND_STEEL_MODE)) {
-                stack.hurtAndBreak(1, player, LivingEntity.getSlotForHand(hand));
+                    && dev.dubhe.anvilcraft.item.tool.MultitoolItem.isActingAs(stack, MultitoolMode.FLINT_AND_STEEL))) {
+                stack.hurtAndBreak(1, player, hand);
                 level.playSound(null,pos, SoundEvents.FLINTANDSTEEL_USE, SoundSource.PLAYERS,
                         0.7F, 1.0F);
             } else {
                 stack.consume(1, player);
             }
             player.awardStat(Stats.ITEM_USED.get(item));
-            return ItemInteractionResult.sidedSuccess(level.isClientSide);
+            return InteractionResult.SUCCESS;
         }
         return super.useItemOn(stack, state, level, pos, player, hand, hitResult);
     }
+
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    protected BlockState updateShape(
+            BlockState state,
+            LevelReader level,
+            ScheduledTickAccess ticks,
+            BlockPos pos,
+            Direction direction,
+            BlockPos neighbourPos,
+            BlockState neighbour,
+            RandomSource random
+    ) {
         if (!level.isClientSide()) {
             BlockState block = level.getBlockState(pos.relative(direction));
             if (block.getBlock() instanceof BaseFireBlock
@@ -73,7 +82,7 @@ public class MagnesiumBlock extends Block {
                 burn_it((Level) level, pos);
             }
         }
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+        return super.updateShape(state, level, ticks, pos, direction, neighbourPos, neighbour, random);
     }
 
     @Override
@@ -92,17 +101,17 @@ public class MagnesiumBlock extends Block {
     }
     @Override
     protected void onProjectileHit(Level level, BlockState state, BlockHitResult hit, Projectile projectile) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return;
         }
         BlockPos pos = hit.getBlockPos();
-        if (projectile.isOnFire() && projectile.mayInteract(level, pos)) {
+        if (projectile.isOnFire() && projectile.mayInteract((ServerLevel) level, pos)) {
             burn_it(level, pos);
         }
     }
     @Override
-    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
-        if (level.isClientSide) {
+    public void wasExploded(ServerLevel level, BlockPos pos, Explosion explosion) {
+        if (level.isClientSide()) {
             return;
         }
         level.setBlock(pos, ModBlock.BURNING_MAGNESIUM_BLOCK.get().defaultBlockState().setValue(ToBoom,true),1);

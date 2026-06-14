@@ -2,7 +2,6 @@ package com.extra.power.function;
 
 import com.extra.power.block.blockentity.NuclearCollectorBlockEntity;
 import com.extra.power.block.just_block.NuclearBombBlock;
-import com.extra.power.block.just_block.NuclearCollectorBlock;
 import com.extra.power.block.just_block.UraniumRodBlock;
 import com.extra.power.config.ModServerConfig;
 import dev.dubhe.anvilcraft.block.state.Vertical3PartHalf;
@@ -15,7 +14,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.BucketPickup;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FluidState;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -38,80 +36,88 @@ public class NuclearCollectorFunction {
         return Math.abs(pos.getX() - startPos.getX()) > half ||
                 Math.abs(pos.getZ() - startPos.getZ()) > half;
     }
-    public static int checkWater(Level level, BlockPos pos, int y,boolean clean) {
-        BlockPos startPos = pos.above(y); // 使用正确的起始Y坐标
-        final int[] waterAbsorbed = {0};
-        final int[] outlimit = {0};
+    public static int checkWater(Level level, BlockPos pos, int y, boolean clean) {
+        BlockPos startPos = pos.above(y);
         int half = ModServerConfig.nuclearCollector.theMaximumWaterSurfaceArea / 2;
         int maxSteps = ModServerConfig.nuclearCollector.theMaximumWaterSurfaceArea + 3;
         int maxNodes = maxSteps * maxSteps;
 
+        AtomicInteger waterAbsorbed = new AtomicInteger(0);
+        AtomicInteger outLimit = new AtomicInteger(0);
+
         BlockPos.breadthFirstTraversal(startPos, maxSteps, maxNodes,
                 (currentPos, queue) -> {
                     for (Direction direction : Direction.Plane.HORIZONTAL) {
-                        BlockPos neighborPos = currentPos.relative(direction);
-                        if (neighborPos.getY() == startPos.getY() &&
-                                !ifOutLimet(neighborPos, startPos, half+1)) {
-                            queue.accept(neighborPos);
+                        BlockPos neighbor = currentPos.relative(direction);
+                        if (neighbor.getY() == startPos.getY() && !ifOutLimet(neighbor, startPos, half + 1)) {
+                            queue.accept(neighbor);
                         }
                     }
-                }, (currentPos) -> {
-            if (currentPos.equals(startPos)) {
-                return true;
-            }
-            if (currentPos.getY() != startPos.getY()) {
-                return false;
-            }
-            BlockState blockstate = level.getBlockState(currentPos);
-            Block block = blockstate.getBlock();
+                },
+                (currentPos) -> {
+                    if (currentPos.equals(startPos)) {
+                        return BlockPos.TraversalNodeStatus.ACCEPT;
+                    }
+                    BlockState blockState = level.getBlockState(currentPos);
+                    Block block = blockState.getBlock();
 
-            // 使用 MULTIPLICATION 映射来获取不同水源类型的乘数
-            Integer multiplier = MULTIPLICATION.get(block);
-            if (multiplier != null) {
-                waterAbsorbed[0] += multiplier;
-                if(ifOutLimet(currentPos,startPos,half))outlimit[0] += 1;
-                if (clean) {
-                    if (block == Blocks.ICE || block == Blocks.FROSTED_ICE) {
-                        if(level.dimension().equals(Level.NETHER))level.setBlock(currentPos, Blocks.AIR.defaultBlockState(), 3);
-                        else level.setBlock(currentPos, Blocks.WATER.defaultBlockState(), 3);
-                    } else if (block == Blocks.PACKED_ICE) {
-                        level.setBlock(currentPos, Blocks.ICE.defaultBlockState(), 3);
-                    } else if (block == Blocks.BLUE_ICE) {
-                        level.setBlock(currentPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
-                    } else if (block == Blocks.WATER) {
-                        FluidState fluidState = blockstate.getFluidState();
-                        if (fluidState.isSource()) {
+                    Integer multiplier = MULTIPLICATION.get(block);
+                    if (multiplier != null) {
+                        waterAbsorbed.addAndGet(multiplier);
+                        if (ifOutLimet(currentPos, startPos, half)) {
+                            outLimit.incrementAndGet();
+                        }
+                        if (clean) {
+                            if (block == Blocks.ICE || block == Blocks.FROSTED_ICE) {
+                                if (level.dimension().equals(Level.NETHER))
+                                    level.setBlock(currentPos, Blocks.AIR.defaultBlockState(), 3);
+                                else
+                                    level.setBlock(currentPos, Blocks.WATER.defaultBlockState(), 3);
+                            } else if (block == Blocks.PACKED_ICE) {
+                                level.setBlock(currentPos, Blocks.ICE.defaultBlockState(), 3);
+                            } else if (block == Blocks.BLUE_ICE) {
+                                level.setBlock(currentPos, Blocks.PACKED_ICE.defaultBlockState(), 3);
+                            } else if (block == Blocks.WATER) {
+                                if (blockState.getFluidState().isSource()) {
+                                    level.setBlock(currentPos, Blocks.AIR.defaultBlockState(), 3);
+                                }
+                            }
+                        }
+                        return BlockPos.TraversalNodeStatus.ACCEPT;
+                    }
+
+                    if (block instanceof BucketPickup) {
+                        BucketPickup bucketPickup = (BucketPickup) block;
+                        if (!bucketPickup.pickupBlock(null, level, currentPos, blockState).isEmpty()) {
+                            waterAbsorbed.incrementAndGet();
+                            if (ifOutLimet(currentPos, startPos, half)) {
+                                outLimit.incrementAndGet();
+                            }
+                            return BlockPos.TraversalNodeStatus.ACCEPT;
+                        }
+                    }
+
+                    if (blockState.is(Blocks.KELP) || blockState.is(Blocks.KELP_PLANT) ||
+                            blockState.is(Blocks.SEAGRASS) || blockState.is(Blocks.TALL_SEAGRASS)) {
+                        if (clean) {
+                            BlockEntity blockEntity = blockState.hasBlockEntity() ? level.getBlockEntity(currentPos) : null;
+                            dropResources(blockState, level, currentPos, blockEntity);
                             level.setBlock(currentPos, Blocks.AIR.defaultBlockState(), 3);
-
                         }
+                        if (ifOutLimet(currentPos, startPos, half)) {
+                            outLimit.incrementAndGet();
+                        }
+                        return BlockPos.TraversalNodeStatus.ACCEPT;
                     }
+
+                    return BlockPos.TraversalNodeStatus.SKIP;
                 }
-                return true;
-            }
-            // 处理可拾取的水方块（如水花盆等）
-            if (block instanceof BucketPickup) {
-                BucketPickup bucketpickup = (BucketPickup)block;
-                if (!bucketpickup.pickupBlock(null, level, currentPos, blockstate).isEmpty()) {
-                    waterAbsorbed[0]++;
-                    if(ifOutLimet(currentPos,startPos,half))outlimit[0] += 1;
-                    return true;
-                }
-            }
-            // 处理水生植物
-            if (blockstate.is(Blocks.KELP) ||
-                    blockstate.is(Blocks.KELP_PLANT) ||
-                    blockstate.is(Blocks.SEAGRASS) ||
-                    blockstate.is(Blocks.TALL_SEAGRASS)) {
-                BlockEntity blockentity = blockstate.hasBlockEntity() ? level.getBlockEntity(currentPos) : null;
-                if(clean) dropResources(blockstate, level, currentPos, blockentity);
-                if(clean) level.setBlock(currentPos, Blocks.AIR.defaultBlockState(), 3);
-                if(ifOutLimet(currentPos,startPos,half))outlimit[0] += 1;
-                return true;
-            }
-            return false;
-        });
-        if (outlimit[0]>0) return -outlimit[0];
-        return waterAbsorbed[0];
+        );
+
+        if (outLimit.get() > 0) {
+            return -outLimit.get();
+        }
+        return waterAbsorbed.get();
     }
     public static int checkRod(Level level, BlockPos pos, NuclearCollectorBlockEntity entity,Boolean control) {
         int effective_rod = 0;

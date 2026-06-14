@@ -16,15 +16,17 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 
 public class PotatoBattery extends Block {
     private static final VoxelShape BASE = Block.box(4.5, 0.0, 6, 11.5, 4, 10.0);
 
-    public PotatoBattery(BlockBehaviour.Properties pProperties) {
+    public PotatoBattery(Properties pProperties) {
         super(pProperties);
     }
 
@@ -36,9 +38,14 @@ public class PotatoBattery extends Block {
     }
 
     @Override
-    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block sourceBlock,
-                              @NotNull BlockPos sourcePos, boolean isMoving) {
-        if (!level.isClientSide) {
+    public void neighborChanged(        BlockState state,
+                                        Level level,
+                                        BlockPos pos,
+                                        Block block,
+                                        @Nullable Orientation orientation,
+                                        boolean movedByPiston
+    ) {
+        if (!level.isClientSide()) {
             BlockPos belowPos = pos.below();
             BlockState belowState = level.getBlockState(belowPos);
 
@@ -50,7 +57,7 @@ public class PotatoBattery extends Block {
 
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockPos belowPos = pos.below();
             BlockState belowState = level.getBlockState(belowPos);
 

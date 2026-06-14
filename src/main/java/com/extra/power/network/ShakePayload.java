@@ -1,31 +1,31 @@
 package com.extra.power.network;
 
-import net.minecraft.network.FriendlyByteBuf;
+import com.extra.power.client.screen.ClientShakeHandler;
+import com.extra.power.init.AnvilCraftExtrapower;
+import dev.anvilcraft.lib.v2.network.packet.IClientboundPacket;
+import dev.anvilcraft.lib.v2.network.packet.IPacket;
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.world.entity.player.Player;
 
+public record ShakePayload(float strength, int duration) implements IClientboundPacket {
+    public static final Type<ShakePayload> TYPE = IPacket.type(AnvilCraftExtrapower.of("shake"));
+    public static final StreamCodec<ByteBuf, ShakePayload> STREAM_CODEC = StreamCodec.composite(
+            ByteBufCodecs.FLOAT,
+            ShakePayload::strength,
+            ByteBufCodecs.INT,
+            ShakePayload::duration,
+            ShakePayload::new
+    );
 
-public record ShakePayload(float strength, int duration) implements CustomPacketPayload {
-
-    // 这个ID是数据包的唯一标识，确保客户端和服务端一致
-    public static final CustomPacketPayload.Type<ShakePayload> TYPE =
-            new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("extra_power", "shake"));
-
-    // 编解码器：用于将数据写入网络缓冲或从网络缓冲读取
-    public static final StreamCodec<FriendlyByteBuf, ShakePayload> STREAM_CODEC =
-            StreamCodec.composite(
-                    StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat), // 强度
-                    ShakePayload::strength,
-                    StreamCodec.of(FriendlyByteBuf::writeInt, FriendlyByteBuf::readInt),   // 持续时间
-                    ShakePayload::duration,
-                    ShakePayload::new
-            );
-
-    @NotNull
     @Override
-    public Type<? extends CustomPacketPayload> type() {
+    public Type<ShakePayload> type() {
         return TYPE;
+    }
+
+    @Override
+    public void handleOnClient(Player player) {
+        ClientShakeHandler.receiveShake(strength, duration);
     }
 }

@@ -22,6 +22,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.EnumProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.level.pathfinder.PathComputationType;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -92,7 +93,7 @@ public class FrostControllerBlock extends SimpleMultiPartBlock<Vertical3PartHalf
     @Override
     public BlockState playerWillDestroy(
             Level level, BlockPos pos, BlockState state, Player player) {
-        if (level.isClientSide) return state;
+        if (level.isClientSide()) return state;
         onRemove(level, pos, state);
         super.playerWillDestroy(level, pos, state, player);
         return state;
@@ -104,21 +105,21 @@ public class FrostControllerBlock extends SimpleMultiPartBlock<Vertical3PartHalf
     }
     @Override
     public void onPlace(@NotNull Level level, BlockPos pos, BlockState state) {
-        if (level.isClientSide) return;
+        if (level.isClientSide()) return;
     }
     @Override
     public void onRemove(@NotNull Level level, BlockPos pos, BlockState state) {
-        if (level.isClientSide) return;
+        if (level.isClientSide()) return;
     }
     @Override
-    public void neighborChanged(
-            BlockState state,
-            Level level,
-            BlockPos pos,
-            Block neighborBlock,
-            BlockPos neighborPos,
-            boolean movedByPiston) {
-        if (level.isClientSide) return;
+    public void neighborChanged(        BlockState state,
+                                        Level level,
+                                        BlockPos pos,
+                                        Block block,
+                                        @org.jspecify.annotations.Nullable Orientation orientation,
+                                        boolean movedByPiston
+    ) {
+        if (level.isClientSide()) return;
         Boolean Rp = level.hasNeighborSignal(pos);
             if (state.getValue(HALF) == Vertical3PartHalf.BOTTOM) {
                 if (state.getValue(RP) != Rp)level.setBlock(pos,state.setValue(RP, Rp), 3);
@@ -149,7 +150,7 @@ public class FrostControllerBlock extends SimpleMultiPartBlock<Vertical3PartHalf
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
             Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide) return null;
+        if (level.isClientSide()) return null;
         return (level1, pos, state1, entity) -> {
             if (entity instanceof FrostControllerBlockEntity entity1) entity1.tick(level, pos, state, entity1);
         };

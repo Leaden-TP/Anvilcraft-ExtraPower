@@ -6,16 +6,16 @@ import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.redstone.Orientation;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
+import org.jspecify.annotations.Nullable;
 
 public class AshesBlock extends Block{
     private static final VoxelShape BASE = Block.box(0.0, 0.0, 0.0, 16.0, 7, 16.0);
-    public AshesBlock(BlockBehaviour.Properties pProperties) {
+    public AshesBlock(Properties pProperties) {
         super(pProperties);
     }
     @Override
@@ -25,9 +25,14 @@ public class AshesBlock extends Block{
         return belowState.isFaceSturdy(world, belowPos, Direction.UP);
     }
     @Override
-    public void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block sourceBlock,
-                                @NotNull BlockPos sourcePos, boolean isMoving) {
-        if (!level.isClientSide) {
+    public void neighborChanged(        BlockState state,
+                                        Level level,
+                                        BlockPos pos,
+                                        Block block,
+                                        @Nullable Orientation orientation,
+                                        boolean movedByPiston
+    ) {
+        if (!level.isClientSide()) {
             BlockPos belowPos = pos.below();
             BlockState belowState = level.getBlockState(belowPos);
             if (!belowState.isFaceSturdy(level, belowPos, Direction.UP)) {
@@ -37,7 +42,7 @@ public class AshesBlock extends Block{
     }
     @Override
     protected void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean movedByPiston) {
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             BlockPos belowPos = pos.below();
             BlockState belowState = level.getBlockState(belowPos);
             if (!belowState.isFaceSturdy(level, belowPos, Direction.UP)) {

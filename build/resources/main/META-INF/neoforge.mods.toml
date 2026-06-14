@@ -1,12 +1,12 @@
 
 modLoader="javafml" #mandatory
 
-loaderVersion="[1,)" #mandatory
-license="LGPL-3.0"
+loaderVersion="[4,)" #mandatory
+license="LGPL-3.0 license"
 [[mods]] #mandatory
 modId="anvilcraftextrapower" #mandatory
 logoFile="assets/anvilcraftextrapower/textures/logo.png"
-version="1.6.1" #mandatory
+version="1.6.7" #mandatory
 displayName="AnvilCraft:Extra Power" #mandatory
 authors="Leaden_TP" #optional
 description='''One about AnvilCraft'mods.
@@ -15,14 +15,14 @@ For more awa.'''
 [[dependencies."anvilcraftextrapower"]] #optional
 modId="neoforge" #mandatory
 type="required" #mandatory
-versionRange="[21.1.172,)" #mandatory
+versionRange="[21.0.0-beta,)" #mandatory
 ordering="NONE"
 side="BOTH"
 
 [[dependencies."anvilcraftextrapower"]]
 modId="minecraft"
 type="required"
-versionRange="[1.21.1]"
+versionRange="[26.1,26.2)"
 ordering="NONE"
 side="BOTH"
 

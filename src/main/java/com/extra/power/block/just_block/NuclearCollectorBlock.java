@@ -30,6 +30,7 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Optional;
 
@@ -90,9 +91,9 @@ public class NuclearCollectorBlock extends BetterBaseEntityBlock implements IHam
     }
 
     @Override
-    protected void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean movedByPiston) {
-        super.onRemove(state, level, pos, newState, movedByPiston);
-        if (!state.is(newState.getBlock()) && state.getValue(POWERED)) {
+    protected void affectNeighborsAfterRemoval(BlockState state, ServerLevel level, BlockPos pos, boolean movedByPiston) {
+        super.affectNeighborsAfterRemoval(state, level,pos, movedByPiston);
+        if (!state.is(state.getBlock()) && state.getValue(POWERED)) {
             this.updateNeighbours(level, pos);
         }
         if(!isAnotherCollectorNearby(level, pos))checkRod(level, pos, new NuclearCollectorBlockEntity(pos, state),false);
@@ -103,9 +104,9 @@ public class NuclearCollectorBlock extends BetterBaseEntityBlock implements IHam
     @Override
     public @Nullable BlockState getStateForPlacement(BlockPlaceContext context) {
         if (isAnotherCollectorNearby(context.getLevel(), context.getClickedPos())) {
-            Optional.ofNullable(context.getPlayer()).ifPresent(player -> player.displayClientMessage(
+            Optional.ofNullable(context.getPlayer()).ifPresent(player -> player.sendOverlayMessage(
                     Component.translatable("block.anvilcraftextrapower.nuclear_collector.placement_too_close_to_another")
-                            .withStyle(ChatFormatting.RED), true));
+                            .withStyle(ChatFormatting.RED)));
         }
         return super.getStateForPlacement(context);
     }

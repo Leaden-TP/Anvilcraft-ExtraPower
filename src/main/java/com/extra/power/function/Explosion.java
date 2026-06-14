@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.Blocks;
 
 public class Explosion {
     public static void explosion(Level level, BlockPos pos, float r) {
-        if (level.isClientSide) {
+        if (level.isClientSide()) {
             return;
         }
         level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);

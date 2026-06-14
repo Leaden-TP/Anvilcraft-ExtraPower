@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 public class MushroomCloudBlock extends BetterBaseEntityBlock {
-    public MushroomCloudBlock(BlockBehaviour.Properties Properties) {
+    public MushroomCloudBlock(Properties Properties) {
         super(Properties);
     }
     @Override

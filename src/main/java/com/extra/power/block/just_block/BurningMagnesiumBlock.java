@@ -8,8 +8,10 @@ import dev.dubhe.anvilcraft.block.better.BetterBaseEntityBlock;
 import dev.dubhe.anvilcraft.init.block.ModBlockTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -32,7 +34,7 @@ import static com.extra.power.block.just_block.LightBlock.BRIGHTNESS;
 public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
     public static final BooleanProperty OVERHEATED = BooleanProperty.create("overheated");
     public static final BooleanProperty ToBoom = BooleanProperty.create("toboom");
-    public BurningMagnesiumBlock (BlockBehaviour.Properties Properties) {
+    public BurningMagnesiumBlock (Properties Properties) {
         super(Properties);
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(OVERHEATED, false).setValue(ToBoom,false));
@@ -52,7 +54,7 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
         return simpleCodec(BurningMagnesiumBlock::new);
     }
     public static void explosion(Level level, BlockPos pos, float r) {
-    if (level.isClientSide) {
+    if (level.isClientSide()) {
         return;
     }
     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
@@ -83,33 +85,43 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
         super.stepOn(level, pos, state, entity);
     }
     @Override
-    protected BlockState updateShape(BlockState state, Direction direction, BlockState neighborState, LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
+    protected BlockState updateShape(
+            BlockState state,
+            LevelReader level,
+            ScheduledTickAccess ticks,
+            BlockPos pos,
+            Direction direction,
+            BlockPos neighbourPos,
+            BlockState neighbour,
+            RandomSource random
+    ) {
         if (!level.isClientSide()) {
             BlockState block = level.getBlockState(pos.relative(direction));
             BlockState block_over = level.getBlockState(pos.above());
+            Level level1 = (Level) level;
             if (block.is(Blocks.WATER)) {
                 this.removeWaterBreadthFirstSearch((Level) level, pos);
                     explosion((Level) level,pos,3);
             }
             if (block_over.is(ModBlockTags.OVERHEATED_BLOCKS)) {
-                level.setBlock(pos, state.setValue(OVERHEATED,true),1);
+                level1.setBlock(pos, state.setValue(OVERHEATED,true),1);
             }
             if (!block_over.is(ModBlockTags.OVERHEATED_BLOCKS) & state.getValue(OVERHEATED)) {
-                level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
-                level.playSound(null,pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS,
+                level1.setBlockAndUpdate(pos, Blocks.AIR.defaultBlockState());
+                level1.playSound(null,pos, SoundEvents.FIRE_EXTINGUISH, SoundSource.PLAYERS,
                         0.7F, 1.0F);
             }
             if (block.is(Blocks.AIR)) {
-                level.setBlock(pos.relative(direction),
+                level1.setBlock(pos.relative(direction),
                         ModBlock.LIGHT.get().defaultBlockState().setValue(BRIGHTNESS, 0), 11);
             }
             if (block.is(ModBlock.LIGHT.get())) {
                 if (block.getValue(BRIGHTNESS) >0)
-                    level.setBlock(pos.relative(direction),
+                    level1.setBlock(pos.relative(direction),
                             ModBlock.LIGHT.get().defaultBlockState().setValue(BRIGHTNESS, 0), 11);
             }
         }
-        return super.updateShape(state, direction, neighborState, level, pos, neighborPos);
+        return super.updateShape(state, level, ticks, pos, direction, neighbourPos, neighbour, random);
     }
 
     @Override
@@ -138,8 +150,8 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
         }
     }
     @Override
-    public void wasExploded(Level level, BlockPos pos, Explosion explosion) {
-        if (level.isClientSide) {
+    public void wasExploded(ServerLevel level, BlockPos pos, Explosion explosion) {
+        if (level.isClientSide()) {
            return;
         }
         level.setBlock(pos, ModBlock.BURNING_MAGNESIUM_BLOCK.get().defaultBlockState().setValue(ToBoom,true),1);
@@ -147,43 +159,36 @@ public class BurningMagnesiumBlock extends BetterBaseEntityBlock {
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(OVERHEATED,ToBoom);
     }
-    private boolean removeWaterBreadthFirstSearch(Level level, BlockPos pos) {
-        BlockState spongeState = level.getBlockState(pos);
-        return BlockPos.breadthFirstTraversal(pos, 6, 65, (p_277519_, p_277492_) -> {
-            for(Direction direction : Direction.values()) {
-                p_277492_.accept(p_277519_.relative(direction));
+    private boolean removeWaterBreadthFirstSearch(Level level, BlockPos startPos) {
+        BlockState spongeState = level.getBlockState(startPos);
+        return BlockPos.breadthFirstTraversal(startPos, 6, 65, (pos, consumer) -> {
+            for (Direction direction : Direction.values()) {
+                consumer.accept(pos.relative(direction));
             }
-
-        }, (p_294069_) -> {
-            if (p_294069_.equals(pos)) {
-                return true;
+        }, pos -> {
+            if (pos.equals(startPos)) {
+                return BlockPos.TraversalNodeStatus.ACCEPT;
             } else {
-                BlockState blockstate = level.getBlockState(p_294069_);
-                FluidState fluidstate = level.getFluidState(p_294069_);
-                if (!spongeState.canBeHydrated(level, pos, fluidstate, p_294069_)) {
-                    return false;
+                BlockState state = level.getBlockState(pos);
+                FluidState fluidState = level.getFluidState(pos);
+                if (!spongeState.canBeHydrated(level, startPos, fluidState, pos)) {
+                    return BlockPos.TraversalNodeStatus.SKIP;
+                } else if (state.getBlock() instanceof BucketPickup bucketPickup && !bucketPickup.pickupBlock(null, level, pos, state).isEmpty()) {
+                    return BlockPos.TraversalNodeStatus.ACCEPT;
                 } else {
-                    Block patt0$temp = blockstate.getBlock();
-                    if (patt0$temp instanceof BucketPickup) {
-                        BucketPickup bucketpickup = (BucketPickup)patt0$temp;
-                        if (!bucketpickup.pickupBlock((Player)null, level, p_294069_, blockstate).isEmpty()) {
-                            return true;
-                        }
-                    }
-
-                    if (blockstate.getBlock() instanceof LiquidBlock) {
-                        level.setBlock(p_294069_, Blocks.AIR.defaultBlockState(), 3);
+                    if (state.getBlock() instanceof LiquidBlock) {
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     } else {
-                        if (!blockstate.is(Blocks.KELP) && !blockstate.is(Blocks.KELP_PLANT) && !blockstate.is(Blocks.SEAGRASS) && !blockstate.is(Blocks.TALL_SEAGRASS)) {
-                            return false;
+                        if (!state.is(Blocks.KELP) && !state.is(Blocks.KELP_PLANT) && !state.is(Blocks.SEAGRASS) && !state.is(Blocks.TALL_SEAGRASS)) {
+                            return BlockPos.TraversalNodeStatus.SKIP;
                         }
 
-                        BlockEntity blockentity = blockstate.hasBlockEntity() ? level.getBlockEntity(p_294069_) : null;
-                        dropResources(blockstate, level, p_294069_, blockentity);
-                        level.setBlock(p_294069_, Blocks.AIR.defaultBlockState(), 3);
+                        BlockEntity blockEntity = state.hasBlockEntity() ? level.getBlockEntity(pos) : null;
+                        dropResources(state, level, pos, blockEntity);
+                        level.setBlock(pos, Blocks.AIR.defaultBlockState(), 3);
                     }
 
-                    return true;
+                    return BlockPos.TraversalNodeStatus.ACCEPT;
                 }
             }
         }) > 1;

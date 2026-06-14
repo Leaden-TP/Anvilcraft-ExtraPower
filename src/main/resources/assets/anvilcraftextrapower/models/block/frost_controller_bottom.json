@@ -1,7 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"textures": {
-		"1": "anvilcraftextrapower:block/stilled_magnetic_cude",
+		"1": "anvilcraftextrapower:block/magnetic_cude_stilled_",
 		"2": "anvilcraftextrapower:block/uranium_rod_botton",
 		"3": "anvilcraftextrapower:block/uranium_rod_top_up",
 		"6": "anvilcraft:block/ember_metal_block_outline",
@@ -49,10 +49,10 @@
 		},
 		{
 			"name": "cube_outline",
-			"shade": false,
-			"light_emission": 15,
 			"from": [15.5, 3.9, 15.5],
 			"to": [0.5, -0.1, 0.5],
+			"shade": false,
+			"light_emission": 15,
 			"rotation": {"angle": 0, "axis": "y", "origin": [1, 0.5, 1]},
 			"faces": {
 				"north": {"uv": [0, 0, 14, 3], "rotation": 180, "texture": "#6"},

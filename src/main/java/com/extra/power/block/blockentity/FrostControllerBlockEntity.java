@@ -4,11 +4,7 @@ import com.extra.power.block.just_block.FrostControllerBlock;
 import com.extra.power.block.just_block.UraniumRodBlock;
 import dev.dubhe.anvilcraft.api.tooltip.providers.IHasAffectRange;
 import dev.dubhe.anvilcraft.block.state.Vertical3PartHalf;
-import lombok.Getter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -48,12 +44,11 @@ public class FrostControllerBlockEntity extends BlockEntity implements IHasAffec
             entity.tickCounter = 0;
             if(checkRod(level,pos)>0)return;
             int radius = 2;
-            BlockPos center = pos;
             List<BlockPos> waterPositions = new ArrayList<>();
             for (int x = -radius - 1; x <= radius + 1; x++) {
                 for (int z = -radius - 1; z <= radius + 1; z++) {
                     for (int y = -radius; y <= radius; y++) {
-                        BlockPos targetPos = center.offset(x, y, z);
+                        BlockPos targetPos = pos.offset(x, y, z);
                         if (level.isOutsideBuildHeight(targetPos)) continue;
                         BlockState targetState = level.getBlockState(targetPos);
 
@@ -64,7 +59,7 @@ public class FrostControllerBlockEntity extends BlockEntity implements IHasAffec
                 }
             }
             if (!waterPositions.isEmpty()) {
-                BlockPos selectedPos = waterPositions.get(level.random.nextInt(waterPositions.size()));
+                BlockPos selectedPos = waterPositions.get(level.getRandom().nextInt(waterPositions.size()));
                 level.setBlock(selectedPos, Blocks.ICE.defaultBlockState(), 3);
             }
 
