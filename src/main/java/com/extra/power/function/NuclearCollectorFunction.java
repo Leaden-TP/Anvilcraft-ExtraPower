@@ -82,8 +82,8 @@ public class NuclearCollectorFunction {
                         FluidState fluidState = blockstate.getFluidState();
                         if (fluidState.isSource()) {
                             level.setBlock(currentPos, Blocks.AIR.defaultBlockState(), 3);
-
                         }
+                        else waterAbsorbed[0] -= multiplier;
                     }
                 }
                 return true;

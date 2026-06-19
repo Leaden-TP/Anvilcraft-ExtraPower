@@ -45,5 +45,6 @@
   "death.attack.nuclear_explosion.player":"%1$s was reduced to anvilon in the flash",
   "message.anvilcraftextrapower.solar_panel_too_close": "Cannot place solar panel - another panel is too close (3x3x3 area)",
   "advancements.anvilcraftextrapower.root.title": "We need more ways!",
-  "advancements.anvilcraftextrapower.root.description": "Explore more possibilities of Anvilcraft."
+  "advancements.anvilcraftextrapower.root.description": "Explore more possibilities of Anvilcraft.",
+  "config.jade.plugin_anvilcraftextrapower.nuclear_collector":  "Nuclear Collector"
 }
