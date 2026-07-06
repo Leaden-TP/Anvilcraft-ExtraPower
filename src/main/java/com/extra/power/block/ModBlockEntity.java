@@ -64,6 +64,10 @@ public class ModBlockEntity {
                     .validBlock(ModBlock.PEDOMETER)
                     .register();
 
+    public static final BlockEntityEntry<ElectromagnetBlockEntity> ELECTROMAGNET =
+            REGISTRATE.blockEntity("electromagnet", ElectromagnetBlockEntity::createBlockEntity)
+                    .validBlock(ModBlock.ELECTROMAGNET)
+                    .register();
     public static void register() {
     }
 }

@@ -2,7 +2,7 @@
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "anvilcraftextrapower:block/crate_open",
-		"1": "anvilcraftextrapower:block/crate_side",
+		"1": "anvilcraftextrapower:block/crate",
 		"particle": "anvilcraftextrapower:block/crate_open"
 	},
 	"elements": [

@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": {"model": "anvilcraftextrapower:block/burning_coal_block"}
+    "": {
+      "model": "anvilcraftextrapower:block/burning_coal_block"
+    }
   }
 }

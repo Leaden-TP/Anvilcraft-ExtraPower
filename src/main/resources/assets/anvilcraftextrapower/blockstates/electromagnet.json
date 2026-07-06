@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "overload=false,lit=false": {"model": "anvilcraftextrapower:block/electromagnet"},
+    "overload=true,lit=false": {"model": "anvilcraftextrapower:block/electromagnet_off"},
+    "overload=true,lit=true": {"model": "anvilcraftextrapower:block/electromagnet_off"},
+    "overload=false,lit=true": {"model": "anvilcraftextrapower:block/electromagnet_off"}
+  }
+}

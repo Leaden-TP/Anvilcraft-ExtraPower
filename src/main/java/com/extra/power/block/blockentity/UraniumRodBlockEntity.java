@@ -23,6 +23,7 @@ public class UraniumRodBlockEntity extends BlockEntity {
     private static final int DURATION = 200; // 效果持续时间(刻)
     private static final int AMPLIFIER = 1; // 效果等级
     private static int tickCounter = 0;
+    private int controller = 0;
     public UraniumRodBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
     }
@@ -51,9 +52,9 @@ public class UraniumRodBlockEntity extends BlockEntity {
                 ));
                 }
             }
-            int controller = checkController(level,pos);
-            if (controller<=4){
-                level.setBlock(pos, state.setValue(UraniumRodBlock.ACTIVE, 5-controller), 11);
+            entity.controller = checkController(level,pos);
+            if (entity.controller<=4){
+                level.setBlock(pos, state.setValue(UraniumRodBlock.ACTIVE, 5-entity.controller), 11);
             }else {
                     level.setBlock(pos, state.setValue(UraniumRodBlock.ACTIVE, 1), 11);
             }

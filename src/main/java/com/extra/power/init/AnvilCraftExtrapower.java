@@ -3,6 +3,7 @@ package com.extra.power.init;
 
 import com.extra.power.block.ModBlockEntity;
 import com.extra.power.config.ModServerConfig;
+import com.extra.power.data.ModDatagen;
 import dev.anvilcraft.lib.v2.config.ConfigManager;
 import dev.anvilcraft.lib.v2.registrum.Registrum;
 import dev.dubhe.anvilcraft.api.heat.collector.HeatSourceEntry;
@@ -47,6 +48,7 @@ public class AnvilCraftExtrapower {
         ModSounds.SOUNDS.register(modEventBus);
         ModDamageTypes.DAMAGE_TYPES.register(modEventBus);
         ModBlockEntity.register();
+        ModDatagen.init();
     }
 
     private static void registerEvents(@NotNull IEventBus eventBus) {

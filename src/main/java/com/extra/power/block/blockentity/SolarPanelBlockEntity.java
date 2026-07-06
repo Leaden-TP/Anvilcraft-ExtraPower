@@ -70,7 +70,7 @@ public class SolarPanelBlockEntity extends BlockEntity implements IPowerProducer
             entity.updatePowerState(level, pos, state, isDay);
             if (entity.getOutputPower()==0){level.setBlock(pos, state.setValue(SolarPanelBlock.ACTIVE, false), 3);}
             else {level.setBlock(pos, state.setValue(SolarPanelBlock.ACTIVE, true), 3);}
-            if (entity.lastPowerOutput != entity.power) {
+            if (entity.lastPowerOutput != entity.power || entity.powerOutput!=entity.power) {
                 entity.lastPowerOutput = entity.power;
                 entity.powerOutput = entity.power;
                 if (entity.grid != null) {
@@ -150,7 +150,7 @@ public class SolarPanelBlockEntity extends BlockEntity implements IPowerProducer
                         endPos,
                         ClipContext.Block.COLLIDER,
                         ClipContext.Fluid.NONE,
-                        (CollisionContext) null
+                        CollisionContext.empty()
                 ));
 
                 // 如果没有障碍物或障碍物距离足够远

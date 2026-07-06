@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "C": {
+      "item": "anvilcraft:circuit_board"
+    },
+    "I": {
+      "tag": "c:plates/iron"
+    },
+    "M": {
+      "item": "anvilcraft:magnet_ingot"
+    }
+  },
+  "pattern": [
+    "III",
+    " M ",
+    "ICI"
+  ],
+  "result": {
+    "count": 3,
+    "id": "anvilcraftextrapower:magnetic_display_stand"
+  }
+}

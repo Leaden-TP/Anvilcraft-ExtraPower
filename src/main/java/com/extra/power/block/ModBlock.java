@@ -15,6 +15,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
@@ -52,7 +53,76 @@ public class ModBlock {
                         .lightLevel(state -> 15)
                         .noOcclusion()));
     }
+    public static final BlockEntry<? extends Block> ELECTROMAGNET = REGISTRATE.block("electromagnet",
+                    ElectromagnetBlock::new)
+            .lang("Electromagnet")
+            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
+            .properties(p -> p.strength(2f, 3f).noOcclusion())
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .build()
+            .tag(ModBlockTags.MAGNET)
+            .register();
 
+    public static final BlockEntry<? extends Block> LLAMA_ANVIL = REGISTRATE.block("llama_anvil",
+                    LlamaAnvilBlock::new)
+            .lang("Llama Anvil")
+            .initialProperties(() -> Blocks.CAKE)
+            .properties(p -> p.noOcclusion().isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(ItemTags.ANVIL)
+            .build()
+            .tag(BlockTags.ANVIL, BlockTags.MINEABLE_WITH_AXE, ModBlockTags.NON_MAGNETIC, ModBlockTags.CANT_BROKEN_ANVIL)
+            .register();
+
+    public static final BlockEntry<? extends Block> ANVIL_PROJECTOR = REGISTRATE.block("anvil_projector",
+                    AnvilProjectorBlock::new)
+            .lang("Anvil Projector")
+            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
+            .properties(p -> p.strength(2f, 3f).noOcclusion())
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .build()
+            .recipe((ctx, provider) -> {
+                ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ctx.get())
+                        .pattern("IPI")
+                        .pattern("OAO")
+                        .pattern("ICI")
+                        .define('C', ModItems.CIRCUIT_BOARD)
+                        .define('A', ModBlocks.SPECTRAL_ANVIL)
+                        .define('P', ModBlocks.PIEZOELECTRIC_CRYSTAL)
+                        .define('I', ModItemTags.IRON_PLATES)
+                        .define('O', ModItemTags.COPPER_PLATES)
+                        .unlockedBy("hasitem", AnvilCraftDatagen.has(ModItems.CIRCUIT_BOARD))
+                        .unlockedBy("hasitem1", AnvilCraftDatagen.has(ModItems.MAGNET_INGOT))
+                        .unlockedBy("hasitem2", AnvilCraftDatagen.has(ModItemTags.IRON_PLATES))
+                        .save(provider);
+            })
+            .register();
+
+    public static final BlockEntry<? extends Block> MAGNETIC_DISPLAY_STAND = REGISTRATE.block("magnetic_display_stand",
+                    MagneticDisplayStandBlock::new)
+            .lang("Magnetic Display Stand")
+            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
+            .properties(p -> p.strength(2f, 3f).noOcclusion())
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .build()
+            .recipe((ctx, provider) -> {
+                ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ctx.get(),3)
+                        .pattern("III")
+                        .pattern(" M ")
+                        .pattern("ICI")
+                        .define('C', ModItems.CIRCUIT_BOARD)
+                        .define('M', ModItems.MAGNET_INGOT)
+                        .define('I', ModItemTags.IRON_PLATES)
+                        .unlockedBy("hasitem", AnvilCraftDatagen.has(ModItems.CIRCUIT_BOARD))
+                        .unlockedBy("hasitem1", AnvilCraftDatagen.has(ModItems.MAGNET_INGOT))
+                        .unlockedBy("hasitem2", AnvilCraftDatagen.has(ModItemTags.IRON_PLATES))
+                        .save(provider);
+            })
+            .register();
     public static final BlockEntry<? extends Block> SOLAR_PANEL = REGISTRATE.block("solar_panel", SolarPanelBlock::new)
             .lang("Solar Panel")
             .initialProperties(() -> Blocks.IRON_BLOCK)
@@ -93,7 +163,6 @@ public class ModBlock {
             .lang("Burning Block of Coal")
             .initialProperties(() -> Blocks.COAL_BLOCK)
             .properties(p -> p.strength(2.0f, 5f).lightLevel(state -> 10))
-            .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .build()
             .tag(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_STONE_TOOL, ModBlockTags.REDHOT_BLOCKS)
@@ -118,7 +187,6 @@ public class ModBlock {
             .lang("Block of Sulfur")
             .initialProperties(() -> Blocks.COAL_BLOCK)
             .properties(p -> p.strength(3.0f, 5f))
-            .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .tag(Tags.Items.STORAGE_BLOCKS, com.extra.power.init.ModItemTags.STORAGE_BLOCKS_SULFUR)
             .build()
@@ -156,7 +224,6 @@ public class ModBlock {
             .lang("Block of Magnesium Oxide")
             .initialProperties(() -> Blocks.STONE)
             .properties(p -> p.strength(10.0f, 1f))
-            .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .build()
             .tag(BlockTags.MINEABLE_WITH_PICKAXE)
@@ -175,7 +242,6 @@ public class ModBlock {
             .lang("Block of Magnesium")
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.strength(3.0f, 5f))
-            .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .tag(Tags.Items.STORAGE_BLOCKS, com.extra.power.init.ModItemTags.STORAGE_BLOCKS_MAGNESIUM)
             .build()
@@ -195,7 +261,6 @@ public class ModBlock {
             .lang("Burning Block of Magnesium")
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.strength(2.0f, 5f).lightLevel(state -> 15))
-            .blockstate(DataGenUtil::noExtraModelOrState)
             .loot((lt, block) -> lt.add(block,
                     LootTable.lootTable()
                             .withPool(LootPool.lootPool()
@@ -246,7 +311,6 @@ public class ModBlock {
             .initialProperties(() -> Blocks.OAK_WOOD)
             .properties(p -> p.strength(2f, 5f))
             .tag(BlockTags.MINEABLE_WITH_AXE)
-            .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .build()
             .register();
@@ -356,23 +420,5 @@ public class ModBlock {
             .build()
             .register();
 
-    public static final BlockEntry<? extends Block> ANVIL_PROJECTOR = REGISTRATE.block("anvil_projector",
-                    AnvilProjectorBlock::new)
-            .lang("Anvil Projector")
-            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
-            .properties(p -> p.strength(2f, 3f).noOcclusion())
-            .blockstate(DataGenUtil::noExtraModelOrState)
-            .item()
-            .build()
-            .register();
 
-    public static final BlockEntry<? extends Block> MAGNETIC_DISPLAY_STAND = REGISTRATE.block("magnetic_display_stand",
-                    MagneticDisplayStandBlock::new)
-            .lang("Magnetic Display Stand")
-            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
-            .properties(p -> p.strength(2f, 3f).noOcclusion())
-            .blockstate(DataGenUtil::noExtraModelOrState)
-            .item()
-            .build()
-            .register();
 }

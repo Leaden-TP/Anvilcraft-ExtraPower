@@ -6,6 +6,7 @@ import com.extra.power.item.capacitor.MultiphaseCapacitorItem;
 import dev.anvilcraft.lib.v2.registrum.util.entry.ItemEntry;
 import dev.dubhe.anvilcraft.data.AnvilCraftDatagen;
 import dev.dubhe.anvilcraft.init.block.ModBlocks;
+import dev.dubhe.anvilcraft.util.DataGenUtil;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
@@ -93,6 +94,7 @@ public class ModItems {
     public static final ItemEntry<LeadacidBatteryItem> LEAD_ACID_BATTERY = REGISTRATE.item("lead_acid_battery", LeadacidBatteryItem::new)
             .lang("Lead-acid Battery")
             .tag(ModItemTags.CAPACITOR)
+            .model(DataGenUtil::noExtraModelOrState)
             .register();
 
     public static final ItemEntry<EmptyLeadacidBatteryItem> LEAD_ACID_BATTERY_EMPTY = REGISTRATE.item("lead_acid_battery_empty", EmptyLeadacidBatteryItem::new)
@@ -111,6 +113,7 @@ public class ModItems {
                         .unlockedBy("hasitemr", AnvilCraftDatagen.has(dev.dubhe.anvilcraft.init.item.ModItems.ROYAL_STEEL_INGOT))
                         .save(provider);
             })
+            .model(DataGenUtil::noExtraModelOrState)
             .register();
 
     public static final ItemEntry<MultiphaseCapacitorItem> MULTIPHASE_CAPACITOR_EMPTY = REGISTRATE.item("multiphase_capacitor_empty", MultiphaseCapacitorItem::new)
@@ -127,6 +130,7 @@ public class ModItems {
                         .unlockedBy("hasitemm", AnvilCraftDatagen.has(dev.dubhe.anvilcraft.init.item.ModItems.MULTIPHASE_MATTER))
                         .save(provider);
             })
+            .model(DataGenUtil::noExtraModelOrState)
             .register();
 
     public static final ItemEntry<MultiphaseCapacitorItem> MULTIPHASE_CAPACITOR = REGISTRATE.item("multiphase_capacitor", MultiphaseCapacitorItem::new)
@@ -140,5 +144,6 @@ public class ModItems {
                         .unlockedBy("hasitemm", AnvilCraftDatagen.has(ModItems.MULTIPHASE_CAPACITOR_EMPTY))
                         .save(provider);
             })
+            .model(DataGenUtil::noExtraModelOrState)
             .register();
 }

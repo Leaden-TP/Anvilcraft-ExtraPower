@@ -4,7 +4,6 @@
 		"0": "anvilcraft:block/magnetoelectric_core",
 		"1": "anvilcraftextrapower:block/electromagnet",
 		"2": "anvilcraft:block/advanced_comparator",
-		"3": "anvilcraftextrapower:block/electromagnet_magnetic_field_lines",
 		"particle": "anvilcraft:block/magnetoelectric_core"
 	},
 	"elements": [
@@ -248,114 +247,6 @@
 				"west": {"uv": [1, 2, 15, 0], "texture": "#2"},
 				"down": {"uv": [0.5, 15.5, 7.5, 8.5], "texture": "#1"}
 			}
-		},
-		{
-			"from": [7.95, 16, -4.05],
-			"to": [8.05, 21, 5.95],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 16, 8]},
-			"faces": {
-				"east": {"uv": [10, 16, 0, 11], "texture": "#3"},
-				"west": {"uv": [0, 16, 10, 11], "texture": "#3"}
-			}
-		},
-		{
-			"from": [7.95, -5, -4.05],
-			"to": [8.05, 0, 5.95],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 0, 8]},
-			"faces": {
-				"east": {"uv": [10, 5, 0, 0], "texture": "#3"},
-				"west": {"uv": [0, 5, 10, 0], "texture": "#3"}
-			}
-		},
-		{
-			"from": [7.95, 0, -4.05],
-			"to": [8.05, 16, -1.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 5, 8]},
-			"faces": {
-				"east": {"uv": [10, 16, 13, 0], "texture": "#3"},
-				"west": {"uv": [13, 16, 10, 0], "texture": "#3"}
-			}
-		},
-		{
-			"from": [10, -5, 7.95],
-			"to": [20, 0, 8.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 0, 8]},
-			"faces": {
-				"north": {"uv": [0, 5, 10, 0], "texture": "#3"},
-				"south": {"uv": [10, 5, 0, 0], "texture": "#3"}
-			}
-		},
-		{
-			"from": [17, 0, 7.95],
-			"to": [20, 16, 8.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 5, 8]},
-			"faces": {
-				"north": {"uv": [13, 16, 10, 0], "texture": "#3"},
-				"south": {"uv": [13, 16, 10, 0], "texture": "#3"}
-			}
-		},
-		{
-			"from": [10, 16, 7.95],
-			"to": [20, 21, 8.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 16, 8]},
-			"faces": {
-				"north": {"uv": [0, 16, 10, 11], "texture": "#3"},
-				"south": {"uv": [10, 16, 0, 11], "texture": "#3"}
-			}
-		},
-		{
-			"from": [7.95, 16, 10.05],
-			"to": [8.05, 21, 20.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 16, 8]},
-			"faces": {
-				"east": {"uv": [0, 16, 10, 11], "texture": "#3"},
-				"west": {"uv": [10, 16, 0, 11], "texture": "#3"}
-			}
-		},
-		{
-			"from": [7.95, -5, 10.05],
-			"to": [8.05, 0, 20.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 0, 8]},
-			"faces": {
-				"east": {"uv": [0, 5, 10, 0], "texture": "#3"},
-				"west": {"uv": [10, 5, 0, 0], "texture": "#3"}
-			}
-		},
-		{
-			"from": [7.95, 0, 17.05],
-			"to": [8.05, 16, 20.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 5, 8]},
-			"faces": {
-				"east": {"uv": [13, 16, 10, 0], "texture": "#3"},
-				"west": {"uv": [13, 16, 10, 0], "texture": "#3"}
-			}
-		},
-		{
-			"from": [-4, -5, 7.95],
-			"to": [6, 0, 8.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 0, 8]},
-			"faces": {
-				"north": {"uv": [10, 5, 0, 0], "texture": "#3"},
-				"south": {"uv": [0, 5, 10, 0], "texture": "#3"}
-			}
-		},
-		{
-			"from": [-4, 0, 7.95],
-			"to": [-1, 16, 8.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 5, 8]},
-			"faces": {
-				"north": {"uv": [10, 16, 13, 0], "texture": "#3"},
-				"south": {"uv": [10, 16, 13, 0], "texture": "#3"}
-			}
-		},
-		{
-			"from": [-4, 16, 7.95],
-			"to": [6, 21, 8.05],
-			"rotation": {"angle": -22.5, "axis": "y", "origin": [8, 16, 8]},
-			"faces": {
-				"north": {"uv": [10, 16, 0, 11], "texture": "#3"},
-				"south": {"uv": [0, 16, 10, 11], "texture": "#3"}
-			}
 		}
 	],
 	"display": {
@@ -407,12 +298,6 @@
 			"origin": [0, 16, 0],
 			"color": 0,
 			"children": [16, 17, 18, 19]
-		},
-		{
-			"name": "group",
-			"origin": [8, 8, 8],
-			"color": 0,
-			"children": [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
 		}
 	]
 }

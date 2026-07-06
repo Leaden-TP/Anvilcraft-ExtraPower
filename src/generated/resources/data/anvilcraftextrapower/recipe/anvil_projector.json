@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "A": {
+      "item": "anvilcraft:spectral_anvil"
+    },
+    "C": {
+      "item": "anvilcraft:circuit_board"
+    },
+    "I": {
+      "tag": "c:plates/iron"
+    },
+    "O": {
+      "tag": "c:plates/copper"
+    },
+    "P": {
+      "item": "anvilcraft:piezoelectric_crystal"
+    }
+  },
+  "pattern": [
+    "IPI",
+    "OAO",
+    "ICI"
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:anvil_projector"
+  }
+}

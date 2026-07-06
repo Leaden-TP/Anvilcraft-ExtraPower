@@ -68,7 +68,7 @@ public class MagneticDisplayStandRenderer implements BlockEntityRenderer<Magneti
                 poseStack.pushPose();
                 poseStack.translate(x, y + y_add, z);
                 poseStack.scale(2f, 2f, 2f);
-                poseStack.mulPose(Axis.YP.rotationDegrees(rotY+ partialTick));
+                poseStack.mulPose(Axis.YP.rotationDegrees(rotY));
             } else {
                 double modelDepth = aabb.getZsize();
                 double x = 0.5;
@@ -79,8 +79,8 @@ public class MagneticDisplayStandRenderer implements BlockEntityRenderer<Magneti
 
                 // 先平移到计算好的位置，再进行旋转
                 poseStack.translate(x+x_add, y + y_add , z+z_add);
-                poseStack.mulPose(Axis.XP.rotationDegrees(90.0f+rotX+ partialTick));
-                poseStack.mulPose(Axis.YP.rotationDegrees(rotY+ partialTick));
+                poseStack.mulPose(Axis.XP.rotationDegrees(90.0f+rotX));
+                poseStack.mulPose(Axis.YP.rotationDegrees(rotY));
             }
             Minecraft.getInstance()
                     .getItemRenderer()

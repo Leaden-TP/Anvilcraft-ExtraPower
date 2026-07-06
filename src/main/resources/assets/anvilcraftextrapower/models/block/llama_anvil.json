@@ -1,0 +1,60 @@
+{
+	"credit": "Made with Blockbench",
+	"parent": "minecraft:block/block",
+	"textures": {
+		"5": "anvilcraftextrapower:block/llama_anvil_top",
+		"particle": "anvilcraftextrapower:block/llama_anvil",
+		"body": "anvilcraftextrapower:block/llama_anvil",
+		"side": "anvilcraftextrapower:block/llama_anvil_side",
+		"bottom": "anvilcraftextrapower:block/llama_anvil_bottom_top",
+		"tb": "anvilcraftextrapower:block/llama_anvil_bottom"
+	},
+	"elements": [
+		{
+			"name": "Anvil base",
+			"from": [2, 0, 2],
+			"to": [14, 4, 14],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 2, 8]},
+			"faces": {
+				"north": {"uv": [2, 12, 14, 16], "texture": "#body"},
+				"east": {"uv": [2, 12, 14, 16], "texture": "#body"},
+				"south": {"uv": [2, 12, 14, 16], "texture": "#body"},
+				"west": {"uv": [2, 12, 14, 16], "texture": "#body"},
+				"up": {"uv": [2, 2, 14, 14], "texture": "#bottom"},
+				"down": {"uv": [2, 2, 14, 14], "texture": "#bottom", "cullface": "down"}
+			}
+		},
+		{
+			"name": "middle",
+			"from": [5, 4, 4],
+			"to": [11, 10, 12],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 7, 8]},
+			"faces": {
+				"north": {"uv": [5, 6, 11, 12], "texture": "#body"},
+				"east": {"uv": [4, 6, 12, 12], "texture": "#body"},
+				"south": {"uv": [5, 6, 11, 12], "texture": "#body"},
+				"west": {"uv": [4, 6, 12, 12], "texture": "#body"}
+			}
+		},
+		{
+			"name": "Anvil top",
+			"from": [3, 10, 0],
+			"to": [13, 16, 16],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8, 13, 8]},
+			"faces": {
+				"north": {"uv": [3, 6, 13, 12], "texture": "#side", "cullface": "north"},
+				"east": {"uv": [16, 0, 0, 6], "texture": "#body"},
+				"south": {"uv": [3, 0, 13, 6], "texture": "#side", "cullface": "south"},
+				"west": {"uv": [0, 0, 16, 6], "texture": "#body"},
+				"up": {"uv": [3, 0, 13, 16], "rotation": 180, "texture": "#5", "cullface": "up"},
+				"down": {"uv": [3, 16, 13, 0], "rotation": 180, "texture": "#tb"}
+			}
+		}
+	],
+	"display": {
+		"fixed": {
+			"rotation": [0, 90, 0],
+			"scale": [0.5, 0.5, 0.5]
+		}
+	}
+}

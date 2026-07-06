@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": {"model": "anvilcraftextrapower:block/sulfur_block"}
+    "": {
+      "model": "anvilcraftextrapower:block/sulfur_block"
+    }
   }
 }
