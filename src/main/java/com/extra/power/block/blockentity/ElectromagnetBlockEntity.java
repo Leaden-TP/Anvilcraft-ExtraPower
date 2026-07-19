@@ -30,7 +30,7 @@ import static com.extra.power.block.just_block.ElectromagnetBlock.LIT;
 public class ElectromagnetBlockEntity extends BlockEntity implements IPowerConsumer {
     private static final double ACCELERATION = 0.5;
     private static final int RANGE = AnvilCraft.CONFIG.magnetAttractsDistance*5;
-    private static int tickCounter = 0;
+    private int tickCounter = 0;
     @Getter
     private PowerGrid grid;
     public ElectromagnetBlockEntity(BlockPos pos, BlockState state) {
@@ -53,7 +53,7 @@ public class ElectromagnetBlockEntity extends BlockEntity implements IPowerConsu
 
         if (state.getValue(LIT) || state.getValue(ElectromagnetBlock.OVERLOAD)) return;
         if (entity.tickCounter%2==0){
-            this.attract(state, level, pos);
+            entity.attract(state, level, pos);
             entity.tickCounter=0;
         }
         AABB area = new AABB(
@@ -89,7 +89,7 @@ public class ElectromagnetBlockEntity extends BlockEntity implements IPowerConsu
         }
     }
 
-    private void attract(BlockState state, Level level, BlockPos magnetPos) {
+    public void attract(BlockState state, Level level, BlockPos magnetPos) {
         if (level.isClientSide()) return;
         if (level.getBlockState(magnetPos.below()).is(BlockTags.ANVIL)) return;
         BlockPos currentPos = magnetPos;
