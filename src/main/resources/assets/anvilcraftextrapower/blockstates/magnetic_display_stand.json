@@ -1,6 +1,8 @@
 {
   "variants": {
-    "overload=false": {"model": "anvilcraftextrapower:block/magnetic_display_stand"},
-    "overload=true": {"model": "anvilcraftextrapower:block/magnetic_display_stand_overload"}
+    "overload=false,rp=false": {"model": "anvilcraftextrapower:block/magnetic_display_stand"},
+    "overload=true,rp=false": {"model": "anvilcraftextrapower:block/magnetic_display_stand_overload"},
+    "overload=true,rp=true": {"model": "anvilcraftextrapower:block/magnetic_display_stand_overload"},
+    "overload=false,rp=true": {"model": "anvilcraftextrapower:block/magnetic_display_stand_overload"}
   }
 }

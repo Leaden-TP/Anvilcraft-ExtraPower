@@ -24,6 +24,9 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
+import static com.extra.power.block.just_block.FrostControllerBlock.RP;
+import static com.extra.power.block.just_block.MagneticDisplayStandBlock.OVERLOAD;
+
 public class MagneticDisplayStandRenderer implements BlockEntityRenderer<MagneticDisplayStandBlockEntity> {
 
 
@@ -56,8 +59,6 @@ public class MagneticDisplayStandRenderer implements BlockEntityRenderer<Magneti
             float z_add = actionState.get(2).floatValue();
             float rotX = actionState.get(3).floatValue();
             float rotY = actionState.get(4).floatValue();
-            float rotZ = actionState.get(5).floatValue();
-
             if (stack.isEmpty()) return;
             BakedModel model = Minecraft.getInstance().getItemRenderer().getModel(stack, be.getLevel(), null, getSeed(be));
             AABB aabb = RenderModelSupport.getSize(model);
@@ -87,5 +88,15 @@ public class MagneticDisplayStandRenderer implements BlockEntityRenderer<Magneti
                     .render(stack, ItemDisplayContext.GROUND, false, poseStack, buffer, packedLight, OverlayTexture.NO_OVERLAY, model);
             poseStack.popPose();
         }
+    }
+    @Override
+    public AABB getRenderBoundingBox(MagneticDisplayStandBlockEntity blockEntity) {
+        return AABB.INFINITE;
+    }
+
+
+    @Override
+    public int getViewDistance() {
+        return 128;
     }
 }

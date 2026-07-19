@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "anvilcraftextrapower:nuclear_bomb"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "hasb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraft:ember_metal_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hasp": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:plates/lead"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hasu": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraft:uranium_block"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "hasu",
+      "hasb",
+      "hasp"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "anvilcraftextrapower:nuclear_bomb"
+    ]
+  }
+}

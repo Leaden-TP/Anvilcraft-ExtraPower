@@ -1,5 +1,7 @@
 {
 	"credit": "Made with Blockbench",
+	"ambientocclusion": false,
+	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "anvilcraft:block/overheated_ember_metal_block_outline",
 		"1": "anvilcraftextrapower:block/nuclear_collector_head_overheated",

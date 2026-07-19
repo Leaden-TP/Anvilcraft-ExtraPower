@@ -8,6 +8,8 @@ import com.extra.power.init.ModDamageTypes;
 import com.extra.power.init.ModSounds;
 import com.extra.power.network.FlashPayload;
 import com.extra.power.network.ShakePayload;
+import dev.dubhe.anvilcraft.api.world.load.LevelLoadManager;
+import dev.dubhe.anvilcraft.api.world.load.LoadChuckData;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
@@ -15,6 +17,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.tags.BlockTags;
@@ -113,6 +116,15 @@ public class MushroomCloudBlockEntity extends BlockEntity {
                     entity.C_size += entity.SCALE_SPEED;
             }
         }
+        if (entity.isExpanding == 2 ) {
+            if (level instanceof ServerLevel serverLevel) {
+            LevelLoadManager.reload(
+                    serverLevel,
+                    pos,
+                    LoadChuckData.createLoadChuckData(3, pos, false, serverLevel)
+            );
+            }
+        }
         if (!level.isClientSide()) {
             entity.ticks++;
             if (entity.ticks % 2 == 0) {
@@ -120,7 +132,6 @@ public class MushroomCloudBlockEntity extends BlockEntity {
                     int shakeRadius = ModServerConfig.nuclearExplosion.Explosionlevel*ModServerConfig.nuclearExplosion.Explosionlevel+16;
                     AABB area = new AABB(pos).inflate(shakeRadius);
                     List<Player> players = level.getEntitiesOfClass(Player.class, area);
-
                     for (Player player : players) {
                         double distance = player.distanceToSqr(pos.getX(), pos.getY(), pos.getZ());
                         // 简单的线性衰减
@@ -189,6 +200,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
                 }
                 else if (!entity.level_2) entity.level_2=entity.removeSomething_ball_level_2(level, pos, entity.S_r*5);
                 if (entity.C_size >= 10 && entity.last_y == 0) {
+                    LevelLoadManager.unregister(pos, level);
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);}
             }
         }

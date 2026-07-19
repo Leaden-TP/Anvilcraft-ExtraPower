@@ -17,7 +17,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class MushroomCloudRenderer implements BlockEntityRenderer<MushroomCloudBlockEntity> {
     public static final ModelResourceLocation HEAD_MODEL = ModelResourceLocation.standalone(
-            AnvilCraftExtrapower.of("block/mushroom_cloud"));
+            AnvilCraftExtrapower.of("block/mushroom_cloud_head"));
     public static final ModelResourceLocation BOTTOM_MODEL = ModelResourceLocation.standalone(
             AnvilCraftExtrapower.of("block/mushroom_cloud_bottom"));
     public static final ModelResourceLocation TOP_SIDE_MODEL = ModelResourceLocation.standalone(

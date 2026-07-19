@@ -1,5 +1,9 @@
 {
   "values": [
+    "anvilcraftextrapower:llama_anvil",
+    "anvilcraftextrapower:electromagnet",
+    "anvilcraftextrapower:anvil_projector",
+    "anvilcraftextrapower:magnetic_display_stand",
     "anvilcraftextrapower:solar_panel",
     "anvilcraftextrapower:burning_coal_block",
     "anvilcraftextrapower:sulfur_block",

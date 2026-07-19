@@ -1,16 +1,15 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "building",
-  "group": "anvilcraftextrapower:nuclear_bomb",
   "key": {
-    "U": {
-      "item": "anvilcraft:uranium_block"
+    "B": {
+      "item": "anvilcraft:ember_metal_block"
     },
     "P": {
       "tag": "c:plates/lead"
     },
-    "B": {
-      "item": "anvilcraft:cut_ember_metal_slab"
+    "U": {
+      "item": "anvilcraft:uranium_block"
     }
   },
   "pattern": [

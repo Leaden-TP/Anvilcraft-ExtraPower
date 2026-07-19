@@ -2,6 +2,7 @@ package com.extra.power.block;
 
 import com.extra.power.block.just_block.*;
 import com.extra.power.init.ModCreativeModeTab;
+import dev.anvilcraft.lib.v2.registrum.providers.RegistrumRecipeProvider;
 import dev.anvilcraft.lib.v2.registrum.util.entry.BlockEntry;
 import dev.dubhe.anvilcraft.block.multipart.SimpleMultiPartBlock;
 import dev.dubhe.anvilcraft.data.AnvilCraftDatagen;
@@ -10,10 +11,7 @@ import dev.dubhe.anvilcraft.init.block.ModBlocks;
 import dev.dubhe.anvilcraft.init.item.ModItemTags;
 import dev.dubhe.anvilcraft.init.item.ModItems;
 import dev.dubhe.anvilcraft.util.DataGenUtil;
-import net.minecraft.data.recipes.RecipeCategory;
-import net.minecraft.data.recipes.ShapedRecipeBuilder;
-import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.data.recipes.SimpleCookingRecipeBuilder;
+import net.minecraft.data.recipes.*;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.world.item.Items;
@@ -53,35 +51,56 @@ public class ModBlock {
                         .lightLevel(state -> 15)
                         .noOcclusion()));
     }
-    public static final BlockEntry<? extends Block> ELECTROMAGNET = REGISTRATE.block("electromagnet",
-                    ElectromagnetBlock::new)
-            .lang("Electromagnet")
-            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
-            .properties(p -> p.strength(2f, 3f).noOcclusion())
-            .blockstate(DataGenUtil::noExtraModelOrState)
-            .item()
-            .build()
-            .tag(ModBlockTags.MAGNET)
-            .register();
-
     public static final BlockEntry<? extends Block> LLAMA_ANVIL = REGISTRATE.block("llama_anvil",
                     LlamaAnvilBlock::new)
             .lang("Llama Anvil")
             .initialProperties(() -> Blocks.CAKE)
             .properties(p -> p.noOcclusion().isValidSpawn(Blocks::never))
             .blockstate(DataGenUtil::noExtraModelOrState)
+            .recipe((ctx, provider) -> {
+                ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ctx.get())
+                        .pattern("CCC")
+                        .pattern(" C ")
+                        .pattern("CCC")
+                        .define('C', ModBlocks.CREAM_BLOCK)
+                        .unlockedBy("hasitem", AnvilCraftDatagen.has(ModBlocks.CREAM_BLOCK))
+                        .save(provider);
+            })
             .item()
             .tag(ItemTags.ANVIL)
             .build()
-            .tag(BlockTags.ANVIL, BlockTags.MINEABLE_WITH_AXE, ModBlockTags.NON_MAGNETIC, ModBlockTags.CANT_BROKEN_ANVIL)
+            .tag(BlockTags.ANVIL, BlockTags.MINEABLE_WITH_PICKAXE, ModBlockTags.NON_MAGNETIC, ModBlockTags.CANT_BROKEN_ANVIL)
             .register();
+    public static final BlockEntry<? extends Block> ELECTROMAGNET = REGISTRATE.block("electromagnet",
+                    ElectromagnetBlock::new)
+            .lang("Electromagnet")
+            .initialProperties(() -> Blocks.NETHERITE_BLOCK)
+            .properties(p -> p.strength(1f, 3f).noOcclusion())
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .build()
+            .recipe((ctx, provider) -> {
+                ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ctx.get())
+                        .pattern("I")
+                        .pattern("M")
+                        .pattern("I")
+                        .define('M', ModBlocks.MAGNETO_ELECTRIC_CORE_BLOCK)
+                        .define('I', ModItemTags.IRON_PLATES)
+                        .unlockedBy("hasitem", AnvilCraftDatagen.has(ModBlocks.MAGNETO_ELECTRIC_CORE_BLOCK))
+                        .unlockedBy("hasitem1", AnvilCraftDatagen.has(ModItemTags.IRON_PLATES))
+                        .save(provider);
+            })
+            .tag(ModBlockTags.MAGNET,BlockTags.MINEABLE_WITH_PICKAXE)
+            .register();
+
 
     public static final BlockEntry<? extends Block> ANVIL_PROJECTOR = REGISTRATE.block("anvil_projector",
                     AnvilProjectorBlock::new)
             .lang("Anvil Projector")
             .initialProperties(() -> Blocks.NETHERITE_BLOCK)
-            .properties(p -> p.strength(2f, 3f).noOcclusion())
+            .properties(p -> p.strength(1f, 3f).noOcclusion())
             .blockstate(DataGenUtil::noExtraModelOrState)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .item()
             .build()
             .recipe((ctx, provider) -> {
@@ -105,8 +124,9 @@ public class ModBlock {
                     MagneticDisplayStandBlock::new)
             .lang("Magnetic Display Stand")
             .initialProperties(() -> Blocks.NETHERITE_BLOCK)
-            .properties(p -> p.strength(2f, 3f).noOcclusion())
+            .properties(p -> p.strength(1f, 3f).noOcclusion())
             .blockstate(DataGenUtil::noExtraModelOrState)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .item()
             .build()
             .recipe((ctx, provider) -> {
@@ -135,7 +155,7 @@ public class ModBlock {
                 ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get())
                         .pattern("ACA")
                         .pattern(" S ")
-                        .pattern(" C")
+                        .pattern(" C ")
                         .define('A', Items.DAYLIGHT_DETECTOR)
                         .define('S', Items.SUNFLOWER)
                         .define('C', ModItemTags.IRON_PLATES)
@@ -148,7 +168,7 @@ public class ModBlock {
                 ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get())
                         .pattern("ACA")
                         .pattern(" V ")
-                        .pattern(" C")
+                        .pattern(" C ")
                         .define('A', Items.DAYLIGHT_DETECTOR)
                         .define('V', ModItems.CIRCUIT_BOARD)
                         .define('C', ModItemTags.IRON_PLATES)
@@ -418,6 +438,218 @@ public class ModBlock {
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .build()
+            .register();
+    public static final BlockEntry<? extends Block> SIGN = REGISTRATE.block("sign_base",
+                    SignBlock::new)
+            .lang("Sign Base")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ctx.get(),4)
+                        .pattern(" I ")
+                        .pattern("IWI")
+                        .pattern(" I ")
+                        .define('I', ModItemTags.IRON_PLATES)
+                        .define('W', ItemTags.WOOL)
+                        .unlockedBy("hasitem", AnvilCraftDatagen.has(ModBlocks.MAGNETO_ELECTRIC_CORE_BLOCK))
+                        .unlockedBy("hasitem1", AnvilCraftDatagen.has(ModItemTags.IRON_PLATES))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_ANVIL_FALL = REGISTRATE.block("sign_anvil_fall",
+                    SignBlock::new)
+            .lang("Sign Anvil Fall")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder.stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_CONSTRUCTION = REGISTRATE.block("sign_construction",
+                    SignBlock::new)
+            .lang("Sign Construction")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder.stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_DO_NOT_OPERATE = REGISTRATE.block("sign_do_not_operate",
+                    SignBlock::new)
+            .lang("Sign Don't Operate")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder.stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_HIGHSPEED_ANVIL = REGISTRATE.block("sign_highspeed_anvil",
+                    SignBlock::new)
+            .lang("Sign Highspeed Anvil")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder.stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_LASER_HAZARD = REGISTRATE.block("sign_laser_hazard",
+                    SignBlock::new)
+            .lang("Sign Laser Hazard")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder.stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_RADIATION = REGISTRATE.block("sign_radiation",
+                    SignBlock::new)
+            .lang("Sign Radiation")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder.stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_TIME_HAZARD = REGISTRATE.block("sign_time_hazard",
+                    SignBlock::new)
+            .lang("Sign Time Hazard")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder .stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_STRONG_GRAVITY = REGISTRATE.block("sign_strong_gravity",
+                    SignBlock::new)
+            .lang("Sign Strong Gravity")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder.stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
+            .register();
+    public static final BlockEntry<? extends Block> SIGN_MAGNETIC_FIELD = REGISTRATE.block("sign_magnetic_field",
+                    SignBlock::new)
+            .lang("Sign Magnetic Field")
+            .initialProperties(() -> Blocks.LIGHT_BLUE_WOOL)
+            .properties(p -> p
+                    .noOcclusion()
+                    .isValidSpawn(Blocks::never))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .item()
+            .tag(com.extra.power.init.ModItemTags.SIGN)
+            .build()
+            .recipe((ctx, provider) -> {
+                SingleItemRecipeBuilder.stonecutting(
+                                Ingredient.of(com.extra.power.init.ModItemTags.SIGN),
+                                RecipeCategory.BUILDING_BLOCKS,
+                                ctx.get(),
+                                1
+                        ).unlockedBy("has_sign", RegistrumRecipeProvider.has(SIGN.get()))
+                        .save(provider);
+            })
             .register();
 
 

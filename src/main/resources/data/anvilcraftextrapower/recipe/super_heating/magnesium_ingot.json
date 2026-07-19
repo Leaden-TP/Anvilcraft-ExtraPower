@@ -5,7 +5,7 @@
       "items": "anvilcraftextrapower:magnesium_oxide"
     },
     {
-      "items": "anvilcraftextrapower:multiphase_capacitor"
+      "items": "anvilcraft:supercapacitor"
     }
   ],
   "results": [
@@ -30,7 +30,7 @@
       "id": "anvilcraftextrapower:magnesium_nugget"
     },
     {
-      "id": "anvilcraftextrapower:multiphase_capacitor",
+      "id": "anvilcraft:supercapacitor",
       "count":1
     }
     ]

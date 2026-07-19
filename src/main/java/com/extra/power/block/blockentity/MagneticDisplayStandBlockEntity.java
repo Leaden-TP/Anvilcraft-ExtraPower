@@ -1,5 +1,6 @@
 package com.extra.power.block.blockentity;
 
+import com.extra.power.api.entity.IEasyAnimation;
 import com.extra.power.api.entity.IScrollAdjustable;
 import com.extra.power.block.ModBlockEntity;
 import com.extra.power.network.UpdateAnimationStatePacket;
@@ -30,17 +31,21 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPowerConsumer, IItemHandlerHolder, IHasDisplayItem, IScrollAdjustable {
-    private float userHeightOffset = 0.0f;   // 玩家调节的高度偏移
-    private static final float MIN_HEIGHT_OFFSET = -0.5f;
+public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPowerConsumer, IItemHandlerHolder, IHasDisplayItem, IScrollAdjustable , IEasyAnimation {
+    private float userHeightOffset = 0.5f;
+    private static final float MIN_HEIGHT_OFFSET = 0.0f;
     private static final float MAX_HEIGHT_OFFSET = 6.0f;
     private static final int POWER = 8;
-    private static final int SYNC_INTERVAL = 40; // 2秒（20 tick/秒 * 2秒）
+    private static final int SYNC_INTERVAL = 40;
     private int action_t = 0;
     private int syncTimer = 0;
-    @Getter
-    private List<Double> action_state = new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)); // 前三个为xyz 后三个为对应的旋转
+    private int preRotation = 0;
+    private int rotation = 0;
     private boolean loading = false;
+    private boolean locked = false;
+    private int rp = 0;
+    @Getter
+    private List<Double> action_state = new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
     @Getter
     private PowerGrid grid;
     @Getter
@@ -107,8 +112,16 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
     public void tick(Level level, BlockPos pos, BlockState state, MagneticDisplayStandBlockEntity entity) {
         if (getDisplayItemStack().isEmpty()){entity.action_state=new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));}
         List<Float> target_state = Arrays.asList(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-        if (entity.loading && getDisplayItemStack().getItem() instanceof BlockItem) target_state = Arrays.asList(0.0f, 0.5f+entity.userHeightOffset, 0.0f, 0.0f, (float)level.getGameTime()%360, 0.0f);
-        else if (entity.loading) target_state = Arrays.asList(0.0f, 0.5f+entity.userHeightOffset, 0.125f, -90.0f, (float)level.getGameTime()%360, 0.0f);
+        if (this.rotation == 360) this.rotation = 0;
+        this.preRotation = this.rotation;
+        this.rotation += 2;
+        if (entity.loading && getDisplayItemStack().getItem() instanceof BlockItem){
+            target_state = Arrays.asList(0.0f, entity.userHeightOffset*(15-entity.rp)/15, 0.0f, 0.0f, (float)this.rotation, 0.0f);
+        }
+
+        else if (entity.loading){
+            target_state = Arrays.asList(0.0f, entity.userHeightOffset*(15-entity.rp)/15, 0.125f, -90.0f, (float)this.rotation, 0.0f);}
+
         for (int i = 0; i < entity.action_state.size(); i++) {
             double current = entity.action_state.get(i);
             double target = target_state.get(i).doubleValue();
@@ -119,22 +132,25 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
                 continue;
             }
 
-            // 使用更平滑的插值
-          double step = Math.min(distance, Math.max(0.01, distance / 10));
+            double step = Math.clamp(distance / 10, 0.01, distance);
             if (current < target) {
                 entity.action_state.set(i, current + step);
-            } else {
+            }
+            else {
                 entity.action_state.set(i, current - step);
             }
         }
 
-            if (!level.isClientSide && entity.action_t % 3 == 0) {
-            if (!state.getValue(OVERLOAD) != entity.loading)
-            entity.loading = !state.getValue(OVERLOAD);
-            action_t = 0;}
+        if (!level.isClientSide() && entity.action_t % 3 == 0) {
+            if ((!state.getValue(OVERLOAD) && !(entity.rp==15)) != entity.loading) {
+                entity.loading = !state.getValue(OVERLOAD) && !(entity.rp==15);
+            }
+            entity.rp = level.getBestNeighborSignal(pos);
+            entity.action_t = 0;
+        }
+        if (!level.isClientSide()  && getDisplayItemStack().isEmpty()) {return;}
 
-        // 定期同步检查（每2秒）
-        if (!level.isClientSide) {
+        if (!level.isClientSide()) {
             this.flushState(level, pos);
             entity.action_t++;
             entity.syncTimer++;
@@ -158,13 +174,6 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
             lastSyncedStack.save(registries, lastSyncedTag);
         }
         tag.put("LastSyncedStack", lastSyncedTag);
-        if (action_state != null) {
-            CompoundTag animationTag = new CompoundTag();
-            for (int i = 0; i < action_state.size(); i++) {
-                animationTag.putDouble("ActionState_" + i, action_state.get(i));
-            }
-            tag.put("AnimationState", animationTag);
-        }
         tag.putFloat("UserHeightOffset", userHeightOffset);
     }
 
@@ -177,16 +186,6 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
             lastSyncedStack = ItemStack.parse(registries, tag.getCompound("LastSyncedStack")).orElse(ItemStack.EMPTY);
         }
         updateDisplayItemStack();
-
-        // 加载动画状态
-        if (tag.contains("AnimationState")) {
-            CompoundTag animationTag = tag.getCompound("AnimationState");
-            for (int i = 0; i < action_state.size(); i++) {
-                if (animationTag.contains("ActionState_" + i)) {
-                    action_state.set(i, animationTag.getDouble("ActionState_" + i));
-                }
-            }
-        }
         userHeightOffset = tag.getFloat("UserHeightOffset");
         // 限制范围
         userHeightOffset = (float) Math.clamp(userHeightOffset, MIN_HEIGHT_OFFSET, MAX_HEIGHT_OFFSET);
@@ -309,6 +308,12 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
             }
         }
         // 未来可扩展其他参数
+    }
+    public Boolean isLocked() {
+        return this.locked ;
+    }
+    public void LockIt() {
+        this.locked  = true;
     }
     /**
      * 更新本地显示物品（不触发网络同步）

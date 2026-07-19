@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "anvilcraftextrapower:block/sign_laser_hazard",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "anvilcraftextrapower:block/sign_laser_hazard"
+    },
+    "facing=south": {
+      "model": "anvilcraftextrapower:block/sign_laser_hazard",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "anvilcraftextrapower:block/sign_laser_hazard",
+      "y": 270
+    }
+  }
+}

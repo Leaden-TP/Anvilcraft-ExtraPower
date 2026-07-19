@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "anvilcraftextrapower:block/sign_construction",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "anvilcraftextrapower:block/sign_construction"
+    },
+    "facing=south": {
+      "model": "anvilcraftextrapower:block/sign_construction",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "anvilcraftextrapower:block/sign_construction",
+      "y": 270
+    }
+  }
+}

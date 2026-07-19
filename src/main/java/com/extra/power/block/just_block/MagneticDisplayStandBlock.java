@@ -12,8 +12,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
@@ -33,21 +36,23 @@ import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class MagneticDisplayStandBlock extends BaseEntityBlock implements IHammerRemovable {
     public static BooleanProperty OVERLOAD = IPowerComponent.OVERLOAD;
+    public static  BooleanProperty RP = BooleanProperty.create("rp");
     private static final VoxelShape BASE = Shapes.or(Block.box(0, 0, 0, 16.0, 3.0, 16.0)
             ,Block.box(0,13,0,16,15,16),Block.box(2,15,2,14,16,14));
     public MagneticDisplayStandBlock(BlockBehaviour.Properties Properties) {
         super(Properties);
         this.registerDefaultState(this.stateDefinition.any()
-                .setValue(OVERLOAD, true));
+                .setValue(OVERLOAD, true).setValue(RP, false));
     }
     @Override
     @Nullable
     public BlockState getStateForPlacement(BlockPlaceContext context) {
-        return this.defaultBlockState().setValue(OVERLOAD, true);
+        return this.defaultBlockState().setValue(OVERLOAD, true).setValue(RP, false);
     }
 
     @Override
@@ -72,7 +77,7 @@ public class MagneticDisplayStandBlock extends BaseEntityBlock implements IHamme
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(OVERLOAD);
+        builder.add(OVERLOAD).add(RP);
     }
 
     @Override
@@ -101,7 +106,7 @@ public class MagneticDisplayStandBlock extends BaseEntityBlock implements IHamme
 
         ItemStack handStack = player.getItemInHand(hand);
         ItemStack displayItem = displayStand.getItemstack();
-
+        if (displayStand.isLocked())return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         if (handStack.isEmpty()) {
             // 空手 - 取出物品
             if (!displayItem.isEmpty()) {
@@ -152,5 +157,26 @@ public class MagneticDisplayStandBlock extends BaseEntityBlock implements IHamme
         }
 
         super.onRemove(state, level, pos, newState, movedByPiston);
+    }
+    @Override
+    protected void neighborChanged(BlockState state, Level level, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean movedByPiston) {
+        if (level.isClientSide()) return;
+        Boolean Rp = level.hasNeighborSignal(pos);
+        if (state.getValue(RP) != Rp)level.setBlock(pos,state.setValue(RP, Rp), 3);
+    }
+    @Override
+    public void stepOn(Level level, @NotNull BlockPos pos, @NotNull BlockState state, @NotNull Entity entity) {
+        if (entity instanceof ItemEntity itemEntity && !level.isClientSide()) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof MagneticDisplayStandBlockEntity displayStand) {
+                ItemStack itemStack = itemEntity.getItem();
+                if (itemStack.is(Items.HONEYCOMB) && !displayStand.isLocked()) {
+                    displayStand.LockIt();
+                    level.levelEvent(null, 3003, pos, 0);
+                    itemEntity.setItem(new ItemStack(Items.AIR));
+                }
+            }
+            super.stepOn(level, pos, state, entity);
+        }
     }
 }

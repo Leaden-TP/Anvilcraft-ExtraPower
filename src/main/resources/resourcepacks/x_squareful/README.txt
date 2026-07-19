@@ -1,3 +1,6 @@
 A series of squarelize Minecraft resourcepack
-Author:LuanHongKeZhen&Leaden_TP
-Squareful's webside:https://www.curseforge.com/minecraft/texture-packs/xekr-square-pattern
+鱗諒：LuanHongKeZhen&Leaden_TP
+각것각것각것각것각것각것각것각것각것각것각것
+렘廣껸땀코零꼼醴관각것각것각것각것각것각것각것
+각것각것
+寮관졍쌈：https://www.curseforge.com/minecraft/texture-packs/xekr-square-pattern

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "I": {
+      "tag": "c:plates/iron"
+    },
+    "W": {
+      "tag": "minecraft:wool"
+    }
+  },
+  "pattern": [
+    " I ",
+    "IWI",
+    " I "
+  ],
+  "result": {
+    "count": 4,
+    "id": "anvilcraftextrapower:sign_base"
+  }
+}

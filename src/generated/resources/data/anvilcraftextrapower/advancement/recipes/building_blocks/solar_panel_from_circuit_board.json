@@ -3,7 +3,7 @@
   "criteria": {
     "has_the_recipe": {
       "conditions": {
-        "recipe": "anvilcraftextrapower:solar_panel"
+        "recipe": "anvilcraftextrapower:solar_panel_from_circuit_board"
       },
       "trigger": "minecraft:recipe_unlocked"
     },
@@ -12,16 +12,6 @@
         "items": [
           {
             "items": "anvilcraft:circuit_board"
-          }
-        ]
-      },
-      "trigger": "minecraft:inventory_changed"
-    },
-    "hasb": {
-      "conditions": {
-        "items": [
-          {
-            "items": "minecraft:sunflower"
           }
         ]
       },
@@ -53,13 +43,12 @@
       "has_the_recipe",
       "hasbar",
       "hasday",
-      "hasplate",
-      "hasb"
+      "hasplate"
     ]
   ],
   "rewards": {
     "recipes": [
-      "anvilcraftextrapower:solar_panel"
+      "anvilcraftextrapower:solar_panel_from_circuit_board"
     ]
   }
 }

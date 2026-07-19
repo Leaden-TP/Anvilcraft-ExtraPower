@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=east": {
+      "model": "anvilcraftextrapower:block/sign_magnetic_field",
+      "y": 90
+    },
+    "facing=north": {
+      "model": "anvilcraftextrapower:block/sign_magnetic_field"
+    },
+    "facing=south": {
+      "model": "anvilcraftextrapower:block/sign_magnetic_field",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "anvilcraftextrapower:block/sign_magnetic_field",
+      "y": 270
+    }
+  }
+}

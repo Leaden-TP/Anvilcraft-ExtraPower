@@ -1,5 +1,6 @@
 package com.extra.power.network;
 
+import com.extra.power.api.entity.IEasyAnimation;
 import com.extra.power.block.blockentity.MagneticDisplayStandBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
@@ -50,7 +51,7 @@ public record UpdateAnimationStatePacket(List<Double> actionState, BlockPos pos)
     public static void handle(UpdateAnimationStatePacket packet, IPayloadContext context) {
         context.enqueueWork(() -> {
             Level level = context.player().level();
-            if (level.isClientSide() && level.getBlockEntity(packet.pos) instanceof MagneticDisplayStandBlockEntity be) {
+            if (level.isClientSide() && level.getBlockEntity(packet.pos) instanceof IEasyAnimation be) {
                 be.updateActionState(packet.actionState);
             }
         });

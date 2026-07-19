@@ -3,7 +3,7 @@
 	"render_type": "translucent",
 	"textures": {
 		"0": "anvilcraftextrapower:block/potato_battery",
-		"1": "anvilcraftextrapower:item/supercapacitor_electric",
+		"1": "anvilcraftextrapower:block/supercapacitor_electric",
 		"particle": "anvilcraftextrapower:block/potato_battery"
 	},
 	"elements": [
@@ -89,6 +89,10 @@
 			"rotation": [30, 225, 0],
 			"translation": [0, 3, 0],
 			"scale": [0.9, 0.9, 0.9]
+		},
+		"head": {
+			"translation": [0, 22.5, 0],
+			"scale": [3.7, 3.7, 3.7]
 		},
 		"fixed": {
 			"translation": [0, 3, 0],

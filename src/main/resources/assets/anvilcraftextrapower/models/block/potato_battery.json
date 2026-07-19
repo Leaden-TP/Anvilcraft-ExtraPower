@@ -75,6 +75,10 @@
 			"translation": [0, 3, 0],
 			"scale": [0.9, 0.9, 0.9]
 		},
+		"head": {
+			"translation": [0, 22.5, 0],
+			"scale": [3.7, 3.7, 3.7]
+		},
 		"fixed": {
 			"translation": [0, 3, 0],
 			"scale": [0.8, 0.8, 0.8]

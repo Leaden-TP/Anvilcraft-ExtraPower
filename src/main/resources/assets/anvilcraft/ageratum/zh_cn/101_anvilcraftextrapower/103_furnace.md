@@ -14,4 +14,4 @@ items:
 <item id="minecraft:smoker"/>
 <item id="minecraft:blast_furnace"/>
 
-- ### 现在熔炉，烟熏炉和高炉在燃烧时的热量可以被<ref item="anvilcraft.heat_collector"/>收集发电。
+- ### 现在熔炉，烟熏炉和高炉在燃烧时的热量可以被<ref item="anvilcraft:heat_collector"/>收集发电。

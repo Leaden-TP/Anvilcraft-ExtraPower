@@ -17,6 +17,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -27,14 +28,15 @@ public class FrostControllerRenderer implements BlockEntityRenderer<FrostControl
     public FrostControllerRenderer(BlockEntityRendererProvider.Context context){
     }
     public void render(
-            @NotNull FrostControllerBlockEntity blockEntity,
+            @NotNull FrostControllerBlockEntity be,
             float partialTick,
             @NotNull PoseStack poseStack,
             @NotNull MultiBufferSource buffer,
             int packedLight,
             int packedOverlay
     ) {
-        float rotation = rotation(blockEntity, partialTick);
+        List<Double> actionState = be.getAction_state();
+        float rotation = actionState.get(0).floatValue();
         final VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.translucent());
         poseStack.translate(0.5F, elevation(), 0.5F);
         poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
@@ -46,7 +48,7 @@ public class FrostControllerRenderer implements BlockEntityRenderer<FrostControl
                         poseStack.last(),
                         vertexConsumer,
                         null,
-                        Minecraft.getInstance().getModelManager().getModel(getModel(blockEntity)),
+                        Minecraft.getInstance().getModelManager().getModel(getModel(be)),
                         0,
                         0,
                         0,
@@ -55,18 +57,6 @@ public class FrostControllerRenderer implements BlockEntityRenderer<FrostControl
                 );
         poseStack.pushPose();
         poseStack.popPose();
-    }
-    protected float rotation(FrostControllerBlockEntity entity, float partialTick) {
-        BlockState state = entity.getBlockState();
-        if (state.getValue(FrostControllerBlock.ACTIVE)) {
-            Level level = entity.getLevel();
-            if (level != null) {
-                // 使用游戏时间 + partialTick 动态计算旋转角度
-                float angle = (level.getGameTime() + partialTick) * ROTATION_SPEED;
-                return angle;
-            }
-        }
-        return 0;
     }
 
     protected float elevation() {

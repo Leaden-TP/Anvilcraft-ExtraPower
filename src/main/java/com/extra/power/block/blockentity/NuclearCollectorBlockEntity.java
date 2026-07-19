@@ -218,9 +218,11 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
 
     @Override
     public int getOutputPower() {
-        return power;
+        return this.power;
     }
-
+    public int getServerPower() {
+        return this.power;
+    }
     @Override
     public int getRange() {
         return ModServerConfig.nuclearCollector.theMaximumWaterSurfaceArea/2;

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "I": {
+      "tag": "c:plates/iron"
+    },
+    "M": {
+      "item": "anvilcraft:magnetoelectric_core"
+    }
+  },
+  "pattern": [
+    "I",
+    "M",
+    "I"
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:electromagnet"
+  }
+}

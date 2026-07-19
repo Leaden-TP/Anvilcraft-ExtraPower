@@ -1,0 +1,6 @@
+{
+  "parent": "anvilcraftextrapower:block/sign_base",
+  "textures": {
+    "0": "anvilcraftextrapower:block/sign_anvil_fall"
+  }
+}

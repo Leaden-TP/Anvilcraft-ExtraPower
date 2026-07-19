@@ -18,4 +18,6 @@ public class ModItemTags {
     public static final TagKey<Item> SULFUR = bindC("sulfur");
 
     public static final TagKey<Item>CAPACITOR= bindC("capacitor");
+
+    public static final TagKey<Item>SIGN= bindC("sign");
 }

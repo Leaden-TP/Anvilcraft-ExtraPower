@@ -16,7 +16,7 @@ public class RegisterAdditionalEventListener {
     public static void registerModels(ModelEvent.RegisterAdditional event) {
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/nuclear_collector_head")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/nuclear_collector_head_overheated")));
-        event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/mushroom_cloud")));
+        event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/mushroom_cloud_head")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/mushroom_cloud_bottom")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/mushroom_cloud_top_side")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/mushroom_epicenter")));

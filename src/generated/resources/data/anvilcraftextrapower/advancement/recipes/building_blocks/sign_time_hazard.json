@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_sign": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraftextrapower:sign_base"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "anvilcraftextrapower:sign_time_hazard"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_sign"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "anvilcraftextrapower:sign_time_hazard"
+    ]
+  }
+}

@@ -14,6 +14,6 @@ items:
 
 # 用途
 
-- (1). 与<ref item="anvilcraftextrapower.nuclear_collector"/>组合构成核反应堆
+- (1). 与<ref item="anvilcraftextrapower:nuclear_collector"/>组合构成核反应堆
 - (2). 当失控时产生大范围辐射
-- (3). 可被<ref item="anvilcraftextrapower.frost_controller"/>调控
+- (3). 可被<ref item="anvilcraftextrapower:frost_controller"/>调控

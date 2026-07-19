@@ -17,6 +17,6 @@ items:
 
 # 用途
 
-- (1). 与<ref item="anvilcraftextrapower.nuclear_collector"/>组合构成核反应堆
+- (1). 与<ref item="anvilcraftextrapower:nuclear_collector"/>组合构成核反应堆
 - (2). 作为铁砧使用~~展示品味~~
 - (3). 当从高处下落损坏时或下落失败时，产生核爆

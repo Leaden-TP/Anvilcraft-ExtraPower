@@ -1,6 +1,7 @@
 {
 	"credit": "Made with Blockbench",
-	"render_type": "translucent",
+	"ambientocclusion": false,
+	"render_type": "minecraft:cutout",
 	"textures": {
 		"0": "anvilcraft:block/ember_metal_block_outline",
 		"1": "anvilcraftextrapower:block/nuclear_collector_head",
