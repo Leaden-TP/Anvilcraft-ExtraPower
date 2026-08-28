@@ -2,7 +2,7 @@
 // ClientShakeHandler.java
 package com.extra.power.client.screen;
 
-import com.extra.power.network.ShakePayload;
+import com.extra.power.network.toClient.ShakePayload;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.LocalPlayer;
 import net.neoforged.api.distmarker.Dist;

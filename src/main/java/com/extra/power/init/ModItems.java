@@ -1,5 +1,7 @@
 package com.extra.power.init;
 
+import com.extra.power.init.data.ModItemTags;
+import com.extra.power.item.AutomaticCrossbowItem;
 import com.extra.power.item.capacitor.EmptyLeadacidBatteryItem;
 import com.extra.power.item.capacitor.LeadacidBatteryItem;
 import com.extra.power.item.capacitor.MultiphaseCapacitorItem;
@@ -11,12 +13,11 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.common.Tags;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import static com.extra.power.block.ModBlock.*;
+import static com.extra.power.init.block.ModBlock.*;
 import static com.extra.power.init.AnvilCraftExtrapower.MODID;
 import static com.extra.power.init.AnvilCraftExtrapower.REGISTRATE;
 
@@ -29,7 +30,7 @@ public class ModItems {
 
     public static final ItemEntry<Item> MAGNESIUM_INGOT = REGISTRATE.item("magnesium_ingot", Item::new)
             .lang("Magnesium Ingot")
-            .tag(com.extra.power.init.ModItemTags.MAGNESIUM_INGOTS, Tags.Items.INGOTS, ItemTags.BEACON_PAYMENT_ITEMS)
+            .tag(ModItemTags.MAGNESIUM_INGOTS, Tags.Items.INGOTS, ItemTags.BEACON_PAYMENT_ITEMS)
             .recipe((ctx, provider) -> {
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ctx.get(), 9)
                         .requires(MAGNESIUM_BLOCK)
@@ -41,7 +42,7 @@ public class ModItems {
                         .pattern("AAA")
                         .pattern("AAA")
                         .pattern("AAA")
-                        .define('A', com.extra.power.init.ModItemTags.MAGNESIUM_NUGGETS)
+                        .define('A', ModItemTags.MAGNESIUM_NUGGETS)
                         .group(ctx.getId().toString())
                         .unlockedBy("hasitem", AnvilCraftDatagen.has(ModItems.MAGNESIUM_INGOT))
                         .save(provider, ctx.getId().withSuffix("_from_nuggets"));
@@ -144,6 +145,12 @@ public class ModItems {
                         .unlockedBy("hasitemm", AnvilCraftDatagen.has(ModItems.MULTIPHASE_CAPACITOR_EMPTY))
                         .save(provider);
             })
+            .model(DataGenUtil::noExtraModelOrState)
+            .register();
+    public static final ItemEntry<AutomaticCrossbowItem> AUTOMATIC_CROSSBOW = REGISTRATE.item("automatic_crossbow", AutomaticCrossbowItem::new)
+            .lang("Automatic Crossbow")
+            .properties(properties -> properties.stacksTo(1))
+            .tag(ItemTags.CROSSBOW_ENCHANTABLE, ItemTags.BOW_ENCHANTABLE)
             .model(DataGenUtil::noExtraModelOrState)
             .register();
 }

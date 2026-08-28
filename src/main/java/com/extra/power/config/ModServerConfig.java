@@ -18,9 +18,9 @@ public class ModServerConfig {
         @BoundedDiscrete(min = 100, max = 32768)
         public int baseHeatLimit = 1024;
 
-        @Comment("The power output of a uranium rod(this*5)")
+        @Comment("The power output of a uranium rod")
         @BoundedDiscrete(min = 1, max = 32768)
-        public int powerOutput_of_a_uraniumRod = 150;
+        public int powerOutput_of_a_uraniumRod = 1500;
 
         @Comment("The time interval between water searches")
         @BoundedDiscrete(min = 20, max = 1024)
@@ -38,5 +38,30 @@ public class ModServerConfig {
         @Comment("Explosion level")
         @BoundedDiscrete(min = 3, max = 15)
         public int Explosionlevel = 9;
+    }
+    // 附魔发电机
+    @CollapsibleObject
+    public EnchantedGenerator enchantedGenerator = new EnchantedGenerator();
+
+    public static class EnchantedGenerator {
+        @Comment("Maximum power for Overclocking Enchanted Generator")
+        @BoundedDiscrete(min = 0, max = 128000000)
+        public int maxOverclockingPower = 32768;
+
+        @Comment("Maximum power for Common Enchanted Generator")
+        @BoundedDiscrete(min = 0, max = 128000000)
+        public int maxCommonPower = 1024;
+
+        @Comment("Power per enchantment's level")
+        @BoundedDiscrete(min = 1, max = 1000000)
+        public int powerPerLevel = 2;
+
+        @Comment("Overclocking amplification")
+        @BoundedDiscrete(min = 1, max = 100)
+        public int overclockingAmplification = 8;
+
+        @Comment("Minimum consume enchanted book cooldown")
+        @BoundedDiscrete(min = 1, max = 1000)
+        public int minConsumeCooldown = 10;
     }
 }

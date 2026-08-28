@@ -1,38 +1,33 @@
 package com.extra.power.block.blockentity;
 
-import com.extra.power.api.entity.IEasyAnimation;
 import com.extra.power.block.just_block.FrostControllerBlock;
 import com.extra.power.block.just_block.UraniumRodBlock;
-import com.extra.power.function.AnimationFunction;
-import com.extra.power.network.UpdateAnimationStatePacket;
 import dev.dubhe.anvilcraft.api.tooltip.providers.IHasAffectRange;
 import dev.dubhe.anvilcraft.block.state.Vertical3PartHalf;
-import lombok.Getter;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientGamePacketListener;
-import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.neoforged.neoforge.network.PacketDistributor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static com.extra.power.block.ModBlockEntity.FROST_CONTROLLER;
+import static com.extra.power.init.block.ModBlockEntity.FROST_CONTROLLER;
 
 
-public class FrostControllerBlockEntity extends BlockEntity implements IHasAffectRange , IEasyAnimation {
+public class FrostControllerBlockEntity extends BlockEntity implements IHasAffectRange{
+    private static final float MAX_ROTATION_SPEED = 3.0f;
+    private static final float ROTATION_ACCELERATION = 0.35f;
+
     private int tickCounter = 0;
-    private Double rotation = 0.0;
-    @Getter
-    private List<Double> action_state = new ArrayList<>(Arrays.asList(0.0));
+    private float clientRotation;
+    private float previousClientRotation;
+    private float clientRotationSpeed;
+
 
     public FrostControllerBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -48,55 +43,53 @@ public class FrostControllerBlockEntity extends BlockEntity implements IHasAffec
         super(FROST_CONTROLLER.get(), pos, state);
     }
 
-    public void tick(Level level, BlockPos pos, BlockState state, FrostControllerBlockEntity entity) {
-        if (level.isClientSide()) return;
+    public static void clientTick(
+            Level level, BlockPos pos, BlockState state, FrostControllerBlockEntity entity
+    ) {
+        entity.previousClientRotation = entity.clientRotation;
+        float targetSpeed = state.getValue(FrostControllerBlock.ACTIVE) ? MAX_ROTATION_SPEED : 0.0f;
+        entity.clientRotationSpeed = Mth.lerp(ROTATION_ACCELERATION, entity.clientRotationSpeed, targetSpeed);
+        if (Math.abs(entity.clientRotationSpeed) < 0.001f) {
+            entity.clientRotationSpeed = 0.0f;
+        }
+        entity.clientRotation += entity.clientRotationSpeed;
+        entity.wrapClientRotation();
+    }
+
+    public static void serverTick(
+            Level level, BlockPos pos, BlockState state, FrostControllerBlockEntity entity
+    ) {
         entity.tickCounter++;
+        if (entity.tickCounter < 60) return;
+        entity.tickCounter = 0;
 
-        if (this.action_state.get(0) >= 360){
-            this.rotation = 0.0;
-            this.action_state = Arrays.asList(0.0);
+        if (state.getValue(FrostControllerBlock.HALF) != Vertical3PartHalf.MID
+                || !state.getValue(FrostControllerBlock.ACTIVE)
+                || checkRod(level, pos) > 0) {
+            return;
         }
-        if (!state.getValue(FrostControllerBlock.ACTIVE)){
-            this.rotation = 0.0;
-        }
-        List<Double> target_state = Arrays.asList(0.0);
-        if (state.getValue(FrostControllerBlock.ACTIVE)) {
-            this.rotation += 3;
-            target_state = Arrays.asList(this.rotation);
-        }
-        this.action_state = AnimationFunction.trackTarget(action_state, target_state);
-        syncAnimationState();
 
-        if (entity.tickCounter >= 60) {
-
-            if (state.getValue(FrostControllerBlock.HALF) != Vertical3PartHalf.MID || !state.getValue(FrostControllerBlock.ACTIVE)) {
-                return;
-            }
-            entity.tickCounter = 0;
-            if(checkRod(level,pos)>0)return;
-            int radius = 2;
-            List<BlockPos> waterPositions = new ArrayList<>();
-            for (int x = -radius - 1; x <= radius + 1; x++) {
-                for (int z = -radius - 1; z <= radius + 1; z++) {
-                    for (int y = -radius; y <= radius; y++) {
-                        BlockPos targetPos = pos.offset(x, y, z);
-                        if (level.isOutsideBuildHeight(targetPos)) continue;
-                        BlockState targetState = level.getBlockState(targetPos);
-
-                        if (targetState.getBlock() == Blocks.WATER) {
-                            waterPositions.add(targetPos);
-                        }
+        int radius = 2;
+        List<BlockPos> waterPositions = new ArrayList<>();
+        for (int x = -radius - 1; x <= radius + 1; x++) {
+            for (int z = -radius - 1; z <= radius + 1; z++) {
+                for (int y = -radius; y <= radius; y++) {
+                    BlockPos targetPos = pos.offset(x, y, z);
+                    if (level.isOutsideBuildHeight(targetPos)) continue;
+                    BlockState targetState = level.getBlockState(targetPos);
+                    if (targetState.getBlock() == Blocks.WATER) {
+                        waterPositions.add(targetPos);
                     }
                 }
             }
-            if (!waterPositions.isEmpty()) {
-                BlockPos selectedPos = waterPositions.get(level.getRandom().nextInt(waterPositions.size()));
-                level.setBlock(selectedPos, Blocks.ICE.defaultBlockState(), 3);
-            }
-
         }
-
+        if (!waterPositions.isEmpty()) {
+            BlockPos selectedPos = waterPositions.get(level.getRandom().nextInt(waterPositions.size()));
+            level.setBlock(selectedPos, Blocks.ICE.defaultBlockState(), 3);
+        }
     }
+
+
     public static int checkRod(Level level, BlockPos pos) {
         BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos();
         int rod = 0;
@@ -114,24 +107,20 @@ public class FrostControllerBlockEntity extends BlockEntity implements IHasAffec
         }
         return rod;
     }
-    private void syncAnimationState() {
-        if (level == null || level.isClientSide()) return;
-        PacketDistributor.sendToPlayersTrackingChunk(
-                (ServerLevel) level,
-                level.getChunk(getBlockPos()).getPos(),
-                new UpdateAnimationStatePacket(new ArrayList<>(this.action_state), getBlockPos())
-        );
-    }
-    public void updateActionState(List<Double> newState) {
-        if (level != null && level.isClientSide) {
-            // 只在客户端更新
-            for (int i = 0; i < Math.min(action_state.size(), newState.size()); i++) {
-                action_state.set(i, newState.get(i));
-            }
-        }
-    }
     @Override
     public AABB shape() {
         return AABB.ofSize(getBlockPos().getCenter(), 3, 3, 3);
+    }
+
+    public float getClientRotation(float partialTick) {
+        return Mth.lerp(partialTick, previousClientRotation, clientRotation);
+    }
+
+    private void wrapClientRotation() {
+        float turns = (float) Math.floor(clientRotation / 360.0f);
+        if (turns == 0.0f) return;
+        float offset = turns * 360.0f;
+        clientRotation -= offset;
+        previousClientRotation -= offset;
     }
 }

@@ -1,0 +1,6 @@
+{
+  "parent": "anvilcraftextrapower:block/redstone_link/redstone_link_on_y",
+  "textures": {
+    "6": "anvilcraftextrapower:block/pointer_red"
+  }
+}

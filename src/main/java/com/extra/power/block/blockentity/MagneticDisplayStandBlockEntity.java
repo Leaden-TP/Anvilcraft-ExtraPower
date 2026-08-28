@@ -1,70 +1,91 @@
 package com.extra.power.block.blockentity;
 
-import com.extra.power.api.entity.IEasyAnimation;
 import com.extra.power.api.entity.IScrollAdjustable;
-import com.extra.power.block.ModBlockEntity;
-import com.extra.power.network.UpdateAnimationStatePacket;
+import com.extra.power.init.block.ModBlockEntity;
 import dev.dubhe.anvilcraft.api.IHasDisplayItem;
 import dev.dubhe.anvilcraft.api.itemhandler.FilteredItemStackHandler;
 import dev.dubhe.anvilcraft.api.itemhandler.IItemHandlerHolder;
 import dev.dubhe.anvilcraft.api.power.IPowerConsumer;
 import dev.dubhe.anvilcraft.api.power.PowerGrid;
-import dev.dubhe.anvilcraft.network.UpdateDisplayItemPacket;
 import lombok.Getter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerLevel;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.protocol.game.ClientGamePacketListener;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
-import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.items.IItemHandler;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import static com.extra.power.block.just_block.MagneticDisplayStandBlock.RP;
 
-public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPowerConsumer, IItemHandlerHolder, IHasDisplayItem, IScrollAdjustable , IEasyAnimation {
-    private float userHeightOffset = 0.5f;
+public class MagneticDisplayStandBlockEntity extends BlockEntity
+        implements IPowerConsumer, IHasDisplayItem, IScrollAdjustable, IItemHandlerHolder {
+
     private static final float MIN_HEIGHT_OFFSET = 0.0f;
     private static final float MAX_HEIGHT_OFFSET = 6.0f;
+    private static final float CLIENT_LERP_FACTOR = 0.18f;
+    private static final float ROTATION_SPEED = 2.0f;
+    private static final float POSITION_EPSILON = 0.005f;
+    private static final float ROTATION_EPSILON = 0.25f;
+    private static final float SPEED_EPSILON = 0.005f;
+    private static final float POSE_START_HEIGHT_RATIO = 0.2f;
+    private static final float LOWERING_START_ROTATION_OFFSET = 65.0f;
+    private static final float CUBE_PROGRESS_PER_TICK = 0.1f;
     private static final int POWER = 8;
-    private static final int SYNC_INTERVAL = 40;
-    private int action_t = 0;
-    private int syncTimer = 0;
-    private int preRotation = 0;
-    private int rotation = 0;
-    private boolean loading = false;
+
+    private float userHeightOffset = 0.5f;
     private boolean locked = false;
-    private int rp = 0;
-    @Getter
-    private List<Double> action_state = new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));
-    @Getter
-    private PowerGrid grid;
-    @Getter
-    private ItemStack displayItemStack = ItemStack.EMPTY;
-    private ItemStack lastSyncedStack = ItemStack.EMPTY;
+    private float clientYOffset;
+    private float previousClientYOffset;
+    private float clientZOffset;
+    private float previousClientZOffset;
+    private float clientRotationX;
+    private float previousClientRotationX;
+    private float clientRotationY;
+    private float previousClientRotationY;
+    private float clientRotationSpeed;
+    private float clientCubeProgress;
+    private float previousClientCubeProgress;
+    private boolean clientCubeAnimationInitialized;
+    private ClientAnimationPhase clientAnimationPhase = ClientAnimationPhase.RESTING;
 
     @Getter
+    private PowerGrid grid;
+
+    @Getter
+    private ItemStack displayItemStack = ItemStack.EMPTY;
+
+
     private final FilteredItemStackHandler itemHandler = new FilteredItemStackHandler(1) {
 
         @Override
         public ItemStack insertItem(int slot, ItemStack stack, boolean simulate) {
-            if (slot == 0 && itemHandler.getStackInSlot(0).isEmpty()) {
-                ItemStack original = stack.copy();
-                original.shrink(1);
-                if (original.isEmpty()) {
-                    return super.insertItem(slot, stack.copyWithCount(1), simulate);
+            if (slot != 0) return stack;
+            // 只允许在槽位为空时插入一个物品
+            if (!getStackInSlot(0).isEmpty()) return stack;
+            // 检查物品有效性
+            if (!isItemValid(slot, stack)) return stack;
+            // 只插入一个
+            ItemStack one = stack.copyWithCount(1);
+            ItemStack result = super.insertItem(slot, one, simulate);
+            if (result.isEmpty()) {
+                // 插入成功，返回剩余（原数量-1）
+                if (stack.getCount() > 1) {
+                    return stack.copyWithCount(stack.getCount() - 1);
                 } else {
-                    ItemStack left = super.insertItem(slot, stack.copyWithCount(1), simulate);
-                    return stack.copyWithCount(stack.getCount() - 1 + left.getCount());
+                    return ItemStack.EMPTY;
                 }
             } else {
                 return stack;
@@ -73,7 +94,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
 
         @Override
         public boolean isItemValid(int slot, ItemStack stack) {
-            return EnchantmentHelper.canStoreEnchantments(stack);
+            return slot == 0 && EnchantmentHelper.canStoreEnchantments(stack);
         }
 
         @Override
@@ -84,20 +105,15 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
         @Override
         protected void onContentsChanged(int slot) {
             super.onContentsChanged(slot);
-            if (level != null && !level.isClientSide) {
-                setChanged();
-                // 物品变化时立即同步
-                syncDisplayItemImmediately();
-                level.sendBlockUpdated(getBlockPos(), getBlockState(), getBlockState(), 3);
+            if (level != null && !level.isClientSide()) {
+                updateDisplayItemStack();
+                syncState();
             }
         }
     };
 
-    public static MagneticDisplayStandBlockEntity createBlockEntity(
-            BlockEntityType<?> type,
-            BlockPos pos,
-            BlockState blockState
-    ) {
+    // ---------- 构造方法 ----------
+    public static MagneticDisplayStandBlockEntity createBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         return new MagneticDisplayStandBlockEntity(type, pos, blockState);
     }
 
@@ -109,87 +125,163 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
         super(type, pos, blockState);
     }
 
-    public void tick(Level level, BlockPos pos, BlockState state, MagneticDisplayStandBlockEntity entity) {
-        if (getDisplayItemStack().isEmpty()){entity.action_state=new ArrayList<>(Arrays.asList(0.0, 0.0, 0.0, 0.0, 0.0, 0.0));}
-        List<Float> target_state = Arrays.asList(0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f);
-        if (this.rotation == 360) this.rotation = 0;
-        this.preRotation = this.rotation;
-        this.rotation += 2;
-        if (entity.loading && getDisplayItemStack().getItem() instanceof BlockItem){
-            target_state = Arrays.asList(0.0f, entity.userHeightOffset*(15-entity.rp)/15, 0.0f, 0.0f, (float)this.rotation, 0.0f);
+    // ---------- 静态 tick 方法 ----------
+    public static void serverTick(Level level, BlockPos pos, BlockState state, MagneticDisplayStandBlockEntity entity) {
+        entity.flushState(level, pos);
+    }
+
+    public static void clientTick(Level level, BlockPos pos, BlockState state, MagneticDisplayStandBlockEntity entity) {
+        float cubeTarget = isCubeEnergized(state) ? 1.0f : 0.0f;
+        if (entity.clientCubeAnimationInitialized) {
+            entity.previousClientCubeProgress = entity.clientCubeProgress;
+            entity.clientCubeProgress = moveTowards(entity.clientCubeProgress, cubeTarget, CUBE_PROGRESS_PER_TICK);
+        } else {
+            entity.clientCubeProgress = cubeTarget;
+            entity.previousClientCubeProgress = cubeTarget;
+            entity.clientCubeAnimationInitialized = true;
         }
 
-        else if (entity.loading){
-            target_state = Arrays.asList(0.0f, entity.userHeightOffset*(15-entity.rp)/15, 0.125f, -90.0f, (float)this.rotation, 0.0f);}
+        entity.previousClientYOffset = entity.clientYOffset;
+        entity.previousClientZOffset = entity.clientZOffset;
+        entity.previousClientRotationX = entity.clientRotationX;
+        entity.previousClientRotationY = entity.clientRotationY;
 
-        for (int i = 0; i < entity.action_state.size(); i++) {
-            double current = entity.action_state.get(i);
-            double target = target_state.get(i).doubleValue();
-            double distance = Math.abs(current - target);
+        int redstonePower = level.getBestNeighborSignal(pos);
+        boolean running = !state.getValue(OVERLOAD)
+                && redstonePower < 15
+                && !entity.displayItemStack.isEmpty();
+        boolean blockItem = entity.displayItemStack.getItem() instanceof BlockItem;
+        float activeY = entity.userHeightOffset * (15 - redstonePower) / 15.0f;
 
-            if (distance <= 0.03) {
-                entity.action_state.set(i, target);
-                continue;
+        if (running) {
+            if (entity.clientAnimationPhase == ClientAnimationPhase.RESTING
+                    || entity.clientAnimationPhase == ClientAnimationPhase.RETURNING_TO_DEFAULT
+                    || entity.clientAnimationPhase == ClientAnimationPhase.LOWERING) {
+                entity.clientAnimationPhase = ClientAnimationPhase.RAISING;
             }
-
-            double step = Math.clamp(distance / 10, 0.01, distance);
-            if (current < target) {
-                entity.action_state.set(i, current + step);
-            }
-            else {
-                entity.action_state.set(i, current - step);
-            }
+        } else if (entity.clientAnimationPhase == ClientAnimationPhase.RAISING
+                || entity.clientAnimationPhase == ClientAnimationPhase.ACTIVE) {
+            entity.clientAnimationPhase = ClientAnimationPhase.RETURNING_TO_DEFAULT;
         }
 
-        if (!level.isClientSide() && entity.action_t % 3 == 0) {
-            if ((!state.getValue(OVERLOAD) && !(entity.rp==15)) != entity.loading) {
-                entity.loading = !state.getValue(OVERLOAD) && !(entity.rp==15);
-            }
-            entity.rp = level.getBestNeighborSignal(pos);
-            entity.action_t = 0;
-        }
-        if (!level.isClientSide()  && getDisplayItemStack().isEmpty()) {return;}
+        float targetY = switch (entity.clientAnimationPhase) {
+            case RAISING, ACTIVE -> activeY;
+            case RETURNING_TO_DEFAULT -> entity.clientYOffset;
+            case LOWERING, RESTING -> 0.0f;
+        };
+        boolean activePose = entity.clientAnimationPhase == ClientAnimationPhase.ACTIVE;
+        float targetZ = activePose && !blockItem ? 0.125f : 0.0f;
+        float targetRotationX = activePose && !blockItem ? -90.0f : 0.0f;
+        float targetRotationSpeed = activePose ? ROTATION_SPEED : 0.0f;
 
-        if (!level.isClientSide()) {
-            this.flushState(level, pos);
-            entity.action_t++;
-            entity.syncTimer++;
-            if (entity.syncTimer >= SYNC_INTERVAL) {
-                entity.syncTimer = 0;
-                entity.syncDisplayItemPeriodically();
-            }
-            entity.syncAnimationState();
+        entity.clientYOffset = smoothTowards(entity.clientYOffset, targetY, POSITION_EPSILON);
+        entity.clientZOffset = smoothTowards(entity.clientZOffset, targetZ, POSITION_EPSILON);
+        entity.clientRotationX = smoothTowards(entity.clientRotationX, targetRotationX, ROTATION_EPSILON);
+        entity.clientRotationSpeed = smoothTowards(entity.clientRotationSpeed, targetRotationSpeed, SPEED_EPSILON);
+
+        if (activePose) {
+            entity.clientRotationY += entity.clientRotationSpeed;
+        } else {
+            entity.clientRotationY = smoothAngleTowards(entity.clientRotationY, 0.0f);
+        }
+        entity.wrapClientRotation();
+
+        if (entity.clientAnimationPhase == ClientAnimationPhase.RAISING && entity.hasRaisedEnough(activeY)) {
+            entity.clientAnimationPhase = ClientAnimationPhase.ACTIVE;
+        } else if (entity.clientAnimationPhase == ClientAnimationPhase.RETURNING_TO_DEFAULT
+                && Math.abs(entity.clientRotationX) <= LOWERING_START_ROTATION_OFFSET) {
+            entity.clientAnimationPhase = ClientAnimationPhase.LOWERING;
+        } else if (entity.clientAnimationPhase == ClientAnimationPhase.LOWERING
+                && near(entity.clientYOffset, 0.0f, POSITION_EPSILON)
+                && entity.hasDefaultPose()) {
+            entity.resetClientAnimation();
+        }
+    }
+
+    // ---------- 锁定与交互 ----------
+    public boolean isLocked() {
+        return this.locked;
+    }
+
+    public void LockIt() {
+        if (this.locked) return;
+        this.locked = true;
+        syncState();
+    }
+
+    @Override
+    public void onScrollAdjust(int steps) {
+        if (this.locked) return;
+        float newOffset = Mth.clamp(userHeightOffset + steps * 0.25f, MIN_HEIGHT_OFFSET, MAX_HEIGHT_OFFSET);
+        if (Math.abs(newOffset - userHeightOffset) <= 1e-5) return;
+
+        userHeightOffset = newOffset;
+        if (level != null && !level.isClientSide()) {
+            syncState();
+            level.playSound(null, worldPosition, SoundEvents.NOTE_BLOCK_HAT.value(), SoundSource.RECORDS);
+        }
+    }
+
+    // ---------- 物品操作 ----------
+    public ItemStack getItemstack() {
+        return itemHandler.getStackInSlot(0);
+    }
+
+    private ItemStack getDisplayItemStackForRender() {
+        return itemHandler.getStackInSlot(0);
+    }
+
+    private void updateDisplayItemStack() {
+        ItemStack newDisplayStack = getDisplayItemStackForRender();
+        if (!ItemStack.matches(displayItemStack, newDisplayStack)) {
+            displayItemStack = newDisplayStack.copy();
         }
     }
 
     @Override
+    public void updateDisplayItem(ItemStack stack) {
+        this.displayItemStack = stack == null ? ItemStack.EMPTY : stack.copy();
+    }
+
+    // 兼容旧版 use 方法可能调用的 setItem
+    public void setItem(int slot, ItemStack stack) {
+        if (slot == 0) {
+            itemHandler.setStackInSlot(0, stack);
+            if (level != null && !level.isClientSide()) {
+                updateDisplayItemStack();
+                syncState();
+            }
+        }
+    }
+
+    // ---------- 生命周期与 NBT ----------
+    @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        if (itemHandler != null) {
-            tag.put("Inventory", itemHandler.serializeNBT(registries));
-        }
-        // 修复：安全保存最后同步的物品状态
-        CompoundTag lastSyncedTag = new CompoundTag();
-        if (lastSyncedStack != null && !lastSyncedStack.isEmpty()) {
-            lastSyncedStack.save(registries, lastSyncedTag);
-        }
-        tag.put("LastSyncedStack", lastSyncedTag);
+        tag.putBoolean("locked", locked);
+        tag.put("Inventory", itemHandler.serializeNBT(registries));
         tag.putFloat("UserHeightOffset", userHeightOffset);
     }
 
     @Override
-    public void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
+        locked = tag.getBoolean("locked");
         itemHandler.deserializeNBT(registries, tag.getCompound("Inventory"));
-        // 加载最后同步的物品状态
-        if (tag.contains("LastSyncedStack")) {
-            lastSyncedStack = ItemStack.parse(registries, tag.getCompound("LastSyncedStack")).orElse(ItemStack.EMPTY);
-        }
-        updateDisplayItemStack();
         userHeightOffset = tag.getFloat("UserHeightOffset");
-        // 限制范围
-        userHeightOffset = (float) Math.clamp(userHeightOffset, MIN_HEIGHT_OFFSET, MAX_HEIGHT_OFFSET);
+        updateDisplayItemStack();
     }
+
+    @Override
+    public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+        return saveWithoutMetadata(registries);
+    }
+
+    @Override
+    public Packet<ClientGamePacketListener> getUpdatePacket() {
+        return ClientboundBlockEntityDataPacket.create(this);
+    }
+
 
     public void dropItemStack(ItemStack stack) {
         if (!stack.isEmpty() && level != null) {
@@ -205,18 +297,20 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
         }
     }
 
-    @Nullable
-    public Level getCurrentLevel() {
-        return level;
-    }
-
-    public BlockPos getPos() {
-        return this.getBlockPos();
+    // ---------- 能源接口 ----------
+    @Override
+    public int getInputPower() {
+        return POWER;
     }
 
     @Override
-    public int getInputPower() {
-        return MagneticDisplayStandBlockEntity.POWER;
+    public @Nullable Level getCurrentLevel() {
+        return level;
+    }
+
+    @Override
+    public BlockPos getPos() {
+        return this.getBlockPos();
     }
 
     @Override
@@ -224,134 +318,106 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity implements IPow
         this.grid = grid;
     }
 
-    /**
-     * 同步动画状态到客户端
-     */
-    private void syncAnimationState() {
-        if (level == null || level.isClientSide) return;
+    // ---------- 客户端动画取值 ----------
+    public float getClientYOffset(float partialTick) {
+        return Mth.lerp(partialTick, previousClientYOffset, clientYOffset);
+    }
 
-        PacketDistributor.sendToPlayersTrackingChunk(
-            (ServerLevel) level,
-            level.getChunk(getBlockPos()).getPos(),
-            new UpdateAnimationStatePacket(new ArrayList<>(action_state), getBlockPos())
+    public float getClientZOffset(float partialTick) {
+        return Mth.lerp(partialTick, previousClientZOffset, clientZOffset);
+    }
+
+    public float getClientRotationX(float partialTick) {
+        return Mth.lerp(partialTick, previousClientRotationX, clientRotationX);
+    }
+
+    public float getClientRotationY(float partialTick) {
+        return Mth.lerp(partialTick, previousClientRotationY, clientRotationY);
+    }
+
+    public float getClientCubeProgress(float partialTick) {
+        if (!clientCubeAnimationInitialized) {
+            return isCubeEnergized(getBlockState()) ? 1.0f : 0.0f;
+        }
+        float progress = Mth.clamp(
+                Mth.lerp(partialTick, previousClientCubeProgress, clientCubeProgress),
+                0.0f, 1.0f
         );
+        return progress * progress * (3.0f - 2.0f * progress);
     }
 
-    /**
-     * 更新动画状态（从网络包调用）
-     */
-    public void updateActionState(List<Double> newState) {
-        if (level != null && level.isClientSide) {
-            // 只在客户端更新
-            for (int i = 0; i < Math.min(action_state.size(), newState.size()); i++) {
-                action_state.set(i, newState.get(i));
-            }
-        }
+    public static boolean isCubeEnergized(BlockState state) {
+        return !state.getValue(OVERLOAD) && !state.getValue(RP);
     }
 
-    /**
-     * 立即同步显示物品（物品变化时调用）
-     */
-    private void syncDisplayItemImmediately() {
-        if (level == null || level.isClientSide) return;
-
-        ItemStack currentStack = getDisplayItemStackForRender();
-
-        // 检查物品是否真的发生了变化
-        if (!ItemStack.matches(currentStack, lastSyncedStack)) {
-            displayItemStack = currentStack.copy();
-            lastSyncedStack = currentStack.copy();
-
-            // 发送同步包
-            PacketDistributor.sendToPlayersTrackingChunk(
-                    (ServerLevel) level,
-                    level.getChunk(getBlockPos()).getPos(),
-                    new UpdateDisplayItemPacket(displayItemStack, getPos())
-            );
-
-            setChanged();
-        }
+    // ---------- 内部辅助 ----------
+    private void syncState() {
+        setChanged();
+        if (level == null || level.isClientSide()) return;
+        level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), Block.UPDATE_CLIENTS);
     }
 
-    private void syncDisplayItemPeriodically() {
-        if (level == null || level.isClientSide) return;
-
-        ItemStack currentStack = getDisplayItemStackForRender();
-
-        // 即使物品没有变化，也定期同步以确保客户端状态一致
-        if (!ItemStack.matches(currentStack, lastSyncedStack)) {
-            // 如果物品变化了，使用立即同步逻辑
-            syncDisplayItemImmediately();
-        } else {
-            // 物品没有变化，但仍然发送同步包以确保客户端状态一致
-            displayItemStack = currentStack.copy();
-
-            PacketDistributor.sendToPlayersTrackingChunk(
-                    (ServerLevel) level,
-                    level.getChunk(getBlockPos()).getPos(),
-                    new UpdateDisplayItemPacket(displayItemStack, getPos())
-            );
-        }
+    private void wrapClientRotation() {
+        float turns = (float) Math.floor(clientRotationY / 360.0f);
+        if (turns == 0.0f) return;
+        float offset = turns * 360.0f;
+        clientRotationY -= offset;
+        previousClientRotationY -= offset;
     }
+
+    private boolean hasDefaultPose() {
+        return near(clientZOffset, 0.0f, POSITION_EPSILON)
+                && near(clientRotationX, 0.0f, ROTATION_EPSILON)
+                && Math.abs(Mth.wrapDegrees(clientRotationY)) <= ROTATION_EPSILON
+                && near(clientRotationSpeed, 0.0f, SPEED_EPSILON);
+    }
+
+    private boolean hasRaisedEnough(float targetY) {
+        if (targetY <= POSITION_EPSILON) return true;
+        return clientYOffset >= targetY * POSE_START_HEIGHT_RATIO;
+    }
+
+    private void resetClientAnimation() {
+        clientYOffset = 0.0f;
+        clientZOffset = 0.0f;
+        clientRotationX = 0.0f;
+        clientRotationY = 0.0f;
+        clientRotationSpeed = 0.0f;
+        clientAnimationPhase = ClientAnimationPhase.RESTING;
+    }
+
+    private static float smoothTowards(float current, float target, float epsilon) {
+        float next = Mth.lerp(CLIENT_LERP_FACTOR, current, target);
+        return near(next, target, epsilon) ? target : next;
+    }
+
+    private static float smoothAngleTowards(float current, float target) {
+        float delta = Mth.wrapDegrees(target - current);
+        if (Math.abs(delta) <= ROTATION_EPSILON) return current + delta;
+        return current + delta * CLIENT_LERP_FACTOR;
+    }
+
+    private static float moveTowards(float current, float target, float maxDelta) {
+        if (current < target) return Math.min(current + maxDelta, target);
+        if (current > target) return Math.max(current - maxDelta, target);
+        return target;
+    }
+
+    private static boolean near(float value, float target, float epsilon) {
+        return Math.abs(value - target) <= epsilon;
+    }
+
+    private enum ClientAnimationPhase {
+        RESTING,
+        RAISING,
+        ACTIVE,
+        RETURNING_TO_DEFAULT,
+        LOWERING
+    }
+
+    // IItemHandlerHolder 必须实现的方法
     @Override
-    public void onScrollAdjust(String parameterId, float delta, Level level, BlockPos pos) {
-        if ("height_offset".equals(parameterId)) {
-            float newOffset = userHeightOffset + delta*0.25f;
-            newOffset = (float) Math.clamp(newOffset, MIN_HEIGHT_OFFSET, MAX_HEIGHT_OFFSET);
-            if (Math.abs(newOffset - userHeightOffset) > 1e-5) {
-                userHeightOffset = newOffset;
-                setChanged();
-                if (level != null && !level.isClientSide) {
-                    level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
-                    level.playSound(null, pos, SoundEvents.NOTE_BLOCK_HAT.value(), SoundSource.RECORDS);
-                }
-            }
-        }
-        // 未来可扩展其他参数
-    }
-    public Boolean isLocked() {
-        return this.locked ;
-    }
-    public void LockIt() {
-        this.locked  = true;
-    }
-    /**
-     * 更新本地显示物品（不触发网络同步）
-     */
-    private void updateDisplayItemStack() {
-        ItemStack newDisplayStack = getDisplayItemStackForRender();
-        if (!ItemStack.matches(displayItemStack, newDisplayStack)) {
-            displayItemStack = newDisplayStack.copy();
-        }
-    }
-
-    private ItemStack getDisplayItemStackForRender() {
-        // 只有一个槽位，直接返回槽位0的物品
-        return itemHandler.getStackInSlot(0);
-    }
-
-    @Override
-    public void updateDisplayItem(ItemStack stack) {
-        this.displayItemStack = stack;
-        // 客户端接收到同步后，更新最后同步状态
-        if (level != null && level.isClientSide) {
-            this.lastSyncedStack = stack.copy();
-        }
-    }
-
-    // 以下方法用于兼容 Block 中的 use 方法
-    public ItemStack getItemstack() {
-        return itemHandler.getStackInSlot(0);
-    }
-
-    public void setItem(int slot, ItemStack stack) {
-        if (slot == 0) {
-            itemHandler.setStackInSlot(0, stack);
-            // 手动设置物品时也触发立即同步
-            if (level != null && !level.isClientSide) {
-                syncDisplayItemImmediately();
-            }
-            setChanged();
-        }
+    public IItemHandler getItemHandler() {
+        return itemHandler;
     }
 }

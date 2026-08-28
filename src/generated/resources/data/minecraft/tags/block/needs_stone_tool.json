@@ -1,9 +1,10 @@
 {
   "values": [
     "anvilcraftextrapower:solar_panel",
+    "anvilcraftextrapower:wind_turbine",
     "anvilcraftextrapower:burning_coal_block",
-    "anvilcraftextrapower:sulfur_block",
     "anvilcraftextrapower:magnesium_block",
-    "anvilcraftextrapower:burning_magnesium_block"
+    "anvilcraftextrapower:burning_magnesium_block",
+    "anvilcraftextrapower:sulfur_block"
   ]
 }

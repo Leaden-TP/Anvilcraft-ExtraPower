@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,8 +36,7 @@ public class FrostControllerRenderer implements BlockEntityRenderer<FrostControl
             int packedLight,
             int packedOverlay
     ) {
-        List<Double> actionState = be.getAction_state();
-        float rotation = actionState.get(0).floatValue();
+        float rotation = be.getClientRotation(partialTick);
         final VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.translucent());
         poseStack.translate(0.5F, elevation(), 0.5F);
         poseStack.mulPose(Axis.YP.rotationDegrees(rotation));

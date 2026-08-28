@@ -1,19 +1,25 @@
 package com.extra.power.item.capacitor;
 
-import dev.dubhe.anvilcraft.api.item.IChargerDischargeable;
+
+import dev.dubhe.anvilcraft.api.item.IFullCapacitor;
+import dev.dubhe.anvilcraft.item.CapacitorItem;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ClickAction;
+import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
-import static dev.dubhe.anvilcraft.item.IonoCraftBackpackItem.addStackProvider;
+import static dev.dubhe.anvilcraft.item.IonocraftBackpackItem.addStackProvider;
 
 
-
-public class PotatoBatteryItem extends BlockItem implements IChargerDischargeable {
-
+public class PotatoBatteryItem extends BlockItem implements IFullCapacitor {
+    public static final int ENERGY = 8_000_000;
 
 
     public PotatoBatteryItem(Block block, Properties properties) {
@@ -25,9 +31,27 @@ public class PotatoBatteryItem extends BlockItem implements IChargerDischargeabl
         return armorType == EquipmentSlot.HEAD;
     }
 
+    @Override
+    public boolean overrideStackedOnOther(ItemStack stack, Slot slot, ClickAction clickAction, Player player) {
+        return IFullCapacitor.tryForceChargeTarget(this, stack, slot, clickAction, player);
+    }
 
     @Override
-    public ItemStack discharge(ItemStack input) {
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int slotId, boolean isSelected) {
+        super.inventoryTick(stack, level, entity, slotId, isSelected);
+        if (!(entity instanceof Player player)) {
+            return;
+        }
+        IFullCapacitor.super.inventoryTick(stack, player);
+    }
+
+    @Override
+    public int getEnergyStored(ItemStack stack) {
+        return CapacitorItem.ENERGY;
+    }
+
+    @Override
+    public ItemStack getEmpty(ItemStack input) {
         return new ItemStack(Items.BAKED_POTATO, 1);
     }
 }

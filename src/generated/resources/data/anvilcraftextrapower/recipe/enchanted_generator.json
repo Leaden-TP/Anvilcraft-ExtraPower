@@ -1,0 +1,27 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "B": {
+      "item": "anvilcraft:charge_collector"
+    },
+    "C": {
+      "item": "anvilcraft:frost_metal_ingot"
+    },
+    "D": {
+      "tag": "c:plates/silver"
+    },
+    "E": {
+      "item": "minecraft:enchanted_book"
+    }
+  },
+  "pattern": [
+    " E ",
+    " B ",
+    "CDC"
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:enchanted_generator"
+  }
+}

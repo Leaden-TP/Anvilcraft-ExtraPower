@@ -1,7 +1,7 @@
 package com.extra.power.block.just_block;
 
-import com.extra.power.block.ModBlock;
-import com.extra.power.block.ModBlockEntity;
+import com.extra.power.init.block.ModBlock;
+import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.blockentity.BurningMagnesiumBlockEntity;
 import com.mojang.serialization.MapCodec;
 import dev.dubhe.anvilcraft.block.better.BetterBaseEntityBlock;

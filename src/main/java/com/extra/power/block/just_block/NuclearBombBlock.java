@@ -1,21 +1,17 @@
 package com.extra.power.block.just_block;
 
-import com.extra.power.block.ModBlock;
+import com.extra.power.init.block.ModBlock;
 import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import dev.dubhe.anvilcraft.block.better.BetterAnvilBlock;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-
-import java.util.Properties;
 
 public class NuclearBombBlock extends BetterAnvilBlock implements IHammerRemovable {
     private static final VoxelShape BASE = Shapes.or(Block.box(0, 0, 0, 16.0, 6.0, 16.0)

@@ -1,9 +1,12 @@
 package com.extra.power.init;
 
 
-import com.extra.power.block.ModBlockEntity;
+import com.extra.power.block.blockentity.RedstoneLinkNetwork;
+import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.config.ModServerConfig;
 import com.extra.power.data.ModDatagen;
+import com.extra.power.init.block.ModFluids;
+import com.extra.power.init.data.ModDamageTypes;
 import dev.anvilcraft.lib.v2.config.ConfigManager;
 import dev.anvilcraft.lib.v2.registrum.Registrum;
 import dev.dubhe.anvilcraft.api.heat.collector.HeatSourceEntry;
@@ -23,8 +26,9 @@ import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 
-import static com.extra.power.block.ModBlock.BLOCKS;
+import static com.extra.power.init.block.ModBlock.BLOCKS;
 import static com.extra.power.init.ModCreativeModeTab.CREATIVE_MODE_TABS;
 import static com.extra.power.init.ModItems.*;
 import static dev.dubhe.anvilcraft.api.heat.collector.HeatCollectorManager.registerEntry;
@@ -40,6 +44,7 @@ public class AnvilCraftExtrapower {
 
     public AnvilCraftExtrapower(IEventBus modEventBus, ModContainer modContainer) {
         CREATIVE_MODE_TABS.register(modEventBus);
+        ModEntities.ENTITY_TYPES.register(modEventBus);
         BLOCKS.register(modEventBus);
         ITEMS.register(modEventBus);
         NeoForge.EVENT_BUS.register(this);
@@ -47,7 +52,10 @@ public class AnvilCraftExtrapower {
         modEventBus.addListener(this::registerPayload);
         ModSounds.SOUNDS.register(modEventBus);
         ModDamageTypes.DAMAGE_TYPES.register(modEventBus);
+
+
         ModBlockEntity.register();
+        ModFluids.register(modEventBus);
         ModDatagen.init();
     }
 
@@ -66,6 +74,11 @@ public class AnvilCraftExtrapower {
     public void onServerStarting(ServerStartingEvent event) {
         LOGGER.info("AnvilCraftExtraPower initialized!");
         LOGGER.info("(*^▽^*)");
+    }
+
+    @SubscribeEvent
+    public void onServerStopping(ServerStoppingEvent event) {
+        RedstoneLinkNetwork.clear();
     }
     public void registerPayload(@NotNull RegisterPayloadHandlersEvent event) {
         PayloadRegistrar registrar = event.registrar("1");

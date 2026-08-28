@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "color=r,powered=false,received=false": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link_r"
+    },
+    "color=r,powered=true,received=false": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link_on_r"
+    },
+    "color=r,powered=false,received=true": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_line_received_r"
+    },
+    "color=r,powered=true,received=true": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link_received_on_r"
+    },
+    "color=y,powered=false,received=false": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link"
+    },
+    "color=y,powered=true,received=false": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link_on_y"
+    },
+    "color=y,powered=false,received=true": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_line_received_y"
+    },
+    "color=y,powered=true,received=true": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link_received_on_y"
+    },
+    "color=b,powered=false,received=false": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link_b"
+    },
+    "color=b,powered=true,received=false": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link_on_b"
+    },
+    "color=b,powered=false,received=true": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_line_received_b"
+    },
+    "color=b,powered=true,received=true": {
+      "model": "anvilcraftextrapower:block/redstone_link/redstone_link_received_on_b"
+    }
+  }
+}

@@ -33,6 +33,37 @@ public class LangHandler {
         provider.add(     "death.attack.nuclear_explosion.player", "%1$s was reduced to anvilon in the flash");
 
         provider.add(  "message.anvilcraftextrapower.solar_panel_too_close", "Cannot place solar panel - another panel is too close (3x3x3 area)");
-        provider.add("config.jade.plugin_anvilcraft_pigsplus.enchanted_generator", "Enchanted Generator");
+        provider.add("block.anvilcraftextrapower.crate_ui", "Crate");
+
+        provider.add(
+                "block.anvilcraftextrapower.enchanted_generator.placement_too_close_to_another",
+                "Too close to another enchanted generator"
+        );
+        provider.add(
+                "entity.anvilcraftextrapower.technical_arrow",
+                "Special Arrow"
+        );
+
+        provider.add("message.anvilcraftextrapower.redstone_link.marker_set", "Signal marker set: %s");
+        provider.add("message.anvilcraftextrapower.redstone_link.marker_reset", "Signal marker cleared");
+        provider.add("message.anvilcraftextrapower.redstone_link.marker_unsupported_blue", "Item markers are not supported in blue mode");
+        provider.add("message.anvilcraftextrapower.redstone_link.bind_success", "Position recorded: %s");
+        provider.add("message.anvilcraftextrapower.redstone_link.mode_receive", "Receive mode: ON");
+        provider.add("message.anvilcraftextrapower.redstone_link.mode_send", "Receive mode: OFF");
+        provider.add("item.anvilcraftextrapower.redstone_link.bound", "Bound position: %s");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.title", "Redstone Link");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.color", "Color: %s");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.color.red", "Red (Global)");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.color.yellow", "Yellow (128 blocks)");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.color.blue", "Blue (Bound)");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.mode", "Mode: %s");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.mode.send", "Transmitting");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.mode.receive", "Receiving");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.signal", "Signal: %d/15");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.marker", "Marker: %s");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.marker.none", "None");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.bound", "Bound to: %s");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.bound.none", "Not bound");
+        provider.add("tooltip.anvilcraftextrapower.redstone_link.barrier", "Item markers are not supported in blue mode");
     }
 }

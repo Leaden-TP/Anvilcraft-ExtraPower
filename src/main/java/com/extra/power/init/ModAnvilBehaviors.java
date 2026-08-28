@@ -2,7 +2,7 @@ package com.extra.power.init;
 
 
 import com.extra.power.anvil.HitAnvilProjectorBehavior;
-import com.extra.power.block.ModBlock;
+import com.extra.power.init.block.ModBlock;
 import dev.dubhe.anvilcraft.api.event.AnvilBehaviorRegisterEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;

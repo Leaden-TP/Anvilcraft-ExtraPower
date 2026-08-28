@@ -9,10 +9,7 @@ import net.minecraft.world.level.Level;
 public interface IScrollAdjustable {
     /**
      * 处理滚轮调节
-     * @param parameterId 参数标识符，例如 "height_offset"
-     * @param delta 变化量（正值增大，负值减小）
-     * @param level 服务端Level
-     * @param pos 方块位置
+     * steps 为滚轮调节的步数，正数表示向上滚动，负数表示向下滚动
      */
-    void onScrollAdjust(String parameterId, float delta, Level level, BlockPos pos);
+    void onScrollAdjust(int steps);
 }

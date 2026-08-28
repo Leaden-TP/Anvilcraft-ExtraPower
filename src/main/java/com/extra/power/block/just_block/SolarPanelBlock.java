@@ -1,6 +1,6 @@
 package com.extra.power.block.just_block;
 
-import com.extra.power.block.ModBlockEntity;
+import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.blockentity.SolarPanelBlockEntity;
 import com.mojang.serialization.MapCodec;
 import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;

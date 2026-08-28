@@ -1,0 +1,6 @@
+{
+  "parent": "anvilcraftextrapower:item/automatic_crossbow",
+  "textures": {
+    "0": "anvilcraft:item/energy_weapon_platform_exhausted"
+  }
+}

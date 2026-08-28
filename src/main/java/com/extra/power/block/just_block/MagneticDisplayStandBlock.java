@@ -1,16 +1,12 @@
 package com.extra.power.block.just_block;
 
-import com.extra.power.block.ModBlockEntity;
+import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.blockentity.MagneticDisplayStandBlockEntity;
-import com.extra.power.block.blockentity.SolarPanelBlockEntity;
 import com.mojang.serialization.MapCodec;
 import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import dev.dubhe.anvilcraft.api.power.IPowerComponent;
-import dev.dubhe.anvilcraft.block.better.BetterBaseEntityBlock;
-import dev.dubhe.anvilcraft.init.block.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -34,8 +30,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.event.entity.living.MobEffectEvent;
-import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -67,12 +61,13 @@ public class MagneticDisplayStandBlock extends BaseEntityBlock implements IHamme
 
     @Nullable
     @Override
-    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
-            Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide) return null;
+    public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return createTickerHelper(
-                type, ModBlockEntity.MAGNETIC_DISPLAY_STAND.get(), (level1, pos, state1, entity)
-                        -> entity.tick(level1, pos ,state1 ,entity));
+                type, ModBlockEntity.MAGNETIC_DISPLAY_STAND.get(),
+                level.isClientSide()
+                        ? MagneticDisplayStandBlockEntity::clientTick
+                        : MagneticDisplayStandBlockEntity::serverTick
+        );
     }
 
     @Override
@@ -173,7 +168,7 @@ public class MagneticDisplayStandBlock extends BaseEntityBlock implements IHamme
                 if (itemStack.is(Items.HONEYCOMB) && !displayStand.isLocked()) {
                     displayStand.LockIt();
                     level.levelEvent(null, 3003, pos, 0);
-                    itemEntity.setItem(new ItemStack(Items.AIR));
+                    itemStack.shrink(1);
                 }
             }
             super.stepOn(level, pos, state, entity);

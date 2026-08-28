@@ -1,13 +1,12 @@
 package com.extra.power.block.blockentity;
 
-import com.extra.power.block.ModBlock;
-import com.extra.power.block.ModBlockEntity;
+import com.extra.power.init.block.ModBlock;
+import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.config.ModServerConfig;
-import com.extra.power.function.Explosion;
-import com.extra.power.init.ModDamageTypes;
+import com.extra.power.init.data.ModDamageTypes;
 import com.extra.power.init.ModSounds;
-import com.extra.power.network.FlashPayload;
-import com.extra.power.network.ShakePayload;
+import com.extra.power.network.toClient.FlashPayload;
+import com.extra.power.network.toClient.ShakePayload;
 import dev.dubhe.anvilcraft.api.world.load.LevelLoadManager;
 import dev.dubhe.anvilcraft.api.world.load.LoadChuckData;
 import net.minecraft.core.BlockPos;
@@ -24,6 +23,7 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -145,24 +145,25 @@ public class MushroomCloudBlockEntity extends BlockEntity {
                 }
                 int damageRadius = ModServerConfig.nuclearExplosion.Explosionlevel*ModServerConfig.nuclearExplosion.Explosionlevel;
                 AABB area_0 = new AABB(pos).inflate(damageRadius);
-                List<LivingEntity> entities = level.getEntitiesOfClass(LivingEntity.class, area_0);
+                List<Entity> entities = level.getEntitiesOfClass(Entity.class, area_0);
                 // 获取自定义伤害源
                 DamageSource damageSource = getMushroomCloudDamageSource(level);
-                for (LivingEntity living : entities) {
+                for (Entity entity1 : entities) {
                     // 计算距离，距离越近伤害越高
-                    double distance = living.distanceToSqr(pos.getX(), pos.getY(), pos.getZ());
+                    double distance = entity1.distanceToSqr(pos.getX(), pos.getY(), pos.getZ());
                     if (distance > damageRadius * damageRadius) continue;
                     float damage = 75.0f * (1.0f - (float)(distance / (damageRadius * damageRadius)));
                     if (damage < 1.0f) damage = 1.0f;
-                    living.hurt(damageSource, damage);
-                    living.setRemainingFireTicks(160);
-                    living.addEffect(new MobEffectInstance(
+                    entity1.setRemainingFireTicks(160);
+                    entity1.hurt(damageSource, damage);
+                    if (entity1 instanceof LivingEntity living) {
+                        living.addEffect(new MobEffectInstance(
                             MobEffects.WITHER,
                             600,
                             2,
                             true,
                             true
-                    ));
+                    ));}
                 }
                 if (entity.D_tick <= entity.S_r)entity.D_tick ++;
                 if ( entity.D_tick <= entity.S_r) {

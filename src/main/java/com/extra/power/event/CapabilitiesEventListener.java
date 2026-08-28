@@ -1,7 +1,10 @@
 package com.extra.power.event;
 
-import com.extra.power.block.ModBlockEntity;
+import com.extra.power.init.ModItems;
+import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.init.AnvilCraftExtrapower;
+import com.extra.power.item.AutomaticCrossbowItem;
+import dev.dubhe.anvilcraft.api.energy.ItemFEStorage;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -27,6 +30,11 @@ public class CapabilitiesEventListener {
                                 (be, side) -> be.getItemHandler()
                         )
                 );
+        event.registerItem(
+                Capabilities.EnergyStorage.ITEM,
+                (stack, ctx) -> new ItemFEStorage(stack, AutomaticCrossbowItem.MAX_ENERGY),
+                ModItems.AUTOMATIC_CROSSBOW.get()
+        );
 
     }
 }

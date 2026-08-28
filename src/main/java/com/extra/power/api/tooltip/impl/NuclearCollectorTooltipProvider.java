@@ -49,8 +49,9 @@ public class NuclearCollectorTooltipProvider extends ITooltipProvider.BlockEntit
                             .withStyle(ChatFormatting.RED));
         }
         int displayHeat = collector.getClientHeat();
-        int displayPower_int = collector.getOutputPower()/1000;
-        int displayPower_float = (collector.getOutputPower()-displayPower_int*1000)/100 ;
+        int serverPower = collector.getServerPower();
+        int displayPower_int = serverPower / 1000;
+        int displayPower_float = (serverPower - displayPower_int * 1000) / 100;
         // 添加详细信息
         if(collector.getWorkResult()==2){
         lines.add(Component.translatable("tooltip.anvilcraftextrapower.nuclear_collector.heat",

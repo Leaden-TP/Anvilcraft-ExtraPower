@@ -1,9 +1,9 @@
 package com.extra.power.block.blockentity;
 
-import com.extra.power.block.ModBlock;
-import com.extra.power.block.ModBlockEntity;
+import com.extra.power.init.block.ModBlock;
+import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.just_block.BurningCoalBlock;
-import com.extra.power.init.ModHeaterInfos;
+import com.extra.power.init.data.ModHeaterInfos;
 import dev.dubhe.anvilcraft.api.heat.HeaterManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;

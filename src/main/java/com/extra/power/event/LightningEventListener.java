@@ -1,6 +1,6 @@
 package com.extra.power.event;
 
-import com.extra.power.block.ModBlock;
+import com.extra.power.init.block.ModBlock;
 import com.extra.power.init.AnvilCraftExtrapower;
 import dev.dubhe.anvilcraft.AnvilCraft;
 import dev.dubhe.anvilcraft.api.event.LightningBoltStrikeEvent;
@@ -10,8 +10,6 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-
-import static dev.dubhe.anvilcraft.block.MagnetBlock.LIT;
 
 @EventBusSubscriber(modid = AnvilCraftExtrapower.MODID)
 public class LightningEventListener {

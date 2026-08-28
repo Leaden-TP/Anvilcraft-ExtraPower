@@ -1,7 +1,7 @@
 package com.extra.power.block.blockentity;
 
-import com.extra.power.block.ModBlock;
-import com.extra.power.block.ModBlockEntity;
+import com.extra.power.init.block.ModBlock;
+import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.just_block.ElectromagnetBlock;
 import dev.dubhe.anvilcraft.AnvilCraft;
 import dev.dubhe.anvilcraft.api.power.IPowerConsumer;

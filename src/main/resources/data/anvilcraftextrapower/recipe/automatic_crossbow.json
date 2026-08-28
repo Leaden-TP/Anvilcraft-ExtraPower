@@ -1,0 +1,17 @@
+{
+  "type": "anvilcraft:energy_weapon_make",
+  "ingredients": [
+    {
+      "count": 4,
+      "items": "anvilcraft:heavy_iron_block"
+    },
+    {
+      "count": 2,
+      "items": "anvilcraft:magnetoelectric_core"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:automatic_crossbow"
+  }
+}

@@ -26,5 +26,8 @@ public class RegisterAdditionalEventListener {
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/solar_panel_head_sunflower")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/solar_panel_head_closing")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/solar_panel_head_sunflower_closing")));
+        event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/enchanted_generator_head")));
+        event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/wind_turbine")));
+        event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("entity/arrow")));
     }
 }

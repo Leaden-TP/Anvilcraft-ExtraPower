@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "anvilcraftextrapower:block/enchanted_generator_base"
+    }
+  }
+}

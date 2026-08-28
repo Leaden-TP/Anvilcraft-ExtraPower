@@ -1,6 +1,7 @@
 package com.extra.power.api.tooltip;
 
 import com.extra.power.api.tooltip.impl.NuclearCollectorTooltipProvider;
+import com.extra.power.api.tooltip.impl.RedstoneLinkTooltipProvider;
 import dev.dubhe.anvilcraft.api.tooltip.providers.ITooltipProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -25,6 +26,7 @@ public class HudTooltipManager extends dev.dubhe.anvilcraft.api.tooltip.HudToolt
 
     static {
         INSTANCE.registerBlockEntityTooltip(new NuclearCollectorTooltipProvider());
+        INSTANCE.registerBlockEntityTooltip(new RedstoneLinkTooltipProvider());
     }
 
     public void registerBlockEntityTooltip(ITooltipProvider.BlockEntityTooltipProvider provider) {

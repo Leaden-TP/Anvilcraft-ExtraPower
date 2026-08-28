@@ -1,7 +1,7 @@
 package com.extra.power.block.just_block;
 
 
-import com.extra.power.block.ModBlock;
+import com.extra.power.init.block.ModBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.context.BlockPlaceContext;
