@@ -1,6 +1,7 @@
 package com.extra.power.client.renderer.blockentity;
 
 import com.extra.power.block.blockentity.MushroomCloudBlockEntity;
+import com.extra.power.config.ModServerConfig;
 import com.extra.power.init.AnvilCraftExtrapower;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -63,7 +64,7 @@ public class MushroomCloudRenderer implements BlockEntityRenderer<MushroomCloudB
                              PoseStack poseStack, MultiBufferSource buffer, int packedOverlay,float plus) {
         float scale = blockEntity.getC_size(); // 获取当前缩放值
         poseStack.pushPose();
-        poseStack.translate(-0.5*scale, scale-(plus-1)*scale, -0.5*scale);
+        poseStack.translate(-0.5*scale, scale-(plus-1)*scale - cloudDrop(), -0.5*scale);
         poseStack.scale(scale*plus, scale*plus, scale*plus);
         VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.translucent());
         renderModel(poseStack, vertexConsumer, model, packedOverlay);
@@ -73,12 +74,17 @@ public class MushroomCloudRenderer implements BlockEntityRenderer<MushroomCloudB
                                 PoseStack poseStack, MultiBufferSource buffer, int packedOverlay,float partialTick,float a) {
         float scale = blockEntity.getC_size(); // 获取当前缩放值
         poseStack.pushPose();
-        poseStack.translate(0.25, 0-a*5+a*scale, 0.25);
+        poseStack.translate(0.25, 0-a*5+a*scale - cloudDrop(), 0.25);
         poseStack.scale(scale*(1+a), scale*(1+a), scale*(1+a));
         poseStack.mulPose(Axis.YP.rotationDegrees(blockEntity.getRotation()+partialTick));
         VertexConsumer vertexConsumer = buffer.getBuffer(RenderType.translucent());
         renderModel(poseStack, vertexConsumer, model, packedOverlay);
         poseStack.popPose();
+    }
+
+    /** 云体与旋转圈整体下移 Explosionlevel*3/4（爆心光球仍留在方块位置） */
+    private static float cloudDrop() {
+        return ModServerConfig.nuclearExplosion.Explosionlevel * 3.0f / 4.0f;
     }
     protected float rotation(MushroomCloudBlockEntity blockEntity, float partialTick) {
         return  0;

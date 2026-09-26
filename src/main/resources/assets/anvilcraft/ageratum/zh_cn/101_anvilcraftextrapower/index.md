@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "铁砧工艺：额外电力"
+  title: "额外电力"
   icon: "anvilcraft:capacitor"
 ---
 

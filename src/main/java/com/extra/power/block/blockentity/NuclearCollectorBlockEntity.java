@@ -4,9 +4,13 @@ import com.extra.power.init.block.ModBlock;
 import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.just_block.NuclearCollectorBlock;
 import com.extra.power.config.ModServerConfig;
+import com.extra.power.network.toClient.ShakePayload;
+import com.extra.power.network.toServer.NuclearCollectorPacket;
 import dev.dubhe.anvilcraft.api.power.IPowerProducer;
 import dev.dubhe.anvilcraft.api.power.PowerGrid;
 import dev.dubhe.anvilcraft.api.tooltip.providers.IHasAffectRange;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
@@ -15,14 +19,19 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
+import net.neoforged.neoforge.network.PacketDistributor;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 import static com.extra.power.block.just_block.NuclearCollectorBlock.OVERHEATED;
 import static com.extra.power.util.NuclearCollectorFunction.*;
@@ -292,6 +301,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         }
 
         if (entity.result != 0) {
+            level.sendBlockUpdated(pos, state, state, 3);
             ChangeGrid(entity);
         }
 
@@ -329,12 +339,11 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
 
             entity.time = 0;
             entity.check_all_water -= 1;
-            entity.all_water -= checkWater;
             if (checkWater == 0) entity.all_water = 0;
         }
         if (entity.time >= entity.check_time+5) {entity.time = 0;}
         // 更新电网功率
-        if (entity.power != entity.newpower && entity.grid != null && entity.result == 0) {
+        if (entity.power != entity.newpower && entity.grid != null) {
             entity.power = entity.newpower;
             entity.grid.markChanged();
             level.sendBlockUpdated(pos, state, state, 3);

@@ -16,7 +16,8 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 import static com.extra.power.init.block.ModBlock.FLASHING_POTATO_BATTERY;
-import static dev.dubhe.anvilcraft.item.IonocraftBackpackItem.addStackProvider;
+import static dev.dubhe.anvilcraft.client.rpc.TerminalJeiStorageCache.addStackProvider;
+
 
 
 public class FlashingPotatoBatteryItem extends BlockItem implements IFullCapacitor {
@@ -28,7 +29,6 @@ public class FlashingPotatoBatteryItem extends BlockItem implements IFullCapacit
 
     public FlashingPotatoBatteryItem(Block block, Properties properties) {
         super(block, properties);
-        addStackProvider(player -> player.getItemBySlot(EquipmentSlot.HEAD));
     }
     @Override
     public boolean canEquip(ItemStack stack, EquipmentSlot armorType, LivingEntity entity) {

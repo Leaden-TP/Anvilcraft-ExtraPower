@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "cutout",
 	"textures": {
 		"1": "anvilcraftextrapower:block/mushroom_cloud/mushroom_cloud_flashing_light",
 		"2": "anvilcraftextrapower:block/mushroom_cloud/mushroom_cloud_middle",

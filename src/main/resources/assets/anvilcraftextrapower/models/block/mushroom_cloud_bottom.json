@@ -1,5 +1,6 @@
 {
 	"credit": "Made with Blockbench",
+	"render_type": "cutout",
 	"textures": {
 		"0": "anvilcraftextrapower:block/mushroom_cloud/mushroom_cloud_bottom",
 		"1": "anvilcraftextrapower:block/mushroom_cloud/mushroom_cloud_top_side",

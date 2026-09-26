@@ -1,7 +1,7 @@
 {
   "type": "anvilcraft:multiblock",
   "pattern": {
-    "layers": [
+    "grid": [
       [
         " C ",
         "CUC",
@@ -9,7 +9,7 @@
       ],
       [
         "   ",
-        " U ",
+        " A ",
         "   "
       ],
       [
@@ -18,23 +18,30 @@
         " T "
       ]
     ],
-    "symbols": {
+    "mapping": {
+      "A": {
+        "blocks": "anvilcraft:uranium_block"
+      },
       "U": {
-        "block": "anvilcraft:uranium_block"
+        "blocks": "anvilcraft:uranium_block"
       },
       "C": {
-        "block": "anvilcraft:cut_ember_metal_slab",
-        "properties": {
-          "type": "bottom",
-          "waterlogged": "false"
-        }
+        "blocks": "anvilcraft:cut_ember_metal_slab",
+        "properties": [
+          {
+            "type": "bottom",
+            "waterlogged": "false"
+          }
+        ]
       },
       "T": {
-        "block": "anvilcraft:cut_ember_metal_slab",
-        "properties": {
-          "type": "top",
-          "waterlogged": "false"
-        }
+        "blocks": "anvilcraft:cut_ember_metal_slab",
+        "properties": [
+          {
+            "type": "top",
+            "waterlogged": "false"
+          }
+        ]
       }
     }
   },

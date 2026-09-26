@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
 	"render_type": "cutout",
 	"textures": {
@@ -194,6 +195,7 @@
 		{
 			"from": [-1.48909, 9.9, 7.1028],
 			"to": [-4.28909, 7.1, 4.3028],
+			"shade": false,
 			"rotation": {"angle": -45, "axis": "y", "origin": [3.11091, 14.5, 11.7028]},
 			"faces": {
 				"north": {"uv": [2, 5, 3, 6], "texture": "#4"},
@@ -209,6 +211,7 @@
 		{
 			"name": "group",
 			"origin": [0, 0, 0],
+			"scope": 0,
 			"color": 0,
 			"children": [0, 1, 2, 3, 4]
 		},
@@ -221,6 +224,7 @@
 		{
 			"name": "group",
 			"origin": [10, 3, 12],
+			"scope": 0,
 			"color": 0,
 			"children": [11, 12, 13]
 		},

@@ -6,5 +6,7 @@
   "need_block": {
     "blocks": "minecraft:end_stone"
   },
-  "to_block": "anvilcraft:end_dust"
+  "to_block": {
+    "block": "anvilcraft:end_dust"
+  }
 }

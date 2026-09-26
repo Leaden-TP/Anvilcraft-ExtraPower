@@ -31,10 +31,12 @@ items:
 - 在你放置集核器时，它会自动检查周围的水体，逐层检查水体是否合法，当你佩戴<ref item="anvilcraft:anvil_hammer"/>时，它的电网会提示你最大平面水体范围，
 - 不超出该范围的相连水体(以集核器的正上方为基准)都会被视为合法水体（仅水平，垂直方向可任意超出）。如果你的水体不合法，集核器的[降温系统]自动停止运行!
 - 当成功构建水库时，会给与部分产热减免，并延长耗水的时间间隔。
+- 如果水库为0，那么发电量将被削减至三分之一。
 - ## (4).发电，产热与降温规则
-- 发电量与有效铀棒挂钩，一个未被<ref item="anvilcraftextrapower:frost_controller"/>削弱有效<ref item="anvilcraftextrapower:uranium_rod"/>的发电值为5，
-- <ref item="anvilcraftextrapower:nuclear_bomb"/>为1，总发电量为发电值总和乘以一个系数（在配置文件中为powerOutput_of_a_uraniumRod）
-- 产热为发电值总和*5，
+- 发热量与有效铀棒挂钩，一个未被<ref item="anvilcraftextrapower:frost_controller"/>削弱有效<ref item="anvilcraftextrapower:uranium_rod"/>的发热值为5，
+- <ref item="anvilcraftextrapower:nuclear_bomb"/>为5，总发电量取决于你放了几根铀棒（默认一根1500kw）
+- 核弹和钚块也可以发电（与铀棒相同，但可以密堆），但发热量不能被减免（固定为5），~~我觉得你把握不住（不是）~~
+- 产热为一次检查中铀棒的产热之和
 -水源提供1降温值，任意冰块提供2点降温值，单次降温为总和乘以5
 - ## (5).异常情况以及处理方法
 - 1.**这个位置离另一个集核器太近了**|检查该集核器周围是否有其他集核器，如果有，请移动它们

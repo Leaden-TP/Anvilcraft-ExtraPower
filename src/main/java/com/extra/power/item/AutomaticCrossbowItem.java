@@ -56,7 +56,6 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
     public static final int MAX_AMMO = 64;                      // 最大弹药容量
     private static final int SHOT_INTERVAL = 2;                 // 射击间隔（tick）
     private static final int ENERGY_PER_SHOT = 10_000_00;      // 每发能量消耗
-    private static final int ENERGY_REFILL_AMOUNT = 20_000_000; // 每个电容器补充量
     private static final int MIN_ENERGY_TO_USE = 10_000_00;    // 开始使用所需最低能量
 
     // 模型状态（CustomModelData）
@@ -67,7 +66,7 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
 
     // ========== 构造器 ==========
     public AutomaticCrossbowItem(Properties properties) {
-        super(properties.component(ModComponents.RAILGUN_AMMO, ChargedProjectiles.EMPTY));
+        super(properties.component(ModComponents.RAILGUN_AMMO, ChargedProjectiles.EMPTY),MIN_ENERGY_TO_USE);
     }
 
     // ========== 弹药存取（统一使用 RAILGUN_AMMO 组件） ==========
@@ -196,9 +195,9 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
             // ---------- 只有中间箭（i==0）获得力量加成 ----------
             float damage;
             if (i == 0) {
-                damage = 1.5F + power * 0.25F;   // 享受力量附魔
+                damage = 2.0F + power * 0.5F;   // 享受力量附魔
             } else {
-                damage = 1.5F;                    // 基础伤害，无力量加成
+                damage = 2.0F;                    // 基础伤害，无力量加成
             }
             arrow.setBaseDamage(damage);
 

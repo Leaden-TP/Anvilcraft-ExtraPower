@@ -1,4 +1,5 @@
 {
+	"format_version": "1.21.11",
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "anvilcraftextrapower:block/nuclear_collector_bottom",
@@ -116,18 +117,17 @@
 		},
 		{
 			"name": "cube_outline",
+			"from": [15.55, 4.3, 15.55],
+			"to": [0.45, 0.1, 0.45],
 			"shade": false,
 			"light_emission": 15,
-			"from": [15.55, 4.15, 15.55],
-			"to": [0.45, -0.3, 0.45],
-			"light_emission": 15,
-			"rotation": {"angle": 0, "axis": "y", "origin": [1, 8.4, 1]},
+			"rotation": {"angle": 0, "axis": "y", "origin": [1, 8.55, 1]},
 			"faces": {
-				"north": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4", "cullface": "south"},
-				"east": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4", "cullface": "west"},
-				"south": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4", "cullface": "north"},
-				"west": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4", "cullface": "east"},
-				"up": {"uv": [1, 1, 15, 15], "rotation": 180, "texture": "#4", "cullface": "up"},
+				"north": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4"},
+				"east": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4"},
+				"south": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4"},
+				"west": {"uv": [1, 0, 15, 3], "rotation": 180, "texture": "#4"},
+				"up": {"uv": [1, 1, 15, 15], "rotation": 180, "texture": "#4"},
 				"down": {"uv": [1, 1, 15, 15], "rotation": 180, "texture": "#4"}
 			}
 		}
@@ -136,6 +136,7 @@
 		{
 			"name": "group",
 			"origin": [1, 24.5, 1],
+			"scope": 0,
 			"color": 0,
 			"children": [0, 1, 2, 3, 4, 5]
 		},

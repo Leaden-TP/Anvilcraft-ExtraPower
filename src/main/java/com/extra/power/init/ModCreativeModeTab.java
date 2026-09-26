@@ -17,7 +17,7 @@ public class ModCreativeModeTab {
     public static final DeferredHolder<CreativeModeTab, CreativeModeTab> MOD_TAB = CREATIVE_MODE_TABS.register("anvilcraftextrapower_tab",
             () -> CreativeModeTab.builder()
             .title(Component.translatable("creativetab.anvilcraftextrapower.main"))
-            .withTabsBefore(ModItemGroups.ANVILCRAFT_BUILDING_BLOCKS.getKey())
+            .withTabsBefore(ModItemGroups.ANVILCRAFT_ITEMS.getKey())
             .icon(() -> CAPACITOR.get().getDefaultInstance())
             .displayItems((parameters, output) -> {
             }).build());

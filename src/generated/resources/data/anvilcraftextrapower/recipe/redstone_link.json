@@ -1,0 +1,30 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "G": {
+      "tag": "c:plates/gold"
+    },
+    "I": {
+      "item": "minecraft:item_frame"
+    },
+    "P": {
+      "tag": "c:plates/iron"
+    },
+    "R": {
+      "item": "minecraft:redstone_torch"
+    },
+    "V": {
+      "item": "anvilcraft:circuit_board"
+    }
+  },
+  "pattern": [
+    " G ",
+    "VIR",
+    "PPP"
+  ],
+  "result": {
+    "count": 4,
+    "id": "anvilcraftextrapower:redstone_link"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "type": "anvilcraft:multiblock_conversion",
   "inputPattern": {
-    "layers": [
+    "grid": [
       [
         " C ",
         "CUC",
@@ -18,28 +18,35 @@
         " T "
       ]
     ],
-    "symbols": {
+    "mapping": {
+      "A": {
+        "blocks": "anvilcraft:uranium_block"
+      },
       "U": {
-        "block": "anvilcraft:uranium_block"
+        "blocks": "anvilcraft:uranium_block"
       },
       "C": {
-        "block": "anvilcraft:cut_ember_metal_slab",
-        "properties": {
-          "type": "bottom",
-          "waterlogged": "false"
-        }
+        "blocks": "anvilcraft:cut_ember_metal_slab",
+        "properties": [
+          {
+            "type": "bottom",
+            "waterlogged": "false"
+          }
+        ]
       },
       "T": {
-        "block": "anvilcraft:cut_ember_metal_slab",
-        "properties": {
-          "type": "top",
-          "waterlogged": "false"
-        }
+        "blocks": "anvilcraft:cut_ember_metal_slab",
+        "properties": [
+          {
+            "type": "top",
+            "waterlogged": "false"
+          }
+        ]
       }
     }
   },
   "outputPattern": {
-    "layers": [
+    "grid": [
       [
         "   ",
         " A ",
@@ -56,24 +63,30 @@
         "   "
       ]
     ],
-    "symbols": {
-      "A": {
-        "block": "anvilcraftextrapower:uranium_rod",
-        "properties": {
-          "half": "bottom"
-        }
-      },
+    "mapping": {
       "B": {
-        "block": "anvilcraftextrapower:uranium_rod",
-        "properties": {
-          "half": "mid"
-        }
+        "blocks": "anvilcraftextrapower:uranium_rod",
+        "properties": [
+          {
+            "half": "mid"
+          }
+        ]
+      },
+      "A": {
+        "blocks": "anvilcraftextrapower:uranium_rod",
+        "properties": [
+          {
+            "half": "bottom"
+          }
+        ]
       },
       "C": {
-        "block": "anvilcraftextrapower:uranium_rod",
-        "properties": {
-          "half": "top"
-        }
+        "blocks": "anvilcraftextrapower:uranium_rod",
+        "properties": [
+          {
+            "half": "top"
+          }
+        ]
       }
     }
   }

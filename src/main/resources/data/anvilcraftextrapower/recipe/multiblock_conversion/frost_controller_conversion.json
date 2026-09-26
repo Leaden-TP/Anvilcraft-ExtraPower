@@ -1,7 +1,7 @@
 {
   "type": "anvilcraft:multiblock_conversion",
   "inputPattern": {
-    "layers": [
+    "grid": [
       [
         " C ",
         "CMC",
@@ -9,7 +9,7 @@
       ],
       [
         "   ",
-        " U ",
+        " A ",
         "   "
       ],
       [
@@ -18,31 +18,35 @@
         " T "
       ]
     ],
-    "symbols": {
-      "U": {
-        "block": "anvilcraft:frost_metal_block"
+    "mapping": {
+      "A": {
+        "blocks": "anvilcraft:frost_metal_block"
       },
       "C": {
-        "block": "anvilcraft:cut_ember_metal_slab",
-        "properties": {
-          "type": "bottom",
-          "waterlogged": "false"
-        }
+        "blocks": "anvilcraft:cut_ember_metal_slab",
+        "properties": [
+          {
+            "type": "bottom",
+            "waterlogged": "false"
+          }
+        ]
       },
       "T": {
-        "block": "anvilcraft:cut_ember_metal_slab",
-        "properties": {
-          "type": "top",
-          "waterlogged": "false"
-        }
+        "blocks": "anvilcraft:cut_ember_metal_slab",
+        "properties": [
+          {
+            "type": "top",
+            "waterlogged": "false"
+          }
+        ]
       },
       "M": {
-        "block": "anvilcraft:magnet_block"
+        "blocks": "anvilcraft:magnet_block"
       }
     }
   },
   "outputPattern": {
-    "layers": [
+    "grid": [
       [
         "   ",
         " A ",
@@ -59,24 +63,30 @@
         "   "
       ]
     ],
-    "symbols": {
-      "A": {
-        "block": "anvilcraftextrapower:frost_controller",
-        "properties": {
-          "half": "bottom"
-        }
-      },
+    "mapping": {
       "B": {
-        "block": "anvilcraftextrapower:frost_controller",
-        "properties": {
-          "half": "mid"
-        }
+        "blocks": "anvilcraftextrapower:frost_controller",
+        "properties": [
+          {
+            "half": "mid"
+          }
+        ]
+      },
+      "A": {
+        "blocks": "anvilcraftextrapower:frost_controller",
+        "properties": [
+          {
+            "half": "bottom"
+          }
+        ]
       },
       "C": {
-        "block": "anvilcraftextrapower:frost_controller",
-        "properties": {
-          "half": "top"
-        }
+        "blocks": "anvilcraftextrapower:frost_controller",
+        "properties": [
+          {
+            "half": "top"
+          }
+        ]
       }
     }
   }

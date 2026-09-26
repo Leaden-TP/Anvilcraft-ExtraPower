@@ -5,6 +5,9 @@
   "ingredients": [
     {
       "items": "anvilcraft:cinerite"
+    },
+    {
+      "items": "minecraft:sand"
     }
   ],
   "results": [

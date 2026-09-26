@@ -163,8 +163,6 @@ public class ModBlock {
                         .define('S', Items.SUNFLOWER)
                         .define('C', ModItemTags.IRON_PLATES)
                         .unlockedBy("hasbar", AnvilCraftDatagen.has(Items.SUNFLOWER))
-                        .unlockedBy("hasday", AnvilCraftDatagen.has(Items.DAYLIGHT_DETECTOR))
-                        .unlockedBy("hasplate", AnvilCraftDatagen.has(ModItemTags.IRON_PLATES))
                         .save(provider, ctx.getId().withSuffix("_from_sunflower"));
             })
             .recipe((ctx, provider) -> {
@@ -181,14 +179,54 @@ public class ModBlock {
                         .save(provider, ctx.getId().withSuffix("_from_circuit_board"));
             })
             .register();
+
+    public static final BlockEntry<EnchantedGeneratorBlock> ENCHANTMENT_GENERATOR_BLOCK = REGISTRATE
+            .block("enchanted_generator", EnchantedGeneratorBlock::new)
+            .lang("Enchantment Generator")
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(p -> p.lightLevel(state -> 9).strength(5.0f, 1200f).noOcclusion().emissiveRendering(ModBlocks::always))
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .simpleItem()
+            .recipe((ctx, provider) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ctx.get())
+                    .pattern(" E ")
+                    .pattern(" B ")
+                    .pattern("CDC")
+                    .define('E', Items.ENCHANTED_BOOK)
+                    .define('B', ModBlocks.CHARGE_COLLECTOR)
+                    .define('C', ModItems.FROST_METAL_INGOT)
+                    .define('D', ModItemTags.SILVER_PLATES)
+                    .unlockedBy(
+                            AnvilCraftDatagen.hasItem(Items.ENCHANTED_BOOK),
+                            AnvilCraftDatagen.has(ModBlocks.CHARGE_COLLECTOR)
+                    )
+                    .save(provider))
+            .register();
+
     public static final BlockEntry<? extends Block> REDSTONE_LINK = REGISTRATE.block("redstone_link", RedstoneLinkBlock::new)
             .lang("Redstone Link")
             .initialProperties(() -> Blocks.IRON_BLOCK)
             .properties(p -> p.strength(3.0f, 5f).noOcclusion())
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item(RedstoneLinkItem::new)
+            .model(DataGenUtil::noExtraModelOrState)
             .build()
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE ,BlockTags.NEEDS_STONE_TOOL)
+            .recipe((ctx, provider) -> {
+                ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ctx.get(),4)
+                        .pattern(" G ")
+                        .pattern("VIR")
+                        .pattern("PPP")
+                        .define('V', ModItems.CIRCUIT_BOARD)
+                        .define('P', ModItemTags.IRON_PLATES)
+                        .define('G', ModItemTags.GOLD_PLATES)
+                        .define('I', Items.ITEM_FRAME)
+                        .define('R', Items.REDSTONE_TORCH)
+                        .unlockedBy("hasbar", AnvilCraftDatagen.has(ModItems.CIRCUIT_BOARD))
+                        .unlockedBy("hasr", AnvilCraftDatagen.has(Items.REDSTONE_TORCH))
+                        .unlockedBy("hasplate", AnvilCraftDatagen.has(ModItemTags.IRON_PLATES))
+                        .save(provider);
+            })
             .register();
 
     public static final BlockEntry<? extends Block> BURNING_COAL_BLOCK = REGISTRATE.block("burning_coal_block", BurningCoalBlock::new)
@@ -340,28 +378,6 @@ public class ModBlock {
             .register();
 
 
-    public static final BlockEntry<EnchantedGeneratorBlock> ENCHANTMENT_GENERATOR_BLOCK = REGISTRATE
-            .block("enchanted_generator", EnchantedGeneratorBlock::new)
-            .lang("Enchantment Generator")
-            .initialProperties(() -> Blocks.IRON_BLOCK)
-            .properties(p -> p.lightLevel(state -> 9).strength(5.0f, 1200f).noOcclusion().emissiveRendering(ModBlocks::always))
-            .blockstate(DataGenUtil::noExtraModelOrState)
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
-            .simpleItem()
-            .recipe((ctx, provider) -> ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ctx.get())
-                    .pattern(" E ")
-                    .pattern(" B ")
-                    .pattern("CDC")
-                    .define('E', Items.ENCHANTED_BOOK)
-                    .define('B', ModBlocks.CHARGE_COLLECTOR)
-                    .define('C', ModItems.FROST_METAL_INGOT)
-                    .define('D', ModItemTags.SILVER_PLATES)
-                    .unlockedBy(
-                            AnvilCraftDatagen.hasItem(Items.ENCHANTED_BOOK),
-                            AnvilCraftDatagen.has(ModBlocks.CHARGE_COLLECTOR)
-                    )
-                    .save(provider))
-            .register();
 
     public static final BlockEntry<? extends Block> CRATE_BLOCK = REGISTRATE.block("crate", CrateBlock::new)
             .lang("Crate")
@@ -386,7 +402,7 @@ public class ModBlock {
                     properties -> new UraniumRodBlock(properties, 0.5d))
             .lang("Uranium Rod")
             .initialProperties(() -> Blocks.NETHERITE_BLOCK)
-            .properties(p -> p.lightLevel(state -> 10).noOcclusion())
+            .properties(p -> p.lightLevel(state -> 10).noOcclusion().emissiveRendering(ModBlocks::always))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE, ModBlockTags.MEKANISM_CARDBOARD_BOX_BLACKLIST, BlockTags.WITHER_IMMUNE)
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
@@ -398,7 +414,7 @@ public class ModBlock {
                     FrostControllerBlock::new)
             .lang("Frost Controller")
             .initialProperties(() -> Blocks.NETHERITE_BLOCK)
-            .properties(p -> p.lightLevel(state -> 10).noOcclusion())
+            .properties(p -> p.lightLevel(state -> 10).noOcclusion().emissiveRendering(ModBlocks::always))
             .tag(BlockTags.MINEABLE_WITH_PICKAXE, ModBlockTags.MEKANISM_CARDBOARD_BOX_BLACKLIST, BlockTags.WITHER_IMMUNE)
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
@@ -437,7 +453,7 @@ public class ModBlock {
             .lang("Nuclear Bomb")
             .initialProperties(() -> Blocks.ANVIL)
             .properties(p -> p.strength(5f, 1200f).lightLevel(state -> 15).noOcclusion())
-            .tag(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.WITHER_IMMUNE)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.WITHER_IMMUNE,BlockTags.ANVIL)
             .blockstate(DataGenUtil::noExtraModelOrState)
             .item()
             .build()

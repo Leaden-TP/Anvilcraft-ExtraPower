@@ -36,8 +36,8 @@ public class ModServerConfig {
     }
     public static class NuclearExplosion {
         @Comment("Explosion level")
-        @BoundedDiscrete(min = 3, max = 15)
-        public int Explosionlevel = 9;
+        @BoundedDiscrete(min = 3, max = 128)
+        public int Explosionlevel = 18;
     }
     // 附魔发电机
     @CollapsibleObject
