@@ -30,29 +30,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 自动弩 - 能量武器
- * <p>
- * 功能特性：
- * <ul>
- *   <li>可装填最多 64 支箭矢（普通箭、光灵箭、药水箭）</li>
- *   <li>按住右键连续射击，每 2 tick 发射一发</li>
- *   <li>发射的箭矢为 TechnicalArrow，可无视无敌帧</li>
- *   <li>消耗能量：每发 10,000,000，可通过超级电容器补充</li>
- *   <li>支持附魔：无限（不消耗普通箭）、力量（增加伤害）、快速装填（缩短装填时间）</li>
- *   <li>模型状态通过 CustomModelData 控制：
- *       <ul>
- *         <li>0 = 待机（有电）</li>
- *         <li>1 = 电量耗尽</li>
- *         <li>2 = 拉弦（射击/装填中）</li>
- *         <li>3 = 无弹药</li>
- *       </ul>
- *   </li>
- * </ul>
- * </p>
+ * 自动弩：能量武器，可装填最多 64 支箭矢（普通箭、光灵箭、药水箭），按住右键每 2 tick 发射一发无视无敌帧的 TechnicalArrow。
+ * 每发消耗 ENERGY_PER_SHOT 能量（可用超级电容器补充），支持无限/力量/快速装填附魔，模型状态：0 待机、1 耗尽、2 拉弦、3 无弹药。
  */
 public class AutomaticCrossbowItem extends EnergyWeaponItem {
 
-    // ========== 常量配置 ==========
+    // 常量配置
     public static final int MAX_AMMO = 64;                      // 最大弹药容量
     private static final int SHOT_INTERVAL = 2;                 // 射击间隔（tick）
     private static final int ENERGY_PER_SHOT = 10_000_00;      // 每发能量消耗
@@ -64,12 +47,17 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
     private static final int MODEL_CHARGING = 2;    // 拉弦（射击/装填）
     private static final int MODEL_NO_ARROW = 3;    // 无弹药
 
-    // ========== 构造器 ==========
+    // 构造器
     public AutomaticCrossbowItem(Properties properties) {
-        super(properties.component(ModComponents.RAILGUN_AMMO, ChargedProjectiles.EMPTY),MIN_ENERGY_TO_USE);
+        super(properties.component(ModComponents.RAILGUN_AMMO, ChargedProjectiles.EMPTY));
     }
 
-    // ========== 弹药存取（统一使用 RAILGUN_AMMO 组件） ==========
+    @Override
+    protected int minimumEnergy() {
+        return MIN_ENERGY_TO_USE;
+    }
+
+    // 弹药存取（统一使用 RAILGUN_AMMO 组件）
     private static List<ItemStack> ammo(ItemStack weapon) {
         ChargedProjectiles stored = weapon.get(ModComponents.RAILGUN_AMMO);
         return stored != null ? stored.getItems() : List.of();
@@ -85,28 +73,26 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
         return !ammo(weapon).isEmpty();
     }
 
-    // ========== 模型状态控制 ==========
+    // 模型状态控制
     private static void setModelState(ItemStack stack, int state) {
         stack.set(DataComponents.CUSTOM_MODEL_DATA, new CustomModelData(state));
     }
 
-    // ========== 附魔辅助 ==========
+    // 附魔辅助
     private static int getEnchantmentLevel(Level level, ItemStack stack,
                                            net.minecraft.resources.ResourceKey<Enchantment> key) {
         Holder<Enchantment> ench = level.holderLookup(Registries.ENCHANTMENT).getOrThrow(key);
         return stack.getEnchantmentLevel(ench);
     }
 
-    // ========== 箭矢检索与装填 ==========
+    // 箭矢检索与装填
     private static boolean isArrow(ItemStack stack) {
         return stack.getItem() instanceof ArrowItem
                 || stack.getItem() instanceof SpectralArrowItem
                 || stack.getItem() instanceof TippedArrowItem;
     }
 
-    /**
-     * 从玩家背包或副手查找可用箭矢（优先副手）。
-     */
+    /** 从玩家背包或副手查找可用箭矢（优先副手）。 */
     private static ItemStack findAmmoInInventory(Player player) {
         ItemStack offhand = player.getOffhandItem();
         if (isArrow(offhand)) return offhand;
@@ -118,9 +104,8 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
     }
 
     /**
-     * 从玩家背包/副手装填箭矢，最多填满 MAX_AMMO 支。
-     * 优先从副手取，然后从主背包取。
-     * 创造模式或无限附魔不消耗物品（无限附魔仅对普通箭有效，但仍需有至少一支普通箭作为“种子”）。
+     * 从副手优先、其次主背包装填箭矢至 MAX_AMMO。
+     * 创造模式或无限附魔不消耗物品，无限附魔仅对普通箭有效但仍需至少一支普通箭作为“种子”。
      */
     private static void loadAmmo(Player player, ItemStack weapon) {
         List<ItemStack> ammoList = new ArrayList<>();
@@ -159,12 +144,8 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
         return true;
     }
 
-    // ========== 射击逻辑 ==========
-    /**
-     * 发射一支 TechnicalArrow（无视无敌帧），并消耗弹药/能量。
-     * 能量消耗由调用方负责（已在外部通过 consumeEnergy 扣除）。
-     * 本方法仅处理弹药消耗和实体生成。
-     */
+    // 射击逻辑
+    /** 发射一支无视无敌帧的 TechnicalArrow，仅处理弹药消耗与实体生成，能量消耗由调用方通过 consumeEnergy 扣除。 */
     private void fireArrow(ServerLevel level, ServerPlayer player, ItemStack weapon) {
         List<ItemStack> ammoList = new ArrayList<>(ammo(weapon));
         if (ammoList.isEmpty()) return;
@@ -192,7 +173,7 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
             arrow.setOwner(player);
             arrow.setPos(player.getX(), player.getEyeY() - 0.1, player.getZ());
 
-            // ---------- 只有中间箭（i==0）获得力量加成 ----------
+            // 只有中间箭（i==0）获得力量加成
             float damage;
             if (i == 0) {
                 damage = 2.0F + power * 0.5F;   // 享受力量附魔
@@ -233,7 +214,7 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
         }
     }
 
-    // ========== 物品事件重写 ==========
+    // 物品事件重写
     @Override
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack weapon = player.getItemInHand(hand);
@@ -264,9 +245,9 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
         if (!(user instanceof ServerPlayer player) || !(level instanceof ServerLevel serverLevel)) return;
         int elapsed = getUseDuration(weapon, user) - remaining;
 
-        // ---------- 装填阶段 ----------
+        // 装填阶段
         if (!hasAmmo(weapon)) {
-            int loadTime = 5; // 固定装填时间（可改为受快速装填影响，现保持简单）
+            int loadTime = 5; // 固定装填时间（暂不受快速装填影响）
             if (elapsed >= loadTime) {
                 loadAmmo(player, weapon);
                 if (hasAmmo(weapon)) {
@@ -289,14 +270,13 @@ public class AutomaticCrossbowItem extends EnergyWeaponItem {
             return;
         }
 
-        // ---------- 射击阶段 (2tick 周期) ----------
+        // 射击阶段（2 tick 周期）
         // 直接尝试消耗能量，若不足则父类自动处理（停止并显示提示）
         int energy = 0;
         if (getEnchantmentLevel(level, weapon, Enchantments.INFINITY) > 0) energy=ENERGY_PER_SHOT*2;
         else  energy=ENERGY_PER_SHOT;
         if (!consumeEnergy(player, weapon, energy)) {
-            // 能量不足时父类已调用 stopForInsufficientPower 并切换模型？
-            // 但这里需要手动将模型置为耗尽状态，因为父类只停止使用，未切换模型
+            // 父类仅停止使用未切换模型，需手动将模型置为耗尽状态
             setModelState(weapon, MODEL_EXHAUSTED);
             return;
         }

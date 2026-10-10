@@ -100,7 +100,7 @@ public class FrostControllerBlock extends SimpleMultiPartBlock<Vertical3PartHalf
 
     @Override
     public BlockState placedState(Vertical3PartHalf part, BlockState state) {
-        // ⑤ 其他部分放置时继承含水状态（但实际可能由 updateShape 自动修正）
+        // ⑤ 其他部分放置时继承含水状态（实际由 updateShape 修正）
         return super.placedState(part, state).setValue(ACTIVE, true);
     }
 
@@ -116,7 +116,7 @@ public class FrostControllerBlock extends SimpleMultiPartBlock<Vertical3PartHalf
     @Override
     @Nullable
     public BlockState getPlacementState(BlockPlaceContext context) {
-        // ⑥ 放置时检测位置是否有水，并设置含水状态
+        // ⑥ 放置时检测是否有水并设置含水状态
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         boolean waterlogged = fluidState.getType() == Fluids.WATER;
         return this.defaultBlockState()
@@ -166,14 +166,14 @@ public class FrostControllerBlock extends SimpleMultiPartBlock<Vertical3PartHalf
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    // ⑧ 重写 updateShape，处理含水状态更新
+    // ⑧ 重写 updateShape，更新含水状态
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        // 检测当前位置是否有水，更新含水属性
+        // 检测当前位置是否有水并更新含水属性
         boolean waterPresent = level.getFluidState(pos).getType() == Fluids.WATER;
         if (state.getValue(WATERLOGGED) != waterPresent) {
             return state.setValue(WATERLOGGED, waterPresent);

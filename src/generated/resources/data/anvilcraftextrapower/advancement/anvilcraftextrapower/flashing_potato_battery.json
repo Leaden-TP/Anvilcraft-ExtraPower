@@ -1,0 +1,33 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/potato_battery",
+  "criteria": {
+    "has_flashing_potato_battery": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraftextrapower:flashing_potato_battery"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.flashing_potato_battery.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:flashing_potato_battery"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.flashing_potato_battery.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_flashing_potato_battery"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

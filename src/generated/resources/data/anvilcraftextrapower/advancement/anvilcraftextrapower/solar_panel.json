@@ -1,0 +1,34 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/root",
+  "criteria": {
+    "place_solar_panel": {
+      "conditions": {
+        "location": [
+          {
+            "block": "anvilcraftextrapower:solar_panel",
+            "condition": "minecraft:block_state_property"
+          }
+        ]
+      },
+      "trigger": "minecraft:placed_block"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.solar_panel.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:solar_panel"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.solar_panel.title"
+    }
+  },
+  "requirements": [
+    [
+      "place_solar_panel"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

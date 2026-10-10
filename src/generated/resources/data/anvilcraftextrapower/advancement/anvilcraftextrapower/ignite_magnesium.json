@@ -1,0 +1,26 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/burning_coal",
+  "criteria": {
+    "ignite_magnesium": {
+      "trigger": "anvilcraftextrapower:ignite_magnesium"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.ignite_magnesium.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:magnesium_block"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.ignite_magnesium.title"
+    }
+  },
+  "requirements": [
+    [
+      "ignite_magnesium"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

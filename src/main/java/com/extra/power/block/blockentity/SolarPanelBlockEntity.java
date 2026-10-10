@@ -34,7 +34,7 @@ public class SolarPanelBlockEntity extends BlockEntity implements IPowerProducer
     private Vector3f normalVector = new Vector3f(0, 1, 0);
     private static final int MAX_DISTANCE = 32;
 
-    // 平滑动画相关变量--使用了AI进行动画润色
+    // 平滑动画相关变量
     private Vector3f targetNormalVector = new Vector3f(0, 1, 0);
     private Vector3f prevNormalVector = new Vector3f(0, 1, 0);
     private float lerpProgress = 0.0f;

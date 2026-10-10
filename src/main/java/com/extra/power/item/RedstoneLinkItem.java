@@ -19,8 +19,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 
 /**
- * redstone link 方块物品。
- * <p>右键接收模式的 redstone link 时会在物品上记录目标位置（模仿铁砧工艺定日镜的磁盘记录），
+ * redstone link 方块物品：右键接收模式的 redstone link 时会在物品上记录目标位置（模仿铁砧工艺定日镜的磁盘记录）。
  * 携带该记录放置的方块会自动进入蓝色模式并绑定该位置。
  */
 public class RedstoneLinkItem extends BlockItem {

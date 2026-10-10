@@ -5,16 +5,18 @@
     "anvilcraftextrapower:anvil_projector",
     "anvilcraftextrapower:magnetic_display_stand",
     "anvilcraftextrapower:solar_panel",
+    "anvilcraftextrapower:enchanted_generator",
+    "anvilcraftextrapower:hydroelectric_generator",
     "anvilcraftextrapower:redstone_link",
     "anvilcraftextrapower:burning_coal_block",
     "anvilcraftextrapower:magnesium_block",
     "anvilcraftextrapower:burning_magnesium_block",
     "anvilcraftextrapower:sulfur_block",
     "anvilcraftextrapower:magnesium_oxide_block",
-    "anvilcraftextrapower:enchanted_generator",
     "anvilcraftextrapower:uranium_rod",
     "anvilcraftextrapower:frost_controller",
     "anvilcraftextrapower:nuclear_collector",
-    "anvilcraftextrapower:nuclear_bomb"
+    "anvilcraftextrapower:nuclear_bomb",
+    "anvilcraftextrapower:stress_generator"
   ]
 }

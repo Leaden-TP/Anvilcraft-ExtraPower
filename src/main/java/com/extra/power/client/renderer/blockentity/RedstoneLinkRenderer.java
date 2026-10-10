@@ -14,9 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.AABB;
 import org.jetbrains.annotations.NotNull;
 
-/**
- * 在方块正中间、离底部 5 像素的位置渲染信号标记物品；蓝色模式渲染屏障（不支持物品标记）。
- */
+/** 在方块正中间、离底部 5 像素的位置渲染信号标记物品；蓝色模式渲染屏障（不支持物品标记）。 */
 public class RedstoneLinkRenderer implements BlockEntityRenderer<RedstoneLinkBlockEntity> {
     private static final float ITEM_Y = 5.0f / 16.0f;
 

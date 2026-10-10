@@ -33,7 +33,6 @@ public class SolarPanelRenderer implements BlockEntityRenderer<SolarPanelBlockEn
 
     private ModelResourceLocation getHeadModel(SolarPanelBlockEntity blockEntity) {
         ModelResourceLocation a=Optional.of(blockEntity)
-                .filter(ignore -> AnvilCraftClient.CONFIG.heliostatsSunflowerModel)
                 .filter(be -> be.getLevel() != null)
                 .map(be -> be.getLevel().getBiome(be.getBlockPos()))
                 .map(biome -> biome.is(Biomes.SUNFLOWER_PLAINS))
@@ -96,7 +95,7 @@ public class SolarPanelRenderer implements BlockEntityRenderer<SolarPanelBlockEn
 
     @Override
     public int getViewDistance() {
-        return AnvilCraft.CLIENT_CONFIG.heliostatsRenderDistance;
+        return 128;
     }
 }
 

@@ -21,7 +21,7 @@ public class ClientShakeHandler {
     private static int shakeDuration = 0;
     private static final Random RANDOM = new Random();
 
-    // 1. 注册网络包接收器
+    // 注册网络包接收器
     public static void register(final RegisterPayloadHandlersEvent event) {
         final PayloadRegistrar registrar = event.registrar("1");
         registrar.playToClient(
@@ -34,7 +34,7 @@ public class ClientShakeHandler {
                 }
         );
     }
-    // 2. 摄像机设置事件：在这里修改视角实现震动
+    // 摄像机设置事件：在这里修改视角实现震动
     @SubscribeEvent
     public static void onCameraSetup(ViewportEvent.ComputeCameraAngles event) {
         if (shakeDuration <= 0 || shakeIntensity <= 0) {
@@ -62,7 +62,7 @@ public class ClientShakeHandler {
         shakeDuration--;
     }
 
-    // 3. 玩家登出或切换世界时重置震动，避免效果残留
+    // 玩家登出或切换世界时重置震动，避免效果残留
     @SubscribeEvent
     public static void onPlayerLogout(ClientPlayerNetworkEvent.LoggingOut event) {
         shakeIntensity = 0.0f;

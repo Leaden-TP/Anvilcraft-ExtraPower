@@ -6,9 +6,12 @@ import com.extra.power.block.just_block.NuclearCollectorBlock;
 import com.extra.power.config.ModServerConfig;
 import com.extra.power.network.toClient.ShakePayload;
 import com.extra.power.network.toServer.NuclearCollectorPacket;
+import com.extra.power.util.ModAdvancementTriggers;
 import dev.dubhe.anvilcraft.api.power.IPowerProducer;
 import dev.dubhe.anvilcraft.api.power.PowerGrid;
 import dev.dubhe.anvilcraft.api.tooltip.providers.IHasAffectRange;
+import dev.dubhe.anvilcraft.api.world.load.LevelLoadManager;
+import dev.dubhe.anvilcraft.api.world.load.LoadChuckData;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import lombok.Getter;
@@ -19,6 +22,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Player;
@@ -39,6 +43,10 @@ import static java.lang.Math.min;
 
 public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerProducer, IHasAffectRange {
     public static final float ROTATION_PRE_POWER = 0.002f;
+
+    /** 强加载半径（区块） */
+    private static final int CHUNK_LOAD_RADIUS = 2;
+
     private int power = 0;
     private int newpower = 0;
     private int heat = 0;
@@ -58,6 +66,9 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
     @Getter
     private int clientHeat;        // 客户端显示的热量
 
+    /** 是否已经注册强加载，避免每 tick 重复调用 reload */
+    private boolean loadRegistered = false;
+
     public NuclearCollectorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         super(type, pos, blockState);
     }
@@ -74,7 +85,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         return new NuclearCollectorBlockEntity(type, pos, blockState);
     }
 
-    // ---------- NBT ----------
+    // NBT
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
@@ -99,7 +110,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         tag.putInt("check_time", this.check_time);
     }
 
-    // ---------- 网络同步 ----------
+    // 网络同步
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
         CompoundTag tag = super.getUpdateTag(registries);
@@ -114,8 +125,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         super.handleUpdateTag(tag, registries);
         this.clientHeat = tag.getInt("heat");
         this.result = tag.getInt("result");
-        // 可选：更新power用于客户端旋转，但旋转速度由服务端power决定，通过getServerPower()获得
-        // 但客户端需要知道功率，这里同步power以便clientTick中使用
+        // 同步 power 供 clientTick 使用，旋转速度仍由服务端 getServerPower() 决定
         this.power = tag.getInt("power");
     }
 
@@ -124,8 +134,18 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         return ClientboundBlockEntityDataPacket.create(this);
     }
 
+    // 生命周期
+    @Override
+    public void setRemoved() {
+        // 兜底注销：方块被破坏 / 替换 / 强制卸载时确保释放加载槽
+        if (this.loadRegistered && level instanceof ServerLevel serverLevel) {
+            LevelLoadManager.unregister(worldPosition, serverLevel);
+        }
+        this.loadRegistered = false;
+        super.setRemoved();
+    }
 
-    // ---------- 接口方法 ----------
+    // 接口方法
     @Override
     public void gridTick() {
         // 电力网格专用 tick（如需扩展）
@@ -160,7 +180,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         return AABB.ofSize(getBlockPos().getCenter(), 5, 3, 5);
     }
 
-    // ---------- 客户端数据 ----------
+    // 客户端数据
     public int getWorkResult() {
         return result;
     }
@@ -173,13 +193,13 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         return Mth.lerp(partialTick, previousClientRotation, clientRotation);
     }
 
-    // 服务端调用此方法向客户端推送数据（非必须，因为已有同步包，但保留兼容）
+    // 服务端向客户端推送数据（已有同步包，此处仅保留兼容）
     public void applyClientTelemetry(byte result, int heat) {
         this.result = result;
         this.clientHeat = heat;
     }
 
-    // ---------- 客户端 tick ----------
+    // 客户端 tick
     private void clientTick() {
         previousClientRotation = clientRotation;
         float targetSpeed = getServerPower() * ROTATION_PRE_POWER / 10.0f;
@@ -196,7 +216,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         previousClientRotation -= offset;
     }
 
-    // ---------- 静态辅助方法 ----------
+    // 静态辅助方法
     public static boolean isAnotherCollectorNearby(Level level, BlockPos pos) {
         BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos();
         for (int i = -4; i <= 4; i++) {
@@ -225,7 +245,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
         }
     }
 
-    // ---------- 主 tick ----------
+    // 主 tick
     public static void tick(Level level, BlockPos pos, BlockState state, NuclearCollectorBlockEntity entity) {
         if (level.isClientSide()) {
             entity.clientTick();
@@ -274,9 +294,11 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
                 entity.heat += rod;
             }
 
-            entity.newpower = checkRod_for_power(level, entity.getBlockPos()) * ModServerConfig.nuclearCollector.powerOutput_of_a_uraniumRod;
-            if (controller >0 && entity.all_water <=0) entity.newpower /= 3;
-            if (entity.newpower == 0 && entity.result != 4 &&entity.result != 2) {
+            int powerRods = checkRod_for_power(level, entity.getBlockPos());
+            entity.newpower = powerRods * ModServerConfig.nuclearCollector.powerOutput_of_a_uraniumRod;
+            if (powerRods > 0) ModAdvancementTriggers.nuclearCollector(level, entity.getBlockPos(), powerRods);
+            if (controller > 0 && entity.all_water <= 0) entity.newpower /= 3;
+            if (entity.newpower == 0 && entity.result != 4 && entity.result != 2) {
                 entity.result = 3;
                 return;
             }
@@ -312,7 +334,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
                 ChangeGrid(entity);
                 entity.result = 4;
                 return;
-            } else if (state.getValue(OVERHEATED))entity.result = 2;
+            } else if (state.getValue(OVERHEATED)) entity.result = 2;
 
             BlockState block = level.getBlockState(pos.above(y));
             int checkWater = checkWater(level, entity.getBlockPos(), y, true);
@@ -341,12 +363,29 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
             entity.check_all_water -= 1;
             if (checkWater == 0) entity.all_water = 0;
         }
-        if (entity.time >= entity.check_time+5) {entity.time = 0;}
+        if (entity.time >= entity.check_time + 5) {
+            entity.time = 0;
+        }
+
         // 更新电网功率
         if (entity.power != entity.newpower && entity.grid != null) {
             entity.power = entity.newpower;
             entity.grid.markChanged();
             level.sendBlockUpdated(pos, state, state, 3);
+        }
+
+        // 强加载
+        // 只有在正常发电时才保持区块加载
+        if (level instanceof ServerLevel serverLevel) {
+            boolean shouldLoad = entity.power > 0 && entity.result == 0;
+            if (shouldLoad && !entity.loadRegistered) {
+                LevelLoadManager.reload(serverLevel, pos,
+                        LoadChuckData.createLoadChuckData(CHUNK_LOAD_RADIUS, pos, false, serverLevel));
+                entity.loadRegistered = true;
+            } else if (!shouldLoad && entity.loadRegistered) {
+                LevelLoadManager.unregister(pos, level);
+                entity.loadRegistered = false;
+            }
         }
     }
 }

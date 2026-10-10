@@ -4,6 +4,7 @@ import com.extra.power.init.block.ModBlock;
 import com.extra.power.init.AnvilCraftExtrapower;
 import dev.dubhe.anvilcraft.AnvilCraft;
 import dev.dubhe.anvilcraft.api.event.LightningBoltStrikeEvent;
+import dev.dubhe.anvilcraft.config.AnvilCraftServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -19,8 +20,8 @@ public class LightningEventListener {
         BlockPos pos = event.getPos();
         BlockState state = level.getBlockState(pos);
         if (state.is(Blocks.LIGHTNING_ROD)) pos = pos.above();
-        int depth = AnvilCraft.CONFIG.lightningStrikeDepth+1;
-        int radius = AnvilCraft.CONFIG.lightningStrikeRadius+1;
+        int depth = 3;
+        int radius = 3;
         for (BlockPos blockPos : BlockPos.betweenClosed(pos.offset(radius, 0, radius), pos.offset(-radius, -depth, -radius))) {
             BlockState blockState = level.getBlockState(blockPos);
             if (blockState.is(ModBlock.POTATO_BATTERY)) {

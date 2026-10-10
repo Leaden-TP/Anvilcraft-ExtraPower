@@ -1,0 +1,26 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/wireless_redstone",
+  "criteria": {
+    "display_stand": {
+      "trigger": "anvilcraftextrapower:magnetic_display_stand"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.display_stand_on_display_stand.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:magnetic_display_stand"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.display_stand_on_display_stand.title"
+    }
+  },
+  "requirements": [
+    [
+      "display_stand"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

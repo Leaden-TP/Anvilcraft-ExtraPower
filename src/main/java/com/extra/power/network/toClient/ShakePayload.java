@@ -9,11 +9,11 @@ import org.jetbrains.annotations.NotNull;
 
 public record ShakePayload(float strength, int duration) implements CustomPacketPayload {
 
-    // 这个ID是数据包的唯一标识，确保客户端和服务端一致
+    // 数据包唯一标识，客户端与服务端必须一致
     public static final CustomPacketPayload.Type<ShakePayload> TYPE =
             new CustomPacketPayload.Type<>(ResourceLocation.fromNamespaceAndPath("extra_power", "shake"));
 
-    // 编解码器：用于将数据写入网络缓冲或从网络缓冲读取
+    // 编解码器：读写网络缓冲
     public static final StreamCodec<FriendlyByteBuf, ShakePayload> STREAM_CODEC =
             StreamCodec.composite(
                     StreamCodec.of(FriendlyByteBuf::writeFloat, FriendlyByteBuf::readFloat), // 强度

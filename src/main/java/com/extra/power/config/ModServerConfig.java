@@ -64,4 +64,72 @@ public class ModServerConfig {
         @BoundedDiscrete(min = 1, max = 1000)
         public int minConsumeCooldown = 10;
     }
+
+    // 水轮发电机
+    @CollapsibleObject
+    public HydroelectricGenerator hydroelectricGenerator = new HydroelectricGenerator();
+
+    public static class HydroelectricGenerator {
+        @Comment("Power per face with flowing water")
+        @BoundedDiscrete(min = 0, max = 128000000)
+        public int powerPerFlowingFace = 4;
+
+        @Comment("Coefficient of the accumulated fluid level change")
+        @BoundedDiscrete(min = 0, max = 128000000)
+        public int levelChangeCoefficient = 2;
+
+        @Comment("Divisor applied to fluid density (vanilla water = 1000)")
+        @BoundedDiscrete(min = 1, max = 1000)
+        public int densityDivisor = 1000;
+
+        @Comment("Power ramp speed per tick when the output changes")
+        @BoundedDiscrete(min = 1, max = 100000)
+        public int powerRampPerTick = 1;
+
+        @Comment("Power multiplier for an active conduit below with 16-27 frames")
+        @BoundedDiscrete(min = 1, max = 100)
+        public int conduitMultiplierLow = 3;
+
+        @Comment("Power multiplier for an active conduit below with 28-41 frames")
+        @BoundedDiscrete(min = 1, max = 100)
+        public int conduitMultiplierMid = 5;
+
+        @Comment("Power multiplier for an active conduit below with 42 frames")
+        @BoundedDiscrete(min = 1, max = 100)
+        public int conduitMultiplierHigh = 7;
+    }
+
+    // 应力发电机（Create 联动）
+    @CollapsibleObject
+    public StressGenerator stressGenerator = new StressGenerator();
+
+    public static class StressGenerator {
+        @Comment("Generator mode: stress consumed per RPM = coefficient * this (1 RPM = coefficient * 16 SU)")
+        @BoundedDiscrete(min = 1, max = 1024)
+        public int stressPerRpmMultiplier = 16;
+
+        @Comment("Generator mode: SU consumed per kW generated (power = consumed stress / this)")
+        @BoundedDiscrete(min = 1, max = 1000000)
+        public int stressPerKilowatt = 8;
+
+        @Comment("Motor mode: fixed rotation speed")
+        @BoundedDiscrete(min = 0, max = 256)
+        public int motorRpm = 32;
+
+        @Comment("Motor mode: stress provided = coefficient * this")
+        @BoundedDiscrete(min = 0, max = 100000)
+        public int motorSuPerValue = 64;
+
+        @Comment("Motor mode: power consumed = coefficient * this")
+        @BoundedDiscrete(min = 0, max = 1000000)
+        public int motorPowerPerValue = 8;
+
+        @Comment("Coefficient of a newly placed stress generator")
+        @BoundedDiscrete(min = 1, max = 256)
+        public int defaultValue = 1;
+
+        @Comment("Maximum coefficient")
+        @BoundedDiscrete(min = 1, max = 256)
+        public int maxValue = 256;
+    }
 }

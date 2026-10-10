@@ -30,9 +30,7 @@ public class RedstoneLinkBlockEntity extends BlockEntity implements IScrollAdjus
     private ResourceKey<Level> boundDimension;
     @Nullable
     private BlockPos boundPos;
-    /**
-     * 发送端：当前输入红石信号；接收端：当前收到的信号。客户端通过更新包获得同名字段。
-     */
+    /** 发送端记录输入红石信号、接收端记录收到的信号，客户端通过更新包获得同名字段。 */
     private int signal = 0;
 
     public RedstoneLinkBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
@@ -51,7 +49,7 @@ public class RedstoneLinkBlockEntity extends BlockEntity implements IScrollAdjus
         return new RedstoneLinkBlockEntity(type, pos, blockState);
     }
 
-    // ---------- 状态查询 ----------
+    // 状态查询
 
     public RedstoneLinkColor getColor() {
         return getBlockState().getValue(RedstoneLinkBlock.COLOR);
@@ -94,7 +92,7 @@ public class RedstoneLinkBlockEntity extends BlockEntity implements IScrollAdjus
         return boundPos;
     }
 
-    // ---------- 交互 ----------
+    // 交互
 
     /** 设置信号标记物品（服务端调用），蓝色模式不支持物品标记 */
     public void setMarker(ItemStack stack) {
@@ -144,7 +142,7 @@ public class RedstoneLinkBlockEntity extends BlockEntity implements IScrollAdjus
         level.playSound(null, worldPosition, SoundEvents.NOTE_BLOCK_HAT.value(), SoundSource.BLOCKS);
     }
 
-    // ---------- 网络注册（仅服务端发送端） ----------
+    // 网络注册（仅服务端发送端）
 
     public void updateNetworkRegistration() {
         if (level == null || level.isClientSide()) return;
@@ -173,12 +171,11 @@ public class RedstoneLinkBlockEntity extends BlockEntity implements IScrollAdjus
         super.onChunkUnloaded();
     }
 
-    // ---------- 信号计算 ----------
+    // 信号计算
 
     /**
-     * 接收端扫描网络中的发送端，返回匹配的最大信号强度。
-     * <p>匹配规则：颜色相同（红色全局跨纬度 / 黄色同纬度 128 格）且信号标记物品相同；
-     * 蓝色发送端则只与绑定位置相同的接收端联络。
+     * 接收端扫描网络中的发送端并返回匹配的最大信号强度。
+     * 匹配规则：颜色相同（红色全局跨纬度、黄色同纬度 128 格）且标记物品相同，蓝色发送端只联络绑定位置相同的接收端。
      */
     public int computeReceivedSignal() {
         if (level == null) return 0;
@@ -213,7 +210,7 @@ public class RedstoneLinkBlockEntity extends BlockEntity implements IScrollAdjus
         };
     }
 
-    // ---------- 主 tick ----------
+    // 主 tick
 
     public static void tick(Level level, BlockPos pos, BlockState state, RedstoneLinkBlockEntity entity) {
         if (level.isClientSide()) return;
@@ -239,7 +236,7 @@ public class RedstoneLinkBlockEntity extends BlockEntity implements IScrollAdjus
         }
     }
 
-    // ---------- NBT ----------
+    // NBT
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
@@ -271,7 +268,7 @@ public class RedstoneLinkBlockEntity extends BlockEntity implements IScrollAdjus
         }
     }
 
-    // ---------- 网络同步 ----------
+    // 网络同步
 
     @Override
     public CompoundTag getUpdateTag(HolderLookup.Provider registries) {

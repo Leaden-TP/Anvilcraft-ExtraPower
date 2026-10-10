@@ -10,10 +10,6 @@ import static com.extra.power.init.block.ModBlock.*;
 import static com.extra.power.init.AnvilCraftExtrapower.REGISTRATE;
 
 public class ModBlockEntity {
-    public static final BlockEntityEntry<CrateBlockEntity> CRATE =
-            REGISTRATE.blockEntity("crate", CrateBlockEntity::createBlockEntity)
-                    .validBlock(CRATE_BLOCK)
-                    .register();
 
     public static final BlockEntityEntry<BurningCoalBlockEntity> BURNING_COAL =
             REGISTRATE.blockEntity("burning_coal_block", BurningCoalBlockEntity::createBlockEntity)
@@ -74,6 +70,12 @@ public class ModBlockEntity {
                     .validBlock(ModBlock.ENCHANTMENT_GENERATOR_BLOCK)
                     .renderer(() -> EnchantedGeneratorRenderer::new)
                     .register();
+    public static final BlockEntityEntry<HydroelectricGeneratorBlockEntity> HYDROELECTRIC_GENERATOR =
+            REGISTRATE.blockEntity("hydroelectric_generator", HydroelectricGeneratorBlockEntity::createBlockEntity)
+                    .validBlock(ModBlock.HYDROELECTRIC_GENERATOR)
+                    .renderer(() -> HydroelectricGeneratorRenderer::new)
+                    .register();
+
     public static void register() {
     }
 }

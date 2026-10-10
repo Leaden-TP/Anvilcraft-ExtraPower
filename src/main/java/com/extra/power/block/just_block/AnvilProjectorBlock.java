@@ -1,5 +1,6 @@
 package com.extra.power.block.just_block;
 
+import com.extra.power.util.ModAdvancementTriggers;
 import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import dev.dubhe.anvilcraft.block.multipart.SimpleMultiPartBlock;
 import dev.dubhe.anvilcraft.block.state.Vertical3PartHalf;
@@ -60,6 +61,7 @@ public class AnvilProjectorBlock extends Block implements IHammerRemovable {
             BlockPos pos2 = pos.relative(level.getBlockState(pos).getValue(FACING).getOpposite(), 1);
             if (falling_D <= 1) return;
             level.setBlock(pos, state.setValue(COLD_DOWN, true), 3);
+            int spectralBlocks = 0;
             for (int i = 1; i <= Math.min(falling_D, 16); i++) {
                 BlockPos pos1 = pos.relative(level.getBlockState(pos).getValue(FACING), i);
                 if (!level.getBlockState(pos1).canBeReplaced()) break;
@@ -79,7 +81,9 @@ public class AnvilProjectorBlock extends Block implements IHammerRemovable {
                             false,
                             true
                     );
+                spectralBlocks++;
             }
+            ModAdvancementTriggers.anvilProjection(level, pos, spectralBlocks);
             level.scheduleTick(pos, this, 20);
         }
     }

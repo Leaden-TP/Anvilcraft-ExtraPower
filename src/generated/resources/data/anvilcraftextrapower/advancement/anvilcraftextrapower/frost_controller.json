@@ -1,0 +1,26 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/nuclear_collector",
+  "criteria": {
+    "control_uranium_rod": {
+      "trigger": "anvilcraftextrapower:frost_controller"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.frost_controller.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:frost_controller"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.frost_controller.title"
+    }
+  },
+  "requirements": [
+    [
+      "control_uranium_rod"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

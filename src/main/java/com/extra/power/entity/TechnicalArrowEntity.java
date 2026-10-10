@@ -1,7 +1,4 @@
 package com.extra.power.entity;
-
-
-
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;

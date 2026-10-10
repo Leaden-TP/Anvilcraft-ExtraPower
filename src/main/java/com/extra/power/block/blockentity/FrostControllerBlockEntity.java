@@ -2,6 +2,7 @@ package com.extra.power.block.blockentity;
 
 import com.extra.power.block.just_block.FrostControllerBlock;
 import com.extra.power.block.just_block.UraniumRodBlock;
+import com.extra.power.util.ModAdvancementTriggers;
 import dev.dubhe.anvilcraft.api.tooltip.providers.IHasAffectRange;
 import dev.dubhe.anvilcraft.block.state.Vertical3PartHalf;
 import net.minecraft.core.BlockPos;
@@ -64,8 +65,13 @@ public class FrostControllerBlockEntity extends BlockEntity implements IHasAffec
         entity.tickCounter = 0;
 
         if (state.getValue(FrostControllerBlock.HALF) != Vertical3PartHalf.MID
-                || !state.getValue(FrostControllerBlock.ACTIVE)
-                || checkRod(level, pos) > 0) {
+                || !state.getValue(FrostControllerBlock.ACTIVE)) {
+            return;
+        }
+
+        // 铀棒附近工作：削减它的热量生成，同时解锁《掌控它》
+        if (checkRod(level, pos) > 0) {
+            ModAdvancementTriggers.frostController(level, pos);
             return;
         }
 

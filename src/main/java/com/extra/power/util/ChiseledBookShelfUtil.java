@@ -17,9 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChiseledBookShelfUtil {
-    /**
-     * 统计这个区域内的所有雕纹书架中有多少附魔等级
-     */
+    /** 统计这个区域内的所有雕纹书架中有多少附魔等级 */
     public static int countEnchantmentLevelsInArea(Level level, BlockPos blockPos, int distance) {
         int count = 0;
         BlockPos.MutableBlockPos mpos = new BlockPos.MutableBlockPos();
@@ -34,9 +32,7 @@ public class ChiseledBookShelfUtil {
         return count;
     }
 
-    /**
-     * 统计这个雕纹书架中有多少附魔等级
-     */
+    /** 统计这个雕纹书架中有多少附魔等级 */
     public static int countEnchantmentLevelsInBlock(Level level, BlockPos pos) {
         if (level.isOutsideBuildHeight(pos)) return 0;
 
@@ -53,9 +49,7 @@ public class ChiseledBookShelfUtil {
         return count;
     }
 
-    /**
-     * 统计这个附魔书中有多少附魔等级
-     */
+    /** 统计这个附魔书中有多少附魔等级 */
     public static int countEnchantmentLevelsInItem(ItemStack itemStack) {
         if (itemStack.isEmpty()) return 0;
 
@@ -70,9 +64,7 @@ public class ChiseledBookShelfUtil {
         return count;
     }
 
-    /**
-     * 统计这个区域内的所有雕纹书架中有哪些附魔
-     */
+    /** 统计这个区域内的所有雕纹书架中有哪些附魔 */
     public static List<Object2IntMap.Entry<Holder<Enchantment>>> countEnchantmentsInArea(
         Level level,
         BlockPos blockPos,
@@ -85,9 +77,7 @@ public class ChiseledBookShelfUtil {
         return enchantments;
     }
 
-    /**
-     * 统计这个雕纹书架中有哪些附魔
-     */
+    /** 统计这个雕纹书架中有哪些附魔 */
     public static List<Object2IntMap.Entry<Holder<Enchantment>>> countEnchantmentsInBlock(Level level, BlockPos pos) {
         if (level.isOutsideBuildHeight(pos)) return new ArrayList<>();
 
@@ -104,9 +94,7 @@ public class ChiseledBookShelfUtil {
         return enchantments;
     }
 
-    /**
-     * 统计这个附魔书中有哪些附魔
-     */
+    /** 统计这个附魔书中有哪些附魔 */
     public static List<Object2IntMap.Entry<Holder<Enchantment>>> countEnchantmentsInItem(ItemStack itemStack) {
         if (itemStack.isEmpty()) return new ArrayList<>();
 

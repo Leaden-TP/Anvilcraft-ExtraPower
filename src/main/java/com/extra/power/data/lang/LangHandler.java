@@ -1,17 +1,16 @@
 package com.extra.power.data.lang;
 
 import com.extra.power.config.ModServerConfig;
+import com.extra.power.integration.create.CreateCompat;
 import dev.anvilcraft.lib.v2.config.ConfigData;
 import dev.anvilcraft.lib.v2.registrum.providers.RegistrumLangProvider;
 
 public class LangHandler {
-    /**
-     * language file init
-     *
-     * @param provider provider
-     */
+    /** 语言文件初始化 */
     public static void init(RegistrumLangProvider provider) {
         ConfigData.readConfigClass(provider, ModServerConfig.class);
+
+        AdvancementLang.init(provider);
 
         provider.add(
                 "creativetab.anvilcraftextrapower.main",
@@ -39,10 +38,6 @@ public class LangHandler {
                 "block.anvilcraftextrapower.enchanted_generator.placement_too_close_to_another",
                 "Too close to another enchanted generator"
         );
-        provider.add(
-                "entity.anvilcraftextrapower.technical_arrow",
-                "Special Arrow"
-        );
 
         provider.add("message.anvilcraftextrapower.redstone_link.marker_set", "Signal marker set: %s");
         provider.add("message.anvilcraftextrapower.redstone_link.marker_reset", "Signal marker cleared");
@@ -65,5 +60,28 @@ public class LangHandler {
         provider.add("tooltip.anvilcraftextrapower.redstone_link.bound", "Bound to: %s");
         provider.add("tooltip.anvilcraftextrapower.redstone_link.bound.none", "Not bound");
         provider.add("tooltip.anvilcraftextrapower.redstone_link.barrier", "Item markers are not supported in blue mode");
+
+        // 应力发电机（Create 联动）
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.title", "Stress Generator");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.mode", "Mode: %s");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.mode.generator", "Generator (Stress to Power)");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.mode.motor", "Electric Motor (Power to Stress)");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.coefficient", "Stress-Power Coefficient: %s");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.speed", "Rotation Speed: %s RPM");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.ratio", "Stress per RPM: %s SU");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.stress.consumed", "Stress Consumed: %s SU");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.stress.provided", "Stress Provided: %s SU");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.power.generating", "Power Generation: %s kW");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.power.consuming", "Power Consumption: %s kW");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.slider", "Stress-Power Coefficient");
+        provider.add("tooltip.anvilcraftextrapower.stress_generator.slider_row", "Coefficient");
+        provider.add(
+            "tooltip.anvilcraftextrapower.stress_generator.missing_create",
+            "Requires the Create mod"
+        );
+        provider.add(
+            "message.anvilcraftextrapower.stress_generator.missing_create",
+            "Install the Create mod to place and use the stress generator"
+        );
     }
 }

@@ -1,0 +1,29 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/solar_panel",
+  "criteria": {
+    "craft_enchanted_generator": {
+      "conditions": {
+        "recipe_id": "anvilcraftextrapower:enchanted_generator"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.knowledge_is_power.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:enchanted_generator"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.knowledge_is_power.title"
+    }
+  },
+  "requirements": [
+    [
+      "craft_enchanted_generator"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

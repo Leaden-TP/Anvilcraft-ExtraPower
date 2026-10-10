@@ -1,0 +1,32 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/nuclear_collector",
+  "criteria": {
+    "rods": {
+      "conditions": {
+        "rods": {
+          "min": 24
+        }
+      },
+      "trigger": "anvilcraftextrapower:nuclear_collector"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.nuclear_power_plant.description"
+    },
+    "frame": "challenge",
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:nuclear_collector"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.nuclear_power_plant.title"
+    }
+  },
+  "requirements": [
+    [
+      "rods"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "B": {
+      "tag": "c:plates/brass"
+    },
+    "I": {
+      "tag": "c:plates/iron"
+    },
+    "M": {
+      "item": "anvilcraft:magnetoelectric_core"
+    }
+  },
+  "pattern": [
+    " I ",
+    "BMB",
+    " I "
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:hydroelectric_generator"
+  }
+}

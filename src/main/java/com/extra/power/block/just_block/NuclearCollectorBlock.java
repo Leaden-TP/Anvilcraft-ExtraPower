@@ -97,7 +97,7 @@ public class NuclearCollectorBlock extends BetterBaseEntityBlock implements IHam
                     Component.translatable("block.anvilcraftextrapower.nuclear_collector.placement_too_close_to_another")
                             .withStyle(ChatFormatting.RED), true));
         }
-        // ⑤ 放置时检测位置是否有水，并设置含水状态
+        // ⑤ 放置时检测是否有水并设置含水状态
         FluidState fluidState = context.getLevel().getFluidState(context.getClickedPos());
         boolean waterlogged = fluidState.getType() == Fluids.WATER;
         return super.getStateForPlacement(context)
@@ -110,14 +110,14 @@ public class NuclearCollectorBlock extends BetterBaseEntityBlock implements IHam
         return state.getValue(WATERLOGGED) ? Fluids.WATER.getSource(false) : super.getFluidState(state);
     }
 
-    // ⑦ 重写 updateShape，处理含水状态更新
+    // ⑦ 重写 updateShape，更新含水状态
     @Override
     public BlockState updateShape(BlockState state, Direction direction, BlockState neighborState,
                                   LevelAccessor level, BlockPos pos, BlockPos neighborPos) {
         if (state.getValue(WATERLOGGED)) {
             level.scheduleTick(pos, Fluids.WATER, Fluids.WATER.getTickDelay(level));
         }
-        // 检测当前位置是否有水，更新含水属性
+        // 检测当前位置是否有水并更新含水属性
         boolean waterPresent = level.getFluidState(pos).getType() == Fluids.WATER;
         if (state.getValue(WATERLOGGED) != waterPresent) {
             return state.setValue(WATERLOGGED, waterPresent);

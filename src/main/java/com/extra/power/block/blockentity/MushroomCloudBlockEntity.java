@@ -7,6 +7,7 @@ import com.extra.power.init.data.ModDamageTypes;
 import com.extra.power.init.ModSounds;
 import com.extra.power.network.toClient.FlashPayload;
 import com.extra.power.network.toClient.ShakePayload;
+import com.extra.power.util.ModAdvancementTriggers;
 import dev.dubhe.anvilcraft.api.world.load.LevelLoadManager;
 import dev.dubhe.anvilcraft.api.world.load.LoadChuckData;
 import net.minecraft.core.BlockPos;
@@ -56,11 +57,11 @@ public class MushroomCloudBlockEntity extends BlockEntity {
     private static final float SCALE_ACCELERATION = 0.09f;
     private float SCALE_SPEED = 0.05f;
 
-    /** 每次爆炸判定（每 2 tick 一次）允许读取的方块数上限，防止一次判定扫爆服务器 */
+    /** 每次爆炸判定（每 2 tick 一次）可读取的方块数上限，防止扫爆服务器 */
     private static final int MAX_SCANS_PER_STEP = 20000;
-    /** 每次爆炸判定允许破坏的方块数上限：setBlock(…, 11) 会触发邻居与客户端更新，必须限流 */
+    /** 每次爆炸判定可破坏的方块数上限：setBlock(…, 11) 会触发邻居与客户端更新 */
     private static final int MAX_BREAKS_PER_STEP = 2000;
-    /** 椭球边缘多少格以内算"熔融壳层"：只有这一层里的方块才会走熔炉配方（高炉配方是全局的） */
+    /** 椭球边缘多少格以内算"熔融壳层"：只有这一层会走熔炉配方（高炉配方全局生效） */
     private static final double MELT_SHELL_THICKNESS = 2.0;
     /** 火焰只在椭球边缘、厚度为熔壳 2 倍的环形壳层里生成 */
     private static final double FIRE_SHELL_THICKNESS = MELT_SHELL_THICKNESS * 2.0;
@@ -79,7 +80,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
     private int blastCursor = 0;
     /** 椭球是否已经挖完 */
     private boolean blastDone = false;
-    /** 配方查询缓存：同一次爆炸里反复遇到同一种方块时不必重复查表 */
+    /** 配方查询缓存：同一种方块不必重复查表 */
     private final Map<Block, RecipeProducts> recipeCache = new HashMap<>();
 
     /** 一个方块对应的配方产物：高炉优先，熔炉只在产物是方块时保留 */
@@ -155,7 +156,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
             entity.ticks++;
             if (entity.ticks % 2 == 0) {
 
-                // ========== 震动效果（仅视觉，不受防爆影响） ==========
+                // 震动效果（仅视觉，不受防爆影响）
                 if (entity.isExpanding == 2) {
                     int shakeRadius = ModServerConfig.nuclearExplosion.Explosionlevel
                             * ModServerConfig.nuclearExplosion.Explosionlevel + 16;
@@ -170,15 +171,15 @@ public class MushroomCloudBlockEntity extends BlockEntity {
                     }
                 }
 
-                // ========== 防爆判定：mobGriefing=false 时不进行爆炸判定 ==========
+                // 防爆判定：mobGriefing=false 时不进行爆炸判定
                 boolean griefingEnabled = level.getGameRules()
                         .getBoolean(GameRules.RULE_MOBGRIEFING);
 
-                // ========== 伤害 + 椭球开挖（音效/闪光等表现不受防爆影响） ==========
+                // 伤害 + 椭球开挖（音效/闪光等表现不受防爆影响）
                 entity.destroyTerrain(level, pos, griefingEnabled);
 
-                // ========== 视觉结束后清理蘑菇云方块 ==========
-                // 椭球挖完才收尾；防爆时不会开挖，蘑菇云成型后即可移除，避免方块永久残留
+                // 视觉结束后清理蘑菇云方块
+                // 椭球挖完才收尾；防爆时蘑菇云成型即可移除，避免方块残留
                 if (entity.C_size >= 10 && (entity.blastDone || !griefingEnabled)) {
                     LevelLoadManager.unregister(pos, level);
                     level.setBlock(pos, Blocks.AIR.defaultBlockState(), 11);
@@ -187,7 +188,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
         }
     }
 
-    // ---------- 爆炸范围（椭球） ----------
+    // 爆炸范围（椭球）
 
     /** 椭球水平半长轴：Explosionlevel * 3 */
     private double semiMajor() {
@@ -200,17 +201,8 @@ public class MushroomCloudBlockEntity extends BlockEntity {
     }
 
     /**
-     * 爆炸判定中的方块部分。
-     * <p>破坏范围是以方块位置为中心的椭球：水平半长轴 {@link #semiMajor()}、
-     * 垂直半短轴 {@link #semiMinor()}；只有椭球边缘 {@link #MELT_SHELL_THICKNESS} 格以内的
-     * 壳层才会走熔炉/高炉配方，壳层以内的方块直接炸空。
-     * <p><b>水：椭球范围内的水会全部被清除</b>，不再限于爆心附近的小球。
-     * <p>按"从顶部往下"的切片顺序逐格扫描，游标 blastCursor 记录进度：
-     * 预算耗尽时保存游标并返回 false，下一 tick 从原处继续，不会漏挖也不会重复扫描。
-     * <p>火焰只在椭球边缘、厚度为 {@link #FIRE_SHELL_THICKNESS} 的环形壳层里生成，
-     * 避免坑底与坑中心被点燃。
-     *
-     * @return 是否已经把这个椭球挖完
+     * 按椭球逐格开挖方块：只有边缘熔融壳层走熔炉/高炉配方，其余直接炸空，水会被全部清除。
+     * 游标 blastCursor 记录进度，预算耗尽时返回 false，火焰生成在椭球边缘的环形壳层里。
      */
     private boolean carveEllipsoid(Level level, BlockPos center) {
         final double a = this.semiMajor();
@@ -257,7 +249,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
                 return false;
             }
 
-            // 配方处理：高炉配方全局执行且优先，熔炉配方只在这一格位于椭球边缘壳层时生效
+            // 配方处理：高炉配方全局且优先，熔炉配方只在椭球边缘壳层生效
             if (!water && this.tryRecipe(level, target, state,
                     isInMeltShell(f, horizontal, y, a4, b4))) {
                 this.tickBreakBudget--;
@@ -271,8 +263,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
             }
             this.tickBreakBudget--;
 
-            // 火焰只在椭球边缘、厚度为 FIRE_SHELL_THICKNESS 的环形壳层里生成，
-            // 且只在爆心及以上（y >= 0）生成；水格不点火
+            // 火焰只在椭球边缘 FIRE_SHELL_THICKNESS 环形壳层、且爆心及以上（y >= 0）的干格生成
             if (!water && y >= 0
                     && isInShell(f, horizontal, y, a4, b4, FIRE_SHELL_THICKNESS)
                     && level.random.nextFloat() < 0.3f) {
@@ -284,38 +275,19 @@ public class MushroomCloudBlockEntity extends BlockEntity {
         return true;
     }
 
-    /**
-     * 该格是否位于椭球边缘、厚度为 {@code thickness} 的壳层里（距椭球表面 thickness 格以内）。
-     * <p>用椭球函数 f 与它的梯度估算到表面的距离 (1-f)/|∇f|，
-     * 因此只需判断 (1-f) <= thickness * |∇f|，不用做除法。
-     *
-     * @param f          椭球函数值（&lt;1 表示在椭球内部）
-     * @param horizontal x² + z²
-     */
+    /** 该格是否位于椭球边缘、厚度为 {@code thickness} 的壳层里（距椭球表面 thickness 格以内）。 */
     private static boolean isInShell(double f, double horizontal, int y,
                                      double a4, double b4, double thickness) {
         double gradient = 2.0 * Math.sqrt(horizontal / a4 + (double) y * y / b4);
         return (1.0 - f) <= thickness * gradient;
     }
 
-    /**
-     * 该格是否位于椭球边缘的"熔融壳层"（距椭球表面 {@link #MELT_SHELL_THICKNESS} 格以内）。
-     * <p>用椭球函数 f 与它的梯度估算到表面的距离 (1-f)/|∇f|，
-     * 因此只需要判断 (1-f) &lt;= 厚度 * |∇f|，不用做除法；越靠外侧误差越小，
-     * 爆心附近 (1-f) 很大、|∇f| 很小，自然会判定为"不在壳层内"。
-     *
-     * @param f          椭球函数值（&lt;1 表示在椭球内部）
-     * @param horizontal x² + z²
-     */
+    /** 该格是否位于椭球边缘的"熔融壳层"（距椭球表面 {@link #MELT_SHELL_THICKNESS} 格以内）。 */
     private static boolean isInMeltShell(double f, double horizontal, int y, double a4, double b4) {
         return isInShell(f, horizontal, y, a4, b4, MELT_SHELL_THICKNESS);
     }
 
-    /**
-     * 爆炸判定中的伤害与总体流程。
-     *
-     * @param griefingEnabled false（防爆）时只保留音效/闪光等表现，不进行爆炸判定
-     */
+    /** 爆炸判定中的伤害与总体流程，griefingEnabled 为 false（防爆）时只保留音效/闪光等表现。 */
     private void destroyTerrain(Level level, BlockPos pos, boolean griefingEnabled) {
         // 起爆瞬间的表现（只做一次）
         if (this.D_tick == 0) {
@@ -359,9 +331,8 @@ public class MushroomCloudBlockEntity extends BlockEntity {
     }
 
     /**
-     * 伤害判定：只针对生物实体，掉落物/船/矿车等非生物实体不受影响，
-     * 伤害源也不带攻击者实体。
-     * <p>顺序为：先按距离衰减的火焰伤害（并点燃），再结算随距离衰减的核爆伤害。
+     * 伤害判定只针对生物实体，掉落物/船/矿车等非生物实体不受影响，伤害源也不带攻击者实体。
+     * 顺序为先按距离衰减的火焰伤害（并点燃），再结算随距离衰减的核爆伤害。
      */
     private void applyExplosionDamage(Level level, BlockPos pos) {
         int damageRadius = ModServerConfig.nuclearExplosion.Explosionlevel
@@ -380,7 +351,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
             float distanceFactor = (float) (1.0 - distSq / damageRadiusSq);
             if (distanceFactor <= 0.0f) continue;
 
-            // 1) 先施加随距离变化的火焰伤害
+            // 先施加随距离变化的火焰伤害
             float fireDamage = MAX_FIRE_DAMAGE * distanceFactor;
             if (fireDamage >= 0.5f) {
                 entity.setRemainingFireTicks(FIRE_TICKS);
@@ -395,10 +366,12 @@ public class MushroomCloudBlockEntity extends BlockEntity {
             float distanceFactor = (float) (1.0 - distSq / damageRadiusSq);
             if (distanceFactor <= 0.0f) continue;
 
-            // 2) 再施加随距离变化的核爆伤害；清空无敌帧，保证两段伤害都完整结算
+            // 再施加随距离变化的核爆伤害，并清空无敌帧保证两段伤害都完整结算
             float nukeDamage = MAX_NUKE_DAMAGE * distanceFactor;
             living.invulnerableTime = 0;
-            living.hurt(nuclearSource, nukeDamage);
+            if (living.hurt(nuclearSource, nukeDamage) && living instanceof ServerPlayer serverPlayer) {
+                ModAdvancementTriggers.nuclearExplosionHurt(serverPlayer);
+            }
 
             // 凋零效果
             living.addEffect(new MobEffectInstance(
@@ -407,20 +380,11 @@ public class MushroomCloudBlockEntity extends BlockEntity {
 
     }
 
-    // ---------- 高温熔炼 ----------
+    // 高温熔炼
 
     /**
-     * 爆炸判定遇到方块时的配方处理。
-     * <ul>
-     *   <li><b>高炉配方：全局执行、优先级最高</b>——椭球内任何方块只要能走高炉配方就先按配方处理；</li>
-     *   <li>熔炉配方：只有该格位于椭球边缘的熔融壳层里才生效，且只有产物是方块时才就地替换；</li>
-     *   <li>产物是方块：就地替换原方块（配方有多个产物也只放一个，其余直接无视）；
-     *       产物是物品：方块消失，产物掉在原地。</li>
-     * </ul>
-     * 产物按方块种类缓存，同一次爆炸里反复遇到同一种方块不会重复查表。
-     *
-     * @param inMeltShell 该格是否位于椭球边缘的熔融壳层（见 {@link #isInMeltShell}）
-     * @return true 表示这一格已按配方处理，调用方不要再做普通破坏
+     * 爆炸判定遇到方块时的配方处理：高炉配方全局且优先，熔炉配方只在熔融壳层生效。
+     * 产物是方块就就地替换（多产物只放一个），是物品则方块消失、产物掉在原地，配方按方块种类缓存。
      */
     private boolean tryRecipe(Level level, BlockPos target, BlockState state, boolean inMeltShell) {
         if (!(level instanceof ServerLevel serverLevel)) return false;
@@ -466,7 +430,7 @@ public class MushroomCloudBlockEntity extends BlockEntity {
         return new RecipeProducts(blasting, smelting);
     }
 
-    // ---------- 杂项 ----------
+    // 杂项
 
     @Override
     public Packet<ClientGamePacketListener> getUpdatePacket() {

@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "anvilcraftextrapower:block/hydroelectric_generator_base"
+    }
+  }
+}

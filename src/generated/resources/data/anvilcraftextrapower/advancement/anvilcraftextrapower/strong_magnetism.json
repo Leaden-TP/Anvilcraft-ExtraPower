@@ -1,0 +1,31 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/wireless_redstone",
+  "criteria": {
+    "attract_anvil": {
+      "conditions": {
+        "distance": {
+          "min": 10
+        }
+      },
+      "trigger": "anvilcraftextrapower:magnet_attract_anvil"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.strong_magnetism.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:electromagnet"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.strong_magnetism.title"
+    }
+  },
+  "requirements": [
+    [
+      "attract_anvil"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

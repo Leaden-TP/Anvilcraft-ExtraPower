@@ -91,7 +91,7 @@ public class NuclearCollectorFunction {
                         return true;
                     }
 
-                    // 处理可拾取的水方块（如炼药锅）—— 修改就在这里
+                    // 处理可拾取的水方块（如炼药锅）
                     if (block instanceof BucketPickup) {
                         BucketPickup bucketpickup = (BucketPickup) block;
                         boolean hasWater = !blockstate.getFluidState().isEmpty(); // 判断是否真的有水
@@ -195,7 +195,7 @@ public class NuclearCollectorFunction {
         }
         return controller;
     }
-    //查找冷却基准点
+    // 查找冷却基准点
     public static int findPoint(Level level, BlockPos pos) {
         for (int j = 1; j <= 360; j++) {
             BlockPos mpos = pos.above(j);

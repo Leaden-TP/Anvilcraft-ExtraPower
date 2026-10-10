@@ -1,0 +1,29 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/root",
+  "criteria": {
+    "craft_nuclear_bomb": {
+      "conditions": {
+        "recipe_id": "anvilcraftextrapower:nuclear_bomb"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.nuclear_bomb.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:nuclear_bomb"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.nuclear_bomb.title"
+    }
+  },
+  "requirements": [
+    [
+      "craft_nuclear_bomb"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -29,7 +29,7 @@ import static com.extra.power.init.AnvilCraftExtrapower.CONFIG;
 
 
 public class EnchantedGeneratorBlockEntity extends BlockEntity implements IPowerProducer, IHasAffectRange {
-    public static final int COOLDOWN = 2;
+    public static final int COOLDOWN = 10;
     public static final float ROTATION_PRE_POWER = 0.002f;
     private int cooldownCount = 2;
     private int consumedCount = 0;
@@ -143,7 +143,7 @@ public class EnchantedGeneratorBlockEntity extends BlockEntity implements IPower
                 if (ChiseledBookShelfUtil.countEnchantmentLevelsInItem(itemStack) == 0) continue;
                 indexes.add(i);
             }
-            // 随机选择一本书，删除它
+            // 随机选择一本书并删除它
             if (indexes.isEmpty()) return;
             int idx = indexes.get(level.random.nextInt(indexes.size()));
             shelfEntity.removeItem(idx, 1);

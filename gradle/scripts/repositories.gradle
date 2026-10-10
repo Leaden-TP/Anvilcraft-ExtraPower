@@ -48,6 +48,10 @@ repositories {
         name = "Ithundxr Maven"
         url = "https://maven.ithundxr.dev/snapshots"
     }
+    maven { // Flywheel, Ponder, Create
+        name = "Create Mod Maven"
+        url = "https://maven.createmod.net"
+    }
     maven { // KubeJS, Rhino
         name = "Saps Maven"
         url = "https://maven.latvian.dev/releases"
@@ -67,8 +71,8 @@ repositories {
         url "https://maven.k-4u.nl"
     }
     maven { // Curios API
-        name = "OctoStudios Maven"
-        url = uri("https://maven.octo-studios.com/releases")
+        name = "Curios API Maven"
+        url = uri("https://maven.theillusivec4.top/")
     }
     maven {
         url "https://maven.su5ed.dev/releases"

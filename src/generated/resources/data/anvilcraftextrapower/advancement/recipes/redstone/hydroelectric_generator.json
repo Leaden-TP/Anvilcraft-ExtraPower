@@ -1,0 +1,54 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "anvilcraftextrapower:hydroelectric_generator"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "hasb": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:plates/brass"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hasi": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#c:plates/iron"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "hasm": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraft:magnetoelectric_core"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "hasb",
+      "hasi",
+      "hasm"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "anvilcraftextrapower:hydroelectric_generator"
+    ]
+  }
+}

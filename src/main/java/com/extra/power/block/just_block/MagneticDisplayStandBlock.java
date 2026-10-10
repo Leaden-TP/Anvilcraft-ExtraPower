@@ -1,11 +1,14 @@
 package com.extra.power.block.just_block;
 
+import com.extra.power.init.block.ModBlock;
 import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.blockentity.MagneticDisplayStandBlockEntity;
+import com.extra.power.util.ModAdvancementTriggers;
 import com.mojang.serialization.MapCodec;
 import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import dev.dubhe.anvilcraft.api.power.IPowerComponent;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
@@ -111,19 +114,22 @@ public class MagneticDisplayStandBlock extends BaseEntityBlock implements IHamme
             }
         } else {
             // 手中有物品 - 放入或替换
+            ItemStack toPlace = handStack.copyWithCount(1);
             if (displayItem.isEmpty()) {
                 // 放入新物品
-                ItemStack toPlace = handStack.copyWithCount(1);
                 displayStand.setItem(0, toPlace);
                 handStack.shrink(1);
             } else {
                 // 替换现有物品
-                ItemStack toPlace = handStack.copyWithCount(1);
                 ItemStack oldItem = displayItem.copy();
                 displayStand.setItem(0, toPlace);
                 handStack.shrink(1);
                 // 将旧物品放入玩家背包或掉落
                 player.getInventory().placeItemBackInInventory(oldItem);
+            }
+            // 用磁力展示台展示磁力展示台
+            if (toPlace.is(ModBlock.MAGNETIC_DISPLAY_STAND.asItem()) && player instanceof ServerPlayer serverPlayer) {
+                ModAdvancementTriggers.magneticDisplayStand(serverPlayer);
             }
             return ItemInteractionResult.SUCCESS;
         }

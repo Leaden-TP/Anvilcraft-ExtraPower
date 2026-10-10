@@ -1,0 +1,31 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/wireless_redstone",
+  "criteria": {
+    "projection": {
+      "conditions": {
+        "blocks": {
+          "min": 16
+        }
+      },
+      "trigger": "anvilcraftextrapower:anvil_projection"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.anvil_projection.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:anvil_projector"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.anvil_projection.title"
+    }
+  },
+  "requirements": [
+    [
+      "projection"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

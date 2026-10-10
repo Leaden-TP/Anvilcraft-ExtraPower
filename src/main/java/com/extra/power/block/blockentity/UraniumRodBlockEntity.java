@@ -2,9 +2,11 @@ package com.extra.power.block.blockentity;
 
 import com.extra.power.block.just_block.FrostControllerBlock;
 import com.extra.power.block.just_block.UraniumRodBlock;
+import com.extra.power.util.ModAdvancementTriggers;
 import dev.dubhe.anvilcraft.block.state.Vertical3PartHalf;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.LivingEntity;
@@ -48,6 +50,7 @@ public class UraniumRodBlockEntity extends BlockEntity {
                         true,
                         true
                 ));
+                if (living instanceof ServerPlayer serverPlayer) ModAdvancementTriggers.uraniumRodRadiation(serverPlayer);
                 }
             }
             entity.controller = checkController(level,pos);

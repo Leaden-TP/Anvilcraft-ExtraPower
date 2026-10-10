@@ -1,0 +1,26 @@
+{
+  "variants": {
+    "axis=x,motor=false": {
+      "model": "anvilcraftextrapower:block/stress_generator_base",
+      "y": 90
+    },
+    "axis=x,motor=true": {
+      "model": "anvilcraftextrapower:block/stress_generator_base",
+      "y": 90
+    },
+    "axis=y,motor=false": {
+      "model": "anvilcraftextrapower:block/stress_generator_base",
+      "x": 270
+    },
+    "axis=y,motor=true": {
+      "model": "anvilcraftextrapower:block/stress_generator_base",
+      "x": 270
+    },
+    "axis=z,motor=false": {
+      "model": "anvilcraftextrapower:block/stress_generator_base"
+    },
+    "axis=z,motor=true": {
+      "model": "anvilcraftextrapower:block/stress_generator_base"
+    }
+  }
+}

@@ -1,7 +1,10 @@
 package com.extra.power.api.tooltip;
 
+import com.extra.power.api.tooltip.impl.DisabledStressGeneratorTooltipProvider;
 import com.extra.power.api.tooltip.impl.NuclearCollectorTooltipProvider;
 import com.extra.power.api.tooltip.impl.RedstoneLinkTooltipProvider;
+import com.extra.power.integration.create.CreateCompat;
+import com.extra.power.integration.create.StressGeneratorTooltipProvider;
 import dev.dubhe.anvilcraft.api.tooltip.providers.ITooltipProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -27,6 +30,8 @@ public class HudTooltipManager extends dev.dubhe.anvilcraft.api.tooltip.HudToolt
     static {
         INSTANCE.registerBlockEntityTooltip(new NuclearCollectorTooltipProvider());
         INSTANCE.registerBlockEntityTooltip(new RedstoneLinkTooltipProvider());
+        INSTANCE.registerBlockTooltip(new DisabledStressGeneratorTooltipProvider());
+        if (CreateCompat.isLoaded()) INSTANCE.registerBlockEntityTooltip(new StressGeneratorTooltipProvider());
     }
 
     public void registerBlockEntityTooltip(ITooltipProvider.BlockEntityTooltipProvider provider) {

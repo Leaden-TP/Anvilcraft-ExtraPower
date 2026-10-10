@@ -1,0 +1,26 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/nuclear_collector",
+  "criteria": {
+    "uranium_rod_radiation": {
+      "trigger": "anvilcraftextrapower:uranium_rod_radiation"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.uranium_rod_radiation.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:uranium_rod"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.uranium_rod_radiation.title"
+    }
+  },
+  "requirements": [
+    [
+      "uranium_rod_radiation"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -9,9 +9,7 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 
 @EventBusSubscriber(value = Dist.CLIENT, modid = AnvilCraftExtrapower.MODID)
 public class RegisterAdditionalEventListener {
-    /**
-     * 注册模型
-     */
+    /** 注册模型 */
     @SubscribeEvent
     public static void registerModels(ModelEvent.RegisterAdditional event) {
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/nuclear_collector_head")));
@@ -28,6 +26,8 @@ public class RegisterAdditionalEventListener {
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/solar_panel_head_sunflower_closing")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/enchanted_generator_head")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/wind_turbine")));
+        event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/hydroelectric_generator_axis")));
+        event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("block/stress_generator_axis")));
         event.register(ModelResourceLocation.standalone(AnvilCraftExtrapower.of("entity/arrow")));
     }
 }

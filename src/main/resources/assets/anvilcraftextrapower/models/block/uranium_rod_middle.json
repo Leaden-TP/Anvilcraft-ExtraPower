@@ -1,4 +1,5 @@
 {
+	"format_version": "26.3",
 	"credit": "Made with Blockbench",
 	"textures": {
 		"0": "anvilcraftextrapower:block/uranium_rod_mid",
@@ -13,9 +14,7 @@
 				"north": {"uv": [4, 0, 12, 16], "texture": "#0"},
 				"east": {"uv": [4, 0, 12, 16], "texture": "#0"},
 				"south": {"uv": [4, 0, 12, 16], "texture": "#0"},
-				"west": {"uv": [4, 0, 12, 16], "texture": "#0"},
-				"up": {"uv": [4, 0, 12, 16], "texture": "#0", "cullface": "up"},
-				"down": {"uv": [4, 0, 12, 16], "texture": "#0"}
+				"west": {"uv": [4, 0, 12, 16], "texture": "#0"}
 			}
 		}
 	]

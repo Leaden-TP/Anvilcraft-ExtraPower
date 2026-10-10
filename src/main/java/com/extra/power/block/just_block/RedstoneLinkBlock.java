@@ -36,9 +36,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * 红石中继器（仿机械动力 Redstone Link）。
- * <p>碰撞箱 16*16*3；方块状态：是否红石激活（powered）、颜色模式（color: r/y/b）、是否接收模式（received）。
- * <p>右键记录手中物品为信号标记（空手重置），潜行右键切换接收模式，滚轮切换颜色（红色全局跨纬度 / 黄色 128 格 / 蓝色绑定）。
+ * 红石中继器（仿机械动力 Redstone Link），碰撞箱 16*16*3，方块状态含 powered、color（r/y/b）、received。
+ * 右键记录手中物品为信号标记（空手重置），潜行右键切换接收模式，滚轮切换颜色（红色全局跨纬度 / 黄色 128 格 / 蓝色绑定）。
  */
 public class RedstoneLinkBlock extends BaseEntityBlock implements IHammerRemovable {
     public static final EnumProperty<RedstoneLinkColor> COLOR = EnumProperty.create("color", RedstoneLinkColor.class);
@@ -109,7 +108,7 @@ public class RedstoneLinkBlock extends BaseEntityBlock implements IHammerRemovab
         return SHAPE;
     }
 
-    // ---------- 红石输出 ----------
+    // 红石输出
 
     @Override
     public boolean isSignalSource(BlockState state) {
@@ -130,7 +129,7 @@ public class RedstoneLinkBlock extends BaseEntityBlock implements IHammerRemovab
         return getSignal(state, level, pos, direction);
     }
 
-    // ---------- 交互 ----------
+    // 交互
 
     @Override
     protected ItemInteractionResult useItemOn(

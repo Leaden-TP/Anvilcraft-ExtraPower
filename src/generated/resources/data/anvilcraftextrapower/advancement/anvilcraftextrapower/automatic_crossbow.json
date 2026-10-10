@@ -1,0 +1,33 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/root",
+  "criteria": {
+    "has_automatic_crossbow": {
+      "conditions": {
+        "items": [
+          {
+            "items": "anvilcraftextrapower:automatic_crossbow"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.automatic_crossbow.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:automatic_crossbow"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.automatic_crossbow.title"
+    }
+  },
+  "requirements": [
+    [
+      "has_automatic_crossbow"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

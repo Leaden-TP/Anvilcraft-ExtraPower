@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "redstone",
+  "key": {
+    "B": {
+      "tag": "c:plates/brass"
+    },
+    "I": {
+      "item": "minecraft:iron_bars"
+    },
+    "M": {
+      "item": "anvilcraft:magnetoelectric_core"
+    }
+  },
+  "pattern": [
+    " I ",
+    "BMB",
+    " I "
+  ],
+  "result": {
+    "count": 1,
+    "id": "anvilcraftextrapower:stress_generator"
+  }
+}

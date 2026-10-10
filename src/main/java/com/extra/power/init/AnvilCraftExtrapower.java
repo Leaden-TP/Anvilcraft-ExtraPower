@@ -7,6 +7,7 @@ import com.extra.power.config.ModServerConfig;
 import com.extra.power.data.ModDatagen;
 import com.extra.power.init.block.ModFluids;
 import com.extra.power.init.data.ModDamageTypes;
+import com.extra.power.integration.create.CreateCompat;
 import dev.anvilcraft.lib.v2.config.ConfigManager;
 import dev.anvilcraft.lib.v2.registrum.Registrum;
 import dev.dubhe.anvilcraft.api.heat.collector.HeatSourceEntry;
@@ -52,11 +53,14 @@ public class AnvilCraftExtrapower {
         modEventBus.addListener(this::registerPayload);
         ModSounds.SOUNDS.register(modEventBus);
         ModDamageTypes.DAMAGE_TYPES.register(modEventBus);
+        ModCriterionTriggers.register(modEventBus);
 
 
         ModBlockEntity.register();
         ModFluids.register(modEventBus);
         ModDatagen.init();
+        // Create 联动（未安装 Create 时不注册）
+        CreateCompat.init();
     }
 
     private static void registerEvents(@NotNull IEventBus eventBus) {

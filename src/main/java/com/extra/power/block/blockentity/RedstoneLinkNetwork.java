@@ -11,8 +11,7 @@ import java.util.Map;
 
 /**
  * 红石中继器的网络注册表（服务端）。
- * <p>仅登记处于发送模式（received=false）的方块实体，供接收模式的方块在 tick 时查询，
- * 从而实现红色全局跨纬度、黄色 128 格范围以及蓝色定点联络。
+ * 仅登记发送模式（received=false）的方块实体，供接收模式的方块在 tick 时查询，实现红色全局跨纬度、黄色 128 格范围以及蓝色定点联络。
  */
 public final class RedstoneLinkNetwork {
     private static final Map<ResourceKey<Level>, Map<BlockPos, RedstoneLinkBlockEntity>> SENDERS = new HashMap<>();

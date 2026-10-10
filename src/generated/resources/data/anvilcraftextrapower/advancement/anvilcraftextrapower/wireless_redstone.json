@@ -1,0 +1,29 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/root",
+  "criteria": {
+    "craft_redstone_link": {
+      "conditions": {
+        "recipe_id": "anvilcraftextrapower:redstone_link"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.wireless_redstone.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:redstone_link"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.wireless_redstone.title"
+    }
+  },
+  "requirements": [
+    [
+      "craft_redstone_link"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

@@ -1,12 +1,14 @@
 package com.extra.power.block.just_block;
 
 import com.extra.power.init.block.ModBlock;
+import com.extra.power.util.ModAdvancementTriggers;
 import dev.dubhe.anvilcraft.block.heatable.NormalBlock;
 import dev.dubhe.anvilcraft.init.block.ModBlockTags;
 import dev.dubhe.anvilcraft.init.item.ModItems;
 import dev.dubhe.anvilcraft.item.MultitoolItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
@@ -46,6 +48,7 @@ public class MagnesiumBlock extends Block {
                 || (stack.is(ModItems.MULTITOOL_ITEM)
                 && MultitoolItem.getMode(stack) == MultitoolItem.FLINT_AND_STEEL_MODE)) {
             burn_it(level,pos);
+            if (player instanceof ServerPlayer serverPlayer) ModAdvancementTriggers.igniteMagnesium(serverPlayer);
             Item item = stack.getItem();
             if (stack.is(Items.FLINT_AND_STEEL)
                     || (stack.is(ModItems.MULTITOOL_ITEM)

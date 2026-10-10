@@ -11,9 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 为玩家提供红石中继器的红石信号强度、颜色模式、接收模式与信号标记等信息。
- */
+/** 为玩家提供红石中继器的红石信号强度、颜色模式、接收模式与信号标记等信息。 */
 public class RedstoneLinkTooltipProvider extends ITooltipProvider.BlockEntityTooltipProvider {
 
     @Override

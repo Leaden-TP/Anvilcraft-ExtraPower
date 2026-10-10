@@ -3,6 +3,7 @@ package com.extra.power.block.blockentity;
 import com.extra.power.init.block.ModBlock;
 import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.just_block.ElectromagnetBlock;
+import com.extra.power.util.ModAdvancementTriggers;
 import dev.dubhe.anvilcraft.AnvilCraft;
 import dev.dubhe.anvilcraft.api.power.IPowerConsumer;
 import dev.dubhe.anvilcraft.api.power.PowerGrid;
@@ -29,7 +30,7 @@ import static com.extra.power.block.just_block.ElectromagnetBlock.LIT;
 
 public class ElectromagnetBlockEntity extends BlockEntity implements IPowerConsumer {
     private static final double ACCELERATION = 0.5;
-    private static final int RANGE = AnvilCraft.CONFIG.magnetAttractsDistance*5;
+    private static final int RANGE = 25;
     private int tickCounter = 0;
     @Getter
     private PowerGrid grid;
@@ -104,6 +105,7 @@ public class ElectromagnetBlockEntity extends BlockEntity implements IPowerConsu
                 level.setBlockAndUpdate(magnetPos.below(), state1);
                 level.setBlockAndUpdate(currentPos, Blocks.AIR.defaultBlockState());
                 TriggerUtil.liftingAnvil(level, currentPos);
+                ModAdvancementTriggers.magnetAttractAnvil(level, magnetPos, magnetPos.getY() - currentPos.getY());
                 break;
             }
             List<FallingBlockEntity> entities =
@@ -115,6 +117,7 @@ public class ElectromagnetBlockEntity extends BlockEntity implements IPowerConsu
                     level.setBlockAndUpdate(magnetPos.below(), state2);
                     entity.discard();
                     TriggerUtil.liftingAnvil(level, currentPos);
+                    ModAdvancementTriggers.magnetAttractAnvil(level, magnetPos, magnetPos.getY() - currentPos.getY());
                     break checkAnvil;
                 }
             }

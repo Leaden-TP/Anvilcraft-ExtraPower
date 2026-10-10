@@ -203,6 +203,29 @@ public class ModBlock {
                     .save(provider))
             .register();
 
+    public static final BlockEntry<HydroelectricGeneratorBlock> HYDROELECTRIC_GENERATOR = REGISTRATE
+            .block("hydroelectric_generator", HydroelectricGeneratorBlock::new)
+            .lang("Hydroelectric Generator")
+            .initialProperties(() -> Blocks.IRON_BLOCK)
+            .properties(p -> p.strength(5.0f, 1200f).noOcclusion())
+            .blockstate(DataGenUtil::noExtraModelOrState)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_STONE_TOOL)
+            .recipe((ctx, provider) -> {
+                ShapedRecipeBuilder.shaped(RecipeCategory.REDSTONE, ctx.get(),1)
+                        .pattern(" I ")
+                        .pattern("BMB")
+                        .pattern(" I ")
+                        .define('M', ModBlocks.MAGNETO_ELECTRIC_CORE_BLOCK)
+                        .define('B', ModItemTags.BRASS_PLATES)
+                        .define('I', ModItemTags.IRON_PLATES)
+                        .unlockedBy("hasb", AnvilCraftDatagen.has(ModItemTags.BRASS_PLATES))
+                        .unlockedBy("hasi", AnvilCraftDatagen.has(ModItemTags.IRON_PLATES))
+                        .unlockedBy("hasm", AnvilCraftDatagen.has(ModBlocks.MAGNETO_ELECTRIC_CORE_BLOCK))
+                        .save(provider);
+            })
+            .simpleItem()
+            .register();
+
     public static final BlockEntry<? extends Block> REDSTONE_LINK = REGISTRATE.block("redstone_link", RedstoneLinkBlock::new)
             .lang("Redstone Link")
             .initialProperties(() -> Blocks.IRON_BLOCK)
@@ -377,26 +400,6 @@ public class ModBlock {
             .build()
             .register();
 
-
-
-    public static final BlockEntry<? extends Block> CRATE_BLOCK = REGISTRATE.block("crate", CrateBlock::new)
-            .lang("Crate")
-            .initialProperties(() -> Blocks.OAK_WOOD)
-            .properties(p -> p.strength(2f, 5f))
-            .tag(BlockTags.MINEABLE_WITH_AXE)
-            .item()
-            .build()
-            .register();
-
-    public static final BlockEntry<? extends Block> SEMI_FINISHED_CRATE = REGISTRATE.block("semi_finished_crate", Block::new)
-            .lang("Semi-Finished Crate")
-            .initialProperties(() -> Blocks.OAK_WOOD)
-            .properties(p -> p.strength(2f, 5f))
-            .tag(BlockTags.MINEABLE_WITH_AXE)
-            .blockstate(DataGenUtil::noExtraModelOrState)
-            .item()
-            .build()
-            .register();
 
     public static final BlockEntry<? extends Block> URANIUM_ROD = REGISTRATE.block("uranium_rod",
                     properties -> new UraniumRodBlock(properties, 0.5d))

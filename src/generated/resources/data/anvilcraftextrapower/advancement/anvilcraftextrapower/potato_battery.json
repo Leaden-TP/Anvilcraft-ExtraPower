@@ -1,0 +1,29 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/root",
+  "criteria": {
+    "craft_potato_battery": {
+      "conditions": {
+        "recipe_id": "anvilcraftextrapower:potato_battery"
+      },
+      "trigger": "minecraft:recipe_crafted"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.potato_battery.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:potato_battery"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.potato_battery.title"
+    }
+  },
+  "requirements": [
+    [
+      "craft_potato_battery"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

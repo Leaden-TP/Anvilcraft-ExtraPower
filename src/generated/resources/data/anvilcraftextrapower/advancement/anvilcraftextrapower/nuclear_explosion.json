@@ -1,0 +1,26 @@
+{
+  "parent": "anvilcraftextrapower:anvilcraftextrapower/nuclear_bomb",
+  "criteria": {
+    "nuclear_explosion_hurt": {
+      "trigger": "anvilcraftextrapower:nuclear_explosion_hurt"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.nuclear_explosion.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraftextrapower:mushroom_cloud"
+    },
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.nuclear_explosion.title"
+    }
+  },
+  "requirements": [
+    [
+      "nuclear_explosion_hurt"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

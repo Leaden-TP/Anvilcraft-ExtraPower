@@ -112,7 +112,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity
         }
     };
 
-    // ---------- 构造方法 ----------
+    // 构造方法
     public static MagneticDisplayStandBlockEntity createBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState blockState) {
         return new MagneticDisplayStandBlockEntity(type, pos, blockState);
     }
@@ -125,7 +125,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity
         super(type, pos, blockState);
     }
 
-    // ---------- 静态 tick 方法 ----------
+    // 静态 tick 方法
     public static void serverTick(Level level, BlockPos pos, BlockState state, MagneticDisplayStandBlockEntity entity) {
         entity.flushState(level, pos);
     }
@@ -198,7 +198,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity
         }
     }
 
-    // ---------- 锁定与交互 ----------
+    // 锁定与交互
     public boolean isLocked() {
         return this.locked;
     }
@@ -222,7 +222,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity
         }
     }
 
-    // ---------- 物品操作 ----------
+    // 物品操作
     public ItemStack getItemstack() {
         return itemHandler.getStackInSlot(0);
     }
@@ -254,7 +254,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity
         }
     }
 
-    // ---------- 生命周期与 NBT ----------
+    // 生命周期与 NBT
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
@@ -297,7 +297,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity
         }
     }
 
-    // ---------- 能源接口 ----------
+    // 能源接口
     @Override
     public int getInputPower() {
         return POWER;
@@ -318,7 +318,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity
         this.grid = grid;
     }
 
-    // ---------- 客户端动画取值 ----------
+    // 客户端动画取值
     public float getClientYOffset(float partialTick) {
         return Mth.lerp(partialTick, previousClientYOffset, clientYOffset);
     }
@@ -350,7 +350,7 @@ public class MagneticDisplayStandBlockEntity extends BlockEntity
         return !state.getValue(OVERLOAD) && !state.getValue(RP);
     }
 
-    // ---------- 内部辅助 ----------
+    // 内部辅助
     private void syncState() {
         setChanged();
         if (level == null || level.isClientSide()) return;

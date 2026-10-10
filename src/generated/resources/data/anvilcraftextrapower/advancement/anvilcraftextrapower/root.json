@@ -1,0 +1,27 @@
+{
+  "criteria": {
+    "enter_power_grid": {
+      "trigger": "anvilcraft:enter_power_grid"
+    }
+  },
+  "display": {
+    "background": "anvilcraft:textures/gui/misc/background/advancement.png",
+    "description": {
+      "translate": "advancements.anvilcraftextrapower.root.description"
+    },
+    "icon": {
+      "count": 1,
+      "id": "anvilcraft:capacitor"
+    },
+    "show_toast": false,
+    "title": {
+      "translate": "advancements.anvilcraftextrapower.root.title"
+    }
+  },
+  "requirements": [
+    [
+      "enter_power_grid"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
