@@ -16,6 +16,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.Direction.AxisDirection;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import org.joml.Quaternionf;
 
 /**
@@ -55,7 +56,9 @@ public class StressGeneratorRenderer implements BlockEntityRenderer<StressGenera
                 1.0F,
                 1.0F,
                 packedLight,
-                packedOverlay
+                packedOverlay,
+                ModelData.EMPTY,
+                null
             ));
     }
 

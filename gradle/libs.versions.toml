@@ -3,22 +3,23 @@ minecraft = "1.21.1"
 neoForge = "21.1.238"
 ageratum = "0.0.1+build.121"
 anvillib = "2.0.0+snapshot.546"
-anvilcraft = "1.6.0+snapshot.2456"
+anvilcraft = "1.6.0+pre-release.11"
 create = "6.0.10-281"
 # Create 打包的伴生库（其 POM 中为 runtime 作用域，编译期需单独声明）
 ponder = "1.0.82+mc1.21.1"
 flywheel = "1.0.6"
-jei = "19.21.0.247"
-jade = "15.3.4+neoforge"
 curios = "9.5.1+1.21.1"
+jei = "19.50.0.414"
+jade = "15.10.5+neoforge"
 modDevGradle = "2.0.140"
 lombok = "8.7.1"
 
 [libraries]
-anvilcraft = { group = "dev.dubhe", name = "anvilcraft-neoforge-1.21.1", version.ref = "anvilcraft" }
 create = { group = "com.simibubi.create", name = "create-1.21.1", version.ref = "create" }
 ponder = { group = "net.createmod.ponder", name = "ponder-neoforge", version.ref = "ponder" }
 flywheel = { group = "dev.engine-room.flywheel", name = "flywheel-neoforge-1.21.1", version.ref = "flywheel" }
+
+anvilcraft = { group = "dev.dubhe", name = "anvilcraft-neoforge-1.21.1", version.ref = "anvilcraft" }
 jeiCommonApi = { group = "mezz.jei", name = "jei-1.21.1-common-api", version.ref = "jei" }
 jeiForgeApi = { group = "mezz.jei", name = "jei-1.21.1-neoforge-api", version.ref = "jei" }
 jeiForgeImpl = { group = "mezz.jei", name = "jei-1.21.1-neoforge", version.ref = "jei" }

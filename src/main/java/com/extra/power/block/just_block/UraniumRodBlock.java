@@ -2,7 +2,6 @@ package com.extra.power.block.just_block;
 
 import com.extra.power.block.blockentity.UraniumRodBlockEntity;
 import dev.dubhe.anvilcraft.api.IHasMultiBlock;
-import dev.dubhe.anvilcraft.api.block.IEmberBlock;
 import dev.dubhe.anvilcraft.api.hammer.IHammerRemovable;
 import dev.dubhe.anvilcraft.block.multipart.SimpleMultiPartBlock;
 import dev.dubhe.anvilcraft.block.state.Vertical3PartHalf;
@@ -10,8 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
@@ -192,8 +189,10 @@ public class UraniumRodBlock extends SimpleMultiPartBlock<Vertical3PartHalf>
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(
             Level level, BlockState state, BlockEntityType<T> type) {
         if (level.isClientSide) return null;
-        return (level1, pos, state1, entity) -> {
-            if (entity instanceof UraniumRodBlockEntity entity1) entity1.tick(level, pos, state, entity1);
+        return (tickLevel, tickPos, tickState, entity) -> {
+            if (entity instanceof UraniumRodBlockEntity rod) {
+                UraniumRodBlockEntity.tick(tickLevel, tickPos, tickState, rod);
+            }
         };
     }
 

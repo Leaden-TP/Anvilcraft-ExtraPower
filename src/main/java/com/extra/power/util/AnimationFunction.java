@@ -8,32 +8,33 @@ import java.util.List;
 public class AnimationFunction {
 
 
-    public void updateActionState(List<Double> newState , List action_state, Level level) {
+    public void updateActionState(List<Double> newState, List<Double> actionState, Level level) {
         if (level != null && level.isClientSide()) {
-            for (int i = 0; i < Math.min(action_state.size(), newState.size()); i++) {
-                action_state.set(i, newState.get(i));
+            for (int i = 0; i < Math.min(actionState.size(), newState.size()); i++) {
+                actionState.set(i, newState.get(i));
             }
         }
     }
-    public static List trackTarget(List action_state, List target_state) {
-        for (int i = 0; i < action_state.size(); i++) {
-            double current = (double) action_state.get(i);
-            double target = (double) target_state.get(i);
+
+    public static List<Double> trackTarget(List<Double> actionState, List<Double> targetState) {
+        for (int i = 0; i < actionState.size(); i++) {
+            double current = actionState.get(i);
+            double target = targetState.get(i);
             double distance = Math.abs(current - target);
 
             if (distance <= 0.03) {
-                action_state.set(i, target);
+                actionState.set(i, target);
                 continue;
             }
 
             double step = Math.clamp(distance / 10, 0.01, distance);
             if (current < target) {
-                action_state.set(i, current + step);
+                actionState.set(i, current + step);
             }
             else {
-                action_state.set(i, current - step);
+                actionState.set(i, current - step);
             }
         }
-        return action_state;
+        return actionState;
     }
 }

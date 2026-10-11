@@ -5,7 +5,6 @@ import com.extra.power.block.just_block.FrostControllerBlock;
 import com.extra.power.block.just_block.NuclearBombBlock;
 import com.extra.power.block.just_block.UraniumRodBlock;
 import com.extra.power.config.ModServerConfig;
-import com.extra.power.init.block.ModBlock;
 import dev.dubhe.anvilcraft.block.state.Vertical3PartHalf;
 import dev.dubhe.anvilcraft.init.block.ModBlocks;
 import net.minecraft.core.BlockPos;

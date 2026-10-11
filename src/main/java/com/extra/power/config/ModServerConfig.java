@@ -70,13 +70,13 @@ public class ModServerConfig {
     public HydroelectricGenerator hydroelectricGenerator = new HydroelectricGenerator();
 
     public static class HydroelectricGenerator {
-        @Comment("Power per face with flowing water")
+        @Comment("Base power per face with flowing water")
         @BoundedDiscrete(min = 0, max = 128000000)
-        public int powerPerFlowingFace = 4;
+        public int basePower = 4;
 
         @Comment("Coefficient of the accumulated fluid level change")
         @BoundedDiscrete(min = 0, max = 128000000)
-        public int levelChangeCoefficient = 2;
+        public int levelChangeCoefficient = 1;
 
         @Comment("Divisor applied to fluid density (vanilla water = 1000)")
         @BoundedDiscrete(min = 1, max = 1000)

@@ -1,7 +1,5 @@
 package com.extra.power.api.entity;
 
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.Level;
 
 /** 实现此接口的方块实体可以通过滚轮调节参数 */
 public interface IScrollAdjustable {

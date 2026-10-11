@@ -35,7 +35,7 @@ repositories {
     }
     maven { // CurseForge File
         name = "CurseForge Maven"
-        url "https://cursemaven.com"
+        url = "https://cursemaven.com"
         content {
             includeGroup "curse.maven"
         }
@@ -61,28 +61,28 @@ repositories {
         }
     }
     maven {
-        url 'https://jitpack.io'
+        url = 'https://jitpack.io'
         content {
             includeGroup "com.github.rtyley"
         }
     }
     maven { // TOP
         name = "k-4u Maven"
-        url "https://maven.k-4u.nl"
+        url = "https://maven.k-4u.nl"
     }
     maven { // Curios API
         name = "Curios API Maven"
         url = uri("https://maven.theillusivec4.top/")
     }
     maven {
-        url "https://maven.su5ed.dev/releases"
+        url = "https://maven.su5ed.dev/releases"
     }
     maven {  // ForgeConfigAPIPort
         name = "ForgeConfigAPIPort Maven"
         url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
     }
     maven {
-        url "https://maven.latvian.dev/releases"
+        url = "https://maven.latvian.dev/releases"
         content {
             includeGroup "dev.latvian.mods"
             includeGroup "dev.latvian.apps"

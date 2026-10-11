@@ -2,7 +2,6 @@ package com.extra.power.item.capacitor;
 
 import com.extra.power.init.ModItems;
 import dev.dubhe.anvilcraft.api.item.IFullCapacitor;
-import dev.dubhe.anvilcraft.item.CapacitorItem;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.ClickAction;

@@ -5,8 +5,6 @@ import com.extra.power.block.just_block.SolarPanelBlock;
 import com.extra.power.init.AnvilCraftExtrapower;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import dev.dubhe.anvilcraft.AnvilCraft;
-import dev.dubhe.anvilcraft.client.AnvilCraftClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
@@ -15,7 +13,7 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.world.level.biome.Biomes;
 import net.minecraft.world.phys.AABB;
-import org.joml.Quaternionf;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import org.joml.Vector3f;
 
 import java.util.Optional;
@@ -83,7 +81,9 @@ public class SolarPanelRenderer implements BlockEntityRenderer<SolarPanelBlockEn
                 0,
                 0,
                 packedLight,
-                packedOverlay
+                packedOverlay,
+                ModelData.EMPTY,
+                null
         );
         poseStack.popPose();
     }

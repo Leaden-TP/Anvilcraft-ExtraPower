@@ -34,7 +34,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static net.minecraft.world.phys.shapes.Shapes.empty;
 
 public class FrostControllerBlock extends SimpleMultiPartBlock<Vertical3PartHalf>
         implements IHammerRemovable, IHasMultiBlock, EntityBlock, SimpleWaterloggedBlock { // ① 实现接口

@@ -1,6 +1,5 @@
 package com.extra.power.block.just_block;
 
-import dev.dubhe.anvilcraft.block.heatable.HeatableBlock;
 import dev.dubhe.anvilcraft.block.heatable.NormalBlock;
 import dev.dubhe.anvilcraft.init.block.ModBlockTags;
 import net.minecraft.core.BlockPos;

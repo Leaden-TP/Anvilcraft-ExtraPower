@@ -155,7 +155,7 @@ public class ModBlock {
             .build()
             .tag(BlockTags.MINEABLE_WITH_PICKAXE, BlockTags.NEEDS_STONE_TOOL)
             .recipe((ctx, provider) -> {
-                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get())
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get(),2)
                         .pattern("ACA")
                         .pattern(" S ")
                         .pattern(" C ")
@@ -166,7 +166,7 @@ public class ModBlock {
                         .save(provider, ctx.getId().withSuffix("_from_sunflower"));
             })
             .recipe((ctx, provider) -> {
-                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get())
+                ShapedRecipeBuilder.shaped(RecipeCategory.BUILDING_BLOCKS, ctx.get(),2)
                         .pattern("ACA")
                         .pattern(" V ")
                         .pattern(" C ")

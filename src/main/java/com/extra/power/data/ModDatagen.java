@@ -2,10 +2,8 @@ package com.extra.power.data;
 
 import com.extra.power.data.advancement.AdvancementHandler;
 import com.extra.power.data.lang.LangHandler;
-import com.extra.power.init.AnvilCraftExtrapower;
 import dev.anvilcraft.lib.v2.registrum.providers.ProviderType;
 
-import net.neoforged.fml.common.EventBusSubscriber;
 
 import static com.extra.power.init.AnvilCraftExtrapower.REGISTRATE;
 

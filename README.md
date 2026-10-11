@@ -1,5 +1,5 @@
 # 铁砧工艺：额外电力 | [AnvilCraft:Extra Power](./README_en.md)
-## Minecraft模组 by [铅制三角锥@bilibili](https://space.bilibili.com/87423598)
+## Minecraft模组 by [铅制三角锥@bilibili](https://space.bilibili.com/1128808778)
 > 欢迎来到模组《铁砧工艺：额外电力》的页面！模组是铁砧工艺的附属。
 
 ## 使用许可
@@ -9,7 +9,7 @@
 
 ## 主要维护者
 
-[@Leaden-TP](https://github.com/TBPig)
+[@Leaden-TP](https://github.com/Leaden-TP)
 
 ## 贡献者名单:
 

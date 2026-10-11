@@ -2,7 +2,6 @@ package com.extra.power.item.capacitor;
 
 
 import dev.dubhe.anvilcraft.api.item.IFullCapacitor;
-import dev.dubhe.anvilcraft.item.CapacitorItem;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,7 +15,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
 import static com.extra.power.init.block.ModBlock.FLASHING_POTATO_BATTERY;
-import static dev.dubhe.anvilcraft.client.rpc.TerminalJeiStorageCache.addStackProvider;
 
 
 

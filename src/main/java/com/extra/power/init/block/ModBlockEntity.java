@@ -4,7 +4,6 @@ import com.extra.power.block.blockentity.*;
 import com.extra.power.client.renderer.blockentity.*;
 
 import dev.anvilcraft.lib.v2.registrum.util.entry.BlockEntityEntry;
-import dev.dubhe.anvilcraft.init.block.ModBlocks;
 
 import static com.extra.power.init.block.ModBlock.*;
 import static com.extra.power.init.AnvilCraftExtrapower.REGISTRATE;

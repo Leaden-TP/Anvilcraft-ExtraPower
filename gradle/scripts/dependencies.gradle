@@ -1,7 +1,6 @@
 dependencies {
     // Create（可选依赖，未安装时不注册应力发电机）
     compileOnly(libs.create)
-    // Create 自带但未以 compile 作用域发布的伴生库（Ponder 内含 Catnip）
     compileOnly(libs.ponder)
     compileOnly(libs.flywheel)
 

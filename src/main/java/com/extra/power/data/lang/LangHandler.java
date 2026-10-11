@@ -1,7 +1,6 @@
 package com.extra.power.data.lang;
 
 import com.extra.power.config.ModServerConfig;
-import com.extra.power.integration.create.CreateCompat;
 import dev.anvilcraft.lib.v2.config.ConfigData;
 import dev.anvilcraft.lib.v2.registrum.providers.RegistrumLangProvider;
 

@@ -15,7 +15,6 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 
-import static dev.dubhe.anvilcraft.client.rpc.TerminalJeiStorageCache.addStackProvider;
 
 
 

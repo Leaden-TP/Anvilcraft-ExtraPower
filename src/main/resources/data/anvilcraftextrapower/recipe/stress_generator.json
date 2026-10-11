@@ -6,7 +6,7 @@
       "tag": "c:plates/brass"
     },
     "I": {
-      "item": "minecraft:iron_bars"
+      "item": "create:shaft"
     },
     "M": {
       "item": "anvilcraft:magnetoelectric_core"

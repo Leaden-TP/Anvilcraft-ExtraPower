@@ -4,7 +4,6 @@ import com.extra.power.init.block.ModBlock;
 import com.extra.power.init.block.ModBlockEntity;
 import com.extra.power.block.just_block.ElectromagnetBlock;
 import com.extra.power.util.ModAdvancementTriggers;
-import dev.dubhe.anvilcraft.AnvilCraft;
 import dev.dubhe.anvilcraft.api.power.IPowerConsumer;
 import dev.dubhe.anvilcraft.api.power.PowerGrid;
 import dev.dubhe.anvilcraft.init.block.ModBlockTags;

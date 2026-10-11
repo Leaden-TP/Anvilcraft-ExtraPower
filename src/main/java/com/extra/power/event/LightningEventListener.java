@@ -2,9 +2,7 @@ package com.extra.power.event;
 
 import com.extra.power.init.block.ModBlock;
 import com.extra.power.init.AnvilCraftExtrapower;
-import dev.dubhe.anvilcraft.AnvilCraft;
 import dev.dubhe.anvilcraft.api.event.LightningBoltStrikeEvent;
-import dev.dubhe.anvilcraft.config.AnvilCraftServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;

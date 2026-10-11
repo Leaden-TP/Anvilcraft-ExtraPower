@@ -29,7 +29,7 @@ public class HydroelectricGeneratorBlockEntity extends BlockEntity implements IP
     /** 一个发电周期 2 秒 */
     public static final int CYCLE = 40;
     /** 每单位实际电量的转速 */
-    public static final float ROTATION_PRE_POWER = 0.02f;
+    public static final float ROTATION_PRE_POWER = 0.05f;
     /** 3x3 环形八格偏移（顺时针，自西北角起） */
     private static final int[][] RING = {{-1, -1}, {0, -1}, {1, -1}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}};
     /** 四个面各自的三格，角落格与相邻面共用 */
@@ -43,6 +43,8 @@ public class HydroelectricGeneratorBlockEntity extends BlockEntity implements IP
     private static final int FRAMES_MIN = 16;
 
     private final int[] lastLevel = new int[8];
+    /** 各格最后已知的液体密度系数，用于液面降到空时仍能计入减少的水量 */
+    private final float[] lastDensity = new float[8];
     private final float[] faceChange = new float[4];
     private final boolean[] faceFlowing = new boolean[4];
     private int power = 0;
@@ -131,14 +133,14 @@ public class HydroelectricGeneratorBlockEntity extends BlockEntity implements IP
         this.cycleVotes = 0;
     }
 
-    /** 应用本次结算：按自身检测结果得出目标发电量 */
+    /** 应用本次结算：按有流动水的面数给基本发电量，变化量取绝对值叠加 */
     private void applyCycle(Level level) {
         int newPower = 0;
-        if (this.canGenerate()) {
-            long raw = Math.round(this.evalFaces * (double) CONFIG.hydroelectricGenerator.powerPerFlowingFace
+        if (this.evalVotes != 3) {
+            long raw = Math.round(this.evalFaces * (double) CONFIG.hydroelectricGenerator.basePower
                 + this.evalChange * CONFIG.hydroelectricGenerator.levelChangeCoefficient);
             long total = raw * this.conduitMultiplier(level);
-            newPower = (int) Math.min(Math.max(total, 0L), Integer.MAX_VALUE);
+            newPower = (int) Math.clamp(total, 0L, Integer.MAX_VALUE);
         }
         this.syncClockwise(level);
         this.targetPower = newPower;
@@ -154,11 +156,6 @@ public class HydroelectricGeneratorBlockEntity extends BlockEntity implements IP
             this.power = (int) Math.max((long) this.power - rate, this.targetPower);
         }
         if (this.grid != null) this.grid.markChanged();
-    }
-
-    /** 本次检测能否正常发电 */
-    private boolean canGenerate() {
-        return this.evalFaces > 0 && this.evalVotes != 3;
     }
 
     /** 整体最下方的发电机，找不到时返回自身 */
@@ -185,10 +182,13 @@ public class HydroelectricGeneratorBlockEntity extends BlockEntity implements IP
             mpos.setWithOffset(this.worldPosition, RING[i][0], 0, RING[i][1]);
             FluidState fluid = level.getFluidState(mpos);
             fluids[i] = fluid;
-            if (!fluid.hasProperty(FlowingFluid.LEVEL)) continue;
-            levels[i] = fluid.getValue(FlowingFluid.LEVEL);
-            flowing[i] = !fluid.isSource();
-            densities[i] = fluid.getFluidType().getDensity() / divisor;
+            if (fluid.hasProperty(FlowingFluid.LEVEL)) {
+                levels[i] = fluid.getValue(FlowingFluid.LEVEL);
+                flowing[i] = !fluid.isSource();
+                this.lastDensity[i] = fluid.getFluidType().getDensity() / divisor;
+            }
+            // 液面降到空时沿用该格最后已知的密度，否则减少的水量会被乘成 0
+            densities[i] = this.lastDensity[i];
         }
         // 顺时针记 1、逆时针记 2，两种同时出现即方向不统一
         int votes = 0;

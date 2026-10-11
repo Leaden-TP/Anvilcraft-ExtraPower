@@ -5,16 +5,14 @@ import com.extra.power.init.AnvilCraftExtrapower;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import dev.dubhe.anvilcraft.client.renderer.blockentity.PowerProducerRenderer;
 import net.minecraft.client.renderer.LightTexture;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.LevelRenderer;
+import net.neoforged.neoforge.client.model.data.ModelData;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -56,7 +54,9 @@ public class NuclearCollectorRenderer implements BlockEntityRenderer<NuclearColl
                         0,
                         0,
                         LightTexture.FULL_BLOCK,
-                        packedOverlay
+                        packedOverlay,
+                        ModelData.EMPTY,
+                        null
                 );
         poseStack.pushPose();
         poseStack.popPose();
