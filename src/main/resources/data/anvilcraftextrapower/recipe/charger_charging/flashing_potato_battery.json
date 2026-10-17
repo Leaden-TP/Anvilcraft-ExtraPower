@@ -3,10 +3,10 @@
   "ingredient": {
     "item": "anvilcraftextrapower:flashing_potato_battery"
   },
-  "power": 900,
+  "power": 512,
   "result": {
     "count": 1,
     "id": "minecraft:baked_potato"
   },
-  "time": 200
+  "time": 2000
 }
