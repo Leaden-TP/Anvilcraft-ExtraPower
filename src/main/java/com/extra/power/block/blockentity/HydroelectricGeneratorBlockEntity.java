@@ -41,6 +41,8 @@ public class HydroelectricGeneratorBlockEntity extends BlockEntity implements IP
     private static final int FRAMES_FULL = 42;
     private static final int FRAMES_MID = 28;
     private static final int FRAMES_MIN = 16;
+    /** 潮涌核心最大影响范围，作为搜索半径 */
+    private static final int CONDUIT_SEARCH = 96;
 
     private final int[] lastLevel = new int[8];
     /** 各格最后已知的液体密度系数，用于液面降到空时仍能计入减少的水量 */
@@ -56,6 +58,9 @@ public class HydroelectricGeneratorBlockEntity extends BlockEntity implements IP
     private int evalFaces = 0;
     private float evalChange = 0;
     private int evalVotes = 0;
+    /** 缓存的强化潮涌核心位置，失效时才重新搜索附近区块 */
+    @Nullable
+    private BlockPos cachedConduit = null;
     @Setter
     @Getter
     private PowerGrid grid = null;
@@ -234,16 +239,44 @@ public class HydroelectricGeneratorBlockEntity extends BlockEntity implements IP
         return this.isClockwise() ? -1.0F : 1.0F;
     }
 
-    /** 下方激活的潮涌核心按框架数放大发电量 */
+    /** 影响范围内激活潮涌核心提供的最大发电增幅 */
     private int conduitMultiplier(Level level) {
-        BlockPos conduitPos = this.worldPosition.below();
+        // 先复核缓存的核心，失效时才重新搜索附近区块
+        if (this.cachedConduit != null) {
+            int bonus = this.conduitBonus(level, this.cachedConduit);
+            if (bonus > 1) return bonus;
+            this.cachedConduit = null;
+        }
+        int best = 1;
+        int chunkRadius = CONDUIT_SEARCH >> 4;
+        int cx = this.worldPosition.getX() >> 4;
+        int cz = this.worldPosition.getZ() >> 4;
+        for (int dx = -chunkRadius; dx <= chunkRadius; dx++) {
+            for (int dz = -chunkRadius; dz <= chunkRadius; dz++) {
+                if (!level.hasChunk(cx + dx, cz + dz)) continue;
+                for (BlockEntity be : level.getChunk(cx + dx, cz + dz).getBlockEntities().values()) {
+                    if (!(be instanceof ConduitBlockEntity)) continue;
+                    int bonus = this.conduitBonus(level, be.getBlockPos());
+                    if (bonus <= best) continue;
+                    best = bonus;
+                    this.cachedConduit = be.getBlockPos();
+                }
+            }
+        }
+        return best;
+    }
+
+    /** 该位置潮涌核心对自身的增幅，不满足条件时返回 1 */
+    private int conduitBonus(Level level, BlockPos conduitPos) {
         if (!(level.getBlockEntity(conduitPos) instanceof ConduitBlockEntity conduit)) return 1;
         if (!conduit.isActive()) return 1;
         int frames = countConduitFrames(level, conduitPos);
+        if (frames < FRAMES_MIN) return 1;
+        // 与原版一致，影响范围为 框架数 / 7 * 16 格
+        if (!conduitPos.closerThan(this.worldPosition, frames / 7 * 16)) return 1;
         if (frames >= FRAMES_FULL) return CONFIG.hydroelectricGenerator.conduitMultiplierHigh;
         if (frames >= FRAMES_MID) return CONFIG.hydroelectricGenerator.conduitMultiplierMid;
-        if (frames >= FRAMES_MIN) return CONFIG.hydroelectricGenerator.conduitMultiplierLow;
-        return 1;
+        return CONFIG.hydroelectricGenerator.conduitMultiplierLow;
     }
 
     /** 复刻原版潮涌核心的框架统计 */

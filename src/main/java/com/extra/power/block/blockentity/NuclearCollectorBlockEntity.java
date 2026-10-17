@@ -277,7 +277,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
             int controller = check_for_cold(level, entity.getBlockPos());
             if (entity.all_water >= 20) {
                 entity.check_time += min(ModServerConfig.nuclearCollector.theTimeOfCheckingWater * entity.all_water / 100,
-                        ModServerConfig.nuclearCollector.theTimeOfCheckingWater * 5);
+                        ModServerConfig.nuclearCollector.theTimeOfCheckingWater * ModServerConfig.nuclearCollector.heat_of_a_uraniumRod);
                 entity.heat += rod / (entity.all_water / 20);
                 if (rod / (entity.all_water / 20) <= 1 && rod != 0) {
                     entity.heat += 1;
@@ -332,7 +332,7 @@ public class NuclearCollectorBlockEntity extends BlockEntity implements IPowerPr
             int checkWater = checkWater(level, entity.getBlockPos(), y, true);
             if (y != 0) checkWater += 1;
             if (checkWater * 10 <= entity.heat) {
-                entity.heat -= checkWater * 5;
+                entity.heat -= checkWater * ModServerConfig.nuclearCollector.theColdOfWater ;
             } else {
                 entity.heat = 0;
             }

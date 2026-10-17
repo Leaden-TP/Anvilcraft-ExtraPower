@@ -10,11 +10,29 @@
       "item": "minecraft:potato"
     },
     {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
+      "item": "minecraft:potato"
+    },
+    {
       "tag": "c:plates/zinc"
     }
   ],
   "result": {
-    "count": 1,
+    "count": 7,
     "id": "anvilcraftextrapower:potato_battery"
   }
 }

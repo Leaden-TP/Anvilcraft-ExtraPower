@@ -29,6 +29,7 @@ public class LangHandler {
         provider.add(    "subtitles.anvilcraftextrapower.nuclear_explosion", "Nuclear Explosion");
         provider.add(      "death.attack.nuclear_explosion", "%1$s was reduced to anvilon in the flash");
         provider.add(     "death.attack.nuclear_explosion.player", "%1$s was reduced to anvilon in the flash");
+        provider.add(     "config.jade.plugin_anvilcraftextrapower.nuclear_collector", "Nuclear Collector");
 
         provider.add(  "message.anvilcraftextrapower.solar_panel_too_close", "Cannot place solar panel - another panel is too close (3x3x3 area)");
         provider.add("block.anvilcraftextrapower.crate_ui", "Crate");

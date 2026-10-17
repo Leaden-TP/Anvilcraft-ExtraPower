@@ -70,10 +70,10 @@ public class ElectromagnetBlockEntity extends BlockEntity implements IPowerConsu
                 e -> e.getBlockState().is(BlockTags.ANVIL));
 
         List<Player> playersUp = level.getEntitiesOfClass(Player.class, area,
-                p -> isWearingAnvilHammer(p));
+                ElectromagnetBlockEntity::isWearingAnvilHammer);
 
         List<Player> playersDown = level.getEntitiesOfClass(Player.class, downBox,
-                p -> isWearingAnvilHammer(p));
+                ElectromagnetBlockEntity::isWearingAnvilHammer);
 
         for (FallingBlockEntity falling : fallingBlocks) {
             falling.setDeltaMovement(falling.getDeltaMovement().add(0, -ACCELERATION, 0));

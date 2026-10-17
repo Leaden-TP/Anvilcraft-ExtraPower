@@ -20,11 +20,19 @@ public class ModServerConfig {
 
         @Comment("The power output of a uranium rod")
         @BoundedDiscrete(min = 1, max = 32768)
-        public int powerOutput_of_a_uraniumRod = 1500;
+        public int powerOutput_of_a_uraniumRod = 1024;
+
+        @Comment("The heat of a uranium rod")
+        @BoundedDiscrete(min = 1, max = 32768)
+        public int heat_of_a_uraniumRod = 5;
 
         @Comment("The time interval between water searches")
         @BoundedDiscrete(min = 20, max = 1024)
         public int theTimeOfCheckingWater = 100;
+
+        @Comment("Heat dissipation provided per block of water")
+        @BoundedDiscrete(min = 1, max = 1024)
+        public int theColdOfWater = 5;
 
         @Comment("Minimum time interval between water searches")
         @BoundedDiscrete(min = 20, max = 1024)
@@ -86,17 +94,17 @@ public class ModServerConfig {
         @BoundedDiscrete(min = 1, max = 100000)
         public int powerRampPerTick = 1;
 
-        @Comment("Power multiplier for an active conduit below with 16-27 frames")
+        @Comment("Power multiplier for a nearby active conduit with 16-27 frames")
         @BoundedDiscrete(min = 1, max = 100)
-        public int conduitMultiplierLow = 3;
+        public int conduitMultiplierLow = 2;
 
-        @Comment("Power multiplier for an active conduit below with 28-41 frames")
+        @Comment("Power multiplier for a nearby active conduit with 28-41 frames")
         @BoundedDiscrete(min = 1, max = 100)
-        public int conduitMultiplierMid = 5;
+        public int conduitMultiplierMid = 3;
 
-        @Comment("Power multiplier for an active conduit below with 42 frames")
+        @Comment("Power multiplier for a nearby active conduit with 42 frames")
         @BoundedDiscrete(min = 1, max = 100)
-        public int conduitMultiplierHigh = 7;
+        public int conduitMultiplierHigh = 4;
     }
 
     // 应力发电机（Create 联动）
@@ -106,11 +114,11 @@ public class ModServerConfig {
     public static class StressGenerator {
         @Comment("Generator mode: stress consumed per RPM = coefficient * this (1 RPM = coefficient * 16 SU)")
         @BoundedDiscrete(min = 1, max = 1024)
-        public int stressPerRpmMultiplier = 16;
+        public int stressPerRpmMultiplier = 4;
 
         @Comment("Generator mode: SU consumed per kW generated (power = consumed stress / this)")
         @BoundedDiscrete(min = 1, max = 1000000)
-        public int stressPerKilowatt = 8;
+        public int stressPerKilowatt = 64;
 
         @Comment("Motor mode: fixed rotation speed")
         @BoundedDiscrete(min = 0, max = 256)
@@ -122,7 +130,7 @@ public class ModServerConfig {
 
         @Comment("Motor mode: power consumed = coefficient * this")
         @BoundedDiscrete(min = 0, max = 1000000)
-        public int motorPowerPerValue = 8;
+        public int motorPowerPerValue = 1;
 
         @Comment("Coefficient of a newly placed stress generator")
         @BoundedDiscrete(min = 1, max = 256)
