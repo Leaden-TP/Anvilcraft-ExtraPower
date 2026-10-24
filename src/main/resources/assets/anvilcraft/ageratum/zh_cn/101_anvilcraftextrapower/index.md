@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "额外电力"
+  title: "§6额外电力"
   icon: "anvilcraft:capacitor"
 ---
 

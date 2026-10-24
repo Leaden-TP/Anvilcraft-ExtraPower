@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "浮霜控制器"
+    title: "§6浮霜控制器"
     icon: "anvilcraftextrapower:frost_controller"
     parent: anvilcraft_guideme:nuclear_theme.md
 items:

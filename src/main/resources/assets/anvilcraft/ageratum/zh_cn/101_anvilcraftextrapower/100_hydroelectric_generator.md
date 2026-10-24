@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "水力发电机"
+  title: "§3水力发电机"
   icon: "anvilcraftextrapower:hydroelectric_generator"
   parent: anvilcraft_guideme:anvilcraftextrapower.md
 items:

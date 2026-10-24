@@ -20,7 +20,7 @@ public class ModServerConfig {
 
         @Comment("The power output of a uranium rod")
         @BoundedDiscrete(min = 1, max = 32768)
-        public int powerOutput_of_a_uraniumRod = 1024;
+        public int powerOutput_of_a_uraniumRod = 1500;
 
         @Comment("The heat of a uranium rod")
         @BoundedDiscrete(min = 1, max = 32768)

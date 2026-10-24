@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "太阳能板"
+  title: "§3太阳能板"
   icon: "anvilcraftextrapower:solar_panel"
   parent: anvilcraft_guideme:anvilcraftextrapower.md
 items:

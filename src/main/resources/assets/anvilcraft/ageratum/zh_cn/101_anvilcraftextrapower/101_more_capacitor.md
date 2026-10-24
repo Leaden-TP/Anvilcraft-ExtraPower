@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "更多电池"
+    title: "§4更多电池"
     icon: "anvilcraftextrapower:multiphase_capacitor"
     parent: anvilcraft_guideme:capacitor_theme.md
 items:

@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "应力发电机"
+  title: "§3应力发电机"
   icon: "anvilcraftextrapower:stress_generator"
   parent: anvilcraft_guideme:anvilcraftextrapower.md
 items:

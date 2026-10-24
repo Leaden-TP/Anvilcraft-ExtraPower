@@ -204,5 +204,11 @@
   "anvilcraftextrapower.configuration.nuclear_collector.heat_of_a_uranium_rod.tooltip": "每根铀棒产生的热量",
   "anvilcraftextrapower.configuration.nuclear_collector.the_cold_of_water": "每格水提供的冷却",
   "anvilcraftextrapower.configuration.nuclear_collector.the_cold_of_water.tooltip": "每格水提供的冷却",
-  "config.jade.plugin_anvilcraftextrapower.nuclear_collector": "集核器"
+  "config.jade.plugin_anvilcraftextrapower.nuclear_collector": "集核器",
+  "itemGroup.anvilcraftextrapower.section.automation": "自动化",
+  "itemGroup.anvilcraftextrapower.section.electricity": "电力",
+  "itemGroup.anvilcraftextrapower.section.materials": "材料",
+  "itemGroup.anvilcraftextrapower.section.sign": "标识",
+  "itemGroup.anvilcraftextrapower.section.weapons": "武器",
+  "itemGroup.anvilcraftextrapower.addon_items": "铁砧工艺:额外电力"
 }

@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "红石收发器"
+  title: "§c红石收发器"
   icon: "anvilcraftextrapower:redstone_link"
   parent: anvilcraft_guideme:anvilcraftextrapower.md
 items:

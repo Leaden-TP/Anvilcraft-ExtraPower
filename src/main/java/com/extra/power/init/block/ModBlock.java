@@ -1,7 +1,6 @@
 package com.extra.power.init.block;
 
 import com.extra.power.block.just_block.*;
-import com.extra.power.init.ModCreativeModeTab;
 import com.extra.power.item.RedstoneLinkItem;
 import com.extra.power.item.capacitor.FlashingPotatoBatteryItem;
 import com.extra.power.item.capacitor.PotatoBatteryItem;
@@ -44,7 +43,6 @@ public class ModBlock {
     public static final DeferredBlock<LightBlock> LIGHT;
 
     static {
-        REGISTRATE.defaultCreativeTab(ModCreativeModeTab.MOD_TAB.getKey());
         //技术性方块
         LIGHT = BLOCKS.register("light",
                 () -> new LightBlock(BlockBehaviour.Properties.of()

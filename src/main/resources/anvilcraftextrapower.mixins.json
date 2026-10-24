@@ -3,6 +3,8 @@
   "package": "com.extra.power.mixin",
   "compatibilityLevel": "JAVA_21",
   "mixins": [
+    "AbstractArrowAccessor",
+    "ModItemGroupsAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

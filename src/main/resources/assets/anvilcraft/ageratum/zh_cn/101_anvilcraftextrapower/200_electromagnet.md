@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "电磁铁"
+  title: "§c电磁铁"
   icon: "anvilcraftextrapower:electromagnet"
   parent: anvilcraft_guideme:anvilcraftextrapower.md
 items:

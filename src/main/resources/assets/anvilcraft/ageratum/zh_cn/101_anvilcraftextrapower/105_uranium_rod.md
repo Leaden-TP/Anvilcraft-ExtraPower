@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "铀棒"
+    title: "§6铀棒"
     icon: "anvilcraftextrapower:uranium_rod"
     parent: anvilcraft_guideme:nuclear_theme.md
 items:

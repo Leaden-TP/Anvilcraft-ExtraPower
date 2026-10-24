@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "燃烧的方块"
+  title: "§4燃烧的方块"
   icon: "anvilcraftextrapower:burning_coal_block"
   parent: anvilcraft_guideme:heat_theme.md
 items:

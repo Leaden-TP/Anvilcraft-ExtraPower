@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "集核器"
+    title: "§6集核器"
     icon: "anvilcraftextrapower:nuclear_collector"
     parent: anvilcraft_guideme:nuclear_theme.md
 items:

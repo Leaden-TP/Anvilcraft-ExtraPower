@@ -11,9 +11,11 @@ public class LangHandler {
 
         AdvancementLang.init(provider);
 
-        provider.add(
-                "creativetab.anvilcraftextrapower.main",
-                "AnvilCraft：Extra Power");
+        provider.add("itemGroup.anvilcraftextrapower.section.weapons", "Weapons");
+        provider.add("itemGroup.anvilcraftextrapower.section.electricity", "Electricity");
+        provider.add("itemGroup.anvilcraftextrapower.section.automation", "Automation");
+        provider.add("itemGroup.anvilcraftextrapower.section.materials", "Materials");
+        provider.add("itemGroup.anvilcraftextrapower.section.sign", "Signs");
 
         provider.add("pack.anvilcraftextrapower.builtin_pack",  "AnvilCraft：Extra Power Builtin ResourcePack");
 
@@ -76,12 +78,12 @@ public class LangHandler {
         provider.add("tooltip.anvilcraftextrapower.stress_generator.slider", "Stress-Power Coefficient");
         provider.add("tooltip.anvilcraftextrapower.stress_generator.slider_row", "Coefficient");
         provider.add(
-            "tooltip.anvilcraftextrapower.stress_generator.missing_create",
-            "Requires the Create mod"
+                "tooltip.anvilcraftextrapower.stress_generator.missing_create",
+                "Requires the Create mod"
         );
         provider.add(
-            "message.anvilcraftextrapower.stress_generator.missing_create",
-            "Install the Create mod to place and use the stress generator"
+                "message.anvilcraftextrapower.stress_generator.missing_create",
+                "Install the Create mod to place and use the stress generator"
         );
     }
 }

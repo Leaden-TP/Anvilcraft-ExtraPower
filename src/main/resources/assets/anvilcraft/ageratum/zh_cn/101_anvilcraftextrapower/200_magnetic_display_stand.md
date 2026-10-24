@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "磁力展示台"
+  title: "§c磁力展示台"
   icon: "anvilcraftextrapower:magnetic_display_stand"
   parent: anvilcraft_guideme:anvilcraftextrapower.md
 items:

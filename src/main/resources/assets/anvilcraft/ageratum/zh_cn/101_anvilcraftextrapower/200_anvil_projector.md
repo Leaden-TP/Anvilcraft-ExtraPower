@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "铁砧投影机"
+  title: "§c铁砧投影机"
   icon: "anvilcraftextrapower:anvil_projector"
   parent: anvilcraft_guideme:anvilcraftextrapower.md
 items:

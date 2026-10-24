@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "核弹"
+    title: "§6核弹"
     icon: "anvilcraftextrapower:nuclear_bomb"
     parent: anvilcraft_guideme:nuclear_theme.md
 items:

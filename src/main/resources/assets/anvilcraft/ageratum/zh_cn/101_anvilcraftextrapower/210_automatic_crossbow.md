@@ -1,6 +1,6 @@
 ---
 navigation:
-  title: "自动弩"
+  title: "§9自动弩"
   icon: "anvilcraftextrapower:automatic_crossbow"
   parent: anvilcraft_guideme:anvilcraftextrapower.md
 items:

@@ -22,10 +22,6 @@ import static com.extra.power.init.AnvilCraftExtrapower.MODID;
 import static com.extra.power.init.AnvilCraftExtrapower.REGISTRATE;
 
 public class ModItems {
-    static {
-        REGISTRATE.defaultCreativeTab(ModCreativeModeTab.MOD_TAB.getKey());
-    }
-
     public static final DeferredRegister.Items ITEMS = DeferredRegister.createItems(MODID);
 
     public static final ItemEntry<Item> MAGNESIUM_INGOT = REGISTRATE.item("magnesium_ingot", Item::new)

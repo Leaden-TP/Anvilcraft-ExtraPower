@@ -12,7 +12,9 @@ import dev.anvilcraft.lib.v2.config.ConfigManager;
 import dev.anvilcraft.lib.v2.registrum.Registrum;
 import dev.dubhe.anvilcraft.api.heat.collector.HeatSourceEntry;
 import dev.dubhe.anvilcraft.util.ModInteractionMap;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Blocks;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
@@ -40,7 +42,8 @@ import static net.minecraft.world.level.block.AbstractFurnaceBlock.LIT;
 public class AnvilCraftExtrapower {
     public static final String MODID = "anvilcraftextrapower";
     public static final Logger LOGGER = LogUtils.getLogger();
-    public static final Registrum REGISTRATE = Registrum.create(MODID);
+    public static final Registrum REGISTRATE =
+            Registrum.create(MODID).defaultCreativeTab((ResourceKey<CreativeModeTab>) null);
     public static final ModServerConfig CONFIG = ConfigManager.register(AnvilCraftExtrapower.MODID, ModServerConfig::new);
 
     public AnvilCraftExtrapower(IEventBus modEventBus, ModContainer modContainer) {
@@ -59,7 +62,6 @@ public class AnvilCraftExtrapower {
         ModBlockEntity.register();
         ModFluids.register(modEventBus);
         ModDatagen.init();
-        // Create 联动（未安装 Create 时不注册）
         CreateCompat.init();
     }
 

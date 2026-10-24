@@ -1,6 +1,6 @@
 ---
 navigation:
-    title: "炉火发电"
+    title: "§4炉火发电"
     icon: "minecraft:furnace"
     parent: anvilcraft_guideme:heat_theme.md
 items:
